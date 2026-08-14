@@ -1,0 +1,26 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "marketing-buzzword",
+        "value": "best of breed",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-08-14T22:08:42.087Z",
+        "reason": "pre-existing brochure-sourced client copy already in H1/title before this session; not AI-generated, not touched by SEO edits"
+      },
+      {
+        "rule": "marketing-buzzword",
+        "value": "best of breed",
+        "files": [
+          "about.html"
+        ],
+        "createdAt": "2026-08-14T22:08:42.148Z",
+        "reason": "pre-existing brochure-sourced client copy already in H1/title before this session; not AI-generated, not touched by SEO edits"
+      }
+    ]
+  }
+}

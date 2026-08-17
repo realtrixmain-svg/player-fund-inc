@@ -1,6 +1,7 @@
 # Player Fund Inc
 
-Three-page marketing site (Home, About, Contact). Plain HTML/CSS/JS, no build step, no framework, deploy as-is to any static host (GitHub Pages, Netlify, etc.).
+Marketing site (Home, About, Contact) plus a client portal. Plain HTML/CSS/JS, no build step, no
+framework, deploy as-is to any static host (GitHub Pages, Netlify, Vercel).
 
 ## Structure
 
@@ -9,6 +10,11 @@ Three-page marketing site (Home, About, Contact). Plain HTML/CSS/JS, no build st
 - `js/main.js` - nav toggle, scroll reveals (IntersectionObserver), contact form UI state
 - `assets/images/` - sourced stock photography (Unsplash, hotlinked once then saved locally, no attribution required under their license)
 - `assets/video/hero.mp4` - hero background loop (Pexels, compressed with ffmpeg: trimmed, muted, scaled, h264 crf 26)
+- `portal/` - client login (`login.html`) + dashboard (`dashboard.html`), Supabase Auth (email/password,
+  email verification required) + Supabase Postgres/Storage for documents. Fill in `portal/config.js`
+  after provisioning — see `supabase/SETUP.md`.
+- `supabase/schema.sql` - tables, RLS policies, storage bucket setup for the portal
+- `supabase/seed-documents/` - the client-supplied PDFs, gitignored, upload manually to Storage
 
 ## Known placeholders
 

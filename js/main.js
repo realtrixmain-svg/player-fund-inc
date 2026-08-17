@@ -14,18 +14,6 @@ if (toggle && links) {
   );
 }
 
-// client portal placeholder (no auth, no backend)
-const portal = document.getElementById('portal');
-if (portal) {
-  document.querySelectorAll('[data-portal]').forEach(t =>
-    t.addEventListener('click', () => {
-      links?.classList.remove('open');
-      toggle?.setAttribute('aria-expanded', 'false');
-      portal.showModal();
-    })
-  );
-}
-
 // scroll reveals
 const revealEls = document.querySelectorAll('.reveal');
 if ('IntersectionObserver' in window && revealEls.length) {

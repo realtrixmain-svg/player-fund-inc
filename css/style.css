@@ -307,9 +307,9 @@ footer a:hover{color:#fff}
 .footer-social a:hover{color:var(--gold-soft)}
 .footer-social svg{width:20px;height:20px;fill:currentColor}
 
-/* ---- client portal placeholder ---- */
+/* ---- client portal nav link ---- */
 .nav-portal{
-  font:inherit;font-size:.95rem;cursor:pointer;
+  display:inline-block;font:inherit;font-size:.95rem;cursor:pointer;text-decoration:none;
   color:var(--paper);background:var(--navy);border:none;padding:9px 20px;
   transition:background .3s ease;
 }
@@ -317,19 +317,6 @@ footer a:hover{color:#fff}
 @media (max-width:860px){
   .nav-links li:has(.nav-portal){border-top:1px solid var(--border)}
   .nav-portal{width:100%;text-align:left;padding:18px 20px;background:none;color:var(--ink-soft)}
-}
-
-dialog.portal{
-  border:none;padding:0;max-width:420px;width:calc(100% - 40px);
-  background:var(--paper);color:var(--ink);
-}
-dialog.portal::backdrop{background:rgba(20,26,40,.66)}
-.portal-body{display:grid;gap:14px;justify-items:start;padding:40px}
-.portal-body h2{margin:0;font-size:1.6rem}
-.portal-body p{margin:0;color:var(--ink-soft)}
-.portal-body button{
-  font:inherit;margin-top:10px;cursor:pointer;
-  color:var(--paper);background:var(--navy);border:none;padding:11px 24px;
 }
 .footer-base{
   margin-top:56px;padding-top:24px;border-top:1px solid rgba(255,255,255,.14);

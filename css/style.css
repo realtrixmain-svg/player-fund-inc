@@ -307,17 +307,6 @@ footer a:hover{color:#fff}
 .footer-social a:hover{color:var(--gold-soft)}
 .footer-social svg{width:20px;height:20px;fill:currentColor}
 
-/* ---- client portal nav link ---- */
-.nav-portal{
-  display:inline-block;font:inherit;font-size:.95rem;cursor:pointer;text-decoration:none;
-  color:var(--paper);background:var(--navy);border:none;padding:9px 20px;
-  transition:background .3s ease;
-}
-.nav-portal:hover{background:var(--navy-deep)}
-@media (max-width:860px){
-  .nav-links li:has(.nav-portal){border-top:1px solid var(--border)}
-  .nav-portal{width:100%;text-align:left;padding:18px 20px;background:none;color:var(--ink-soft)}
-}
 .footer-base{
   margin-top:56px;padding-top:24px;border-top:1px solid rgba(255,255,255,.14);
   display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:.82rem;color:rgba(255,255,255,.5);

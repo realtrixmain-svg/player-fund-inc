@@ -211,6 +211,34 @@ section{padding:112px 0}
 }
 .banner .caption p{margin:0;max-width:46ch;color:rgba(255,255,255,.88)}
 
+/* ---- market access band ---- */
+.market{background:var(--navy-deep);color:#fff;overflow:hidden}
+.market-grid{display:grid;gap:48px;align-items:center}
+@media (min-width:960px){
+  .market-grid{grid-template-columns:1fr 1fr;gap:72px}
+}
+/* Only bleed past the container once the viewport is actually wider than it. */
+@media (min-width:1181px){
+  .market-media{margin-right:calc((var(--max) - 100vw) / 2 - 32px)}
+}
+.market-copy h2{color:#fff;max-width:14ch}
+.market-copy .lede{color:rgba(255,255,255,.76);margin-top:.8em}
+
+.market-list{list-style:none;margin:44px 0 0;padding:0}
+.market-list li{padding:22px 0;border-top:1px solid rgba(255,255,255,.16)}
+.market-list li:last-child{border-bottom:1px solid rgba(255,255,255,.16)}
+.market-list h3{
+  margin:0;font-family:var(--font-display);font-weight:500;font-size:1.15rem;
+  letter-spacing:-.01em;color:var(--gold-soft);
+}
+.market-list p{margin:.7em 0 0;color:rgba(255,255,255,.7);font-size:.95rem}
+
+.market-media{margin:0}
+.market-media img{
+  display:block;width:100%;height:100%;min-height:420px;object-fit:cover;
+  filter:saturate(.92) contrast(1.03);
+}
+
 /* ---- archival framed photo ---- */
 .framed{
   position:relative;padding:14px;background:var(--paper);
@@ -273,6 +301,36 @@ footer h4{color:#fff;font-family:var(--font-body);font-size:.8rem;letter-spacing
 footer ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 footer a{text-decoration:none;color:rgba(255,255,255,.72)}
 footer a:hover{color:#fff}
+
+.footer-social{display:flex;gap:18px;margin-top:24px}
+.footer-social a{display:flex;color:rgba(255,255,255,.6);transition:color .3s ease}
+.footer-social a:hover{color:var(--gold-soft)}
+.footer-social svg{width:20px;height:20px;fill:currentColor}
+
+/* ---- client portal placeholder ---- */
+.nav-portal{
+  font:inherit;font-size:.95rem;cursor:pointer;
+  color:var(--paper);background:var(--navy);border:none;padding:9px 20px;
+  transition:background .3s ease;
+}
+.nav-portal:hover{background:var(--navy-deep)}
+@media (max-width:860px){
+  .nav-links li:has(.nav-portal){border-top:1px solid var(--border)}
+  .nav-portal{width:100%;text-align:left;padding:18px 20px;background:none;color:var(--ink-soft)}
+}
+
+dialog.portal{
+  border:none;padding:0;max-width:420px;width:calc(100% - 40px);
+  background:var(--paper);color:var(--ink);
+}
+dialog.portal::backdrop{background:rgba(20,26,40,.66)}
+.portal-body{display:grid;gap:14px;justify-items:start;padding:40px}
+.portal-body h2{margin:0;font-size:1.6rem}
+.portal-body p{margin:0;color:var(--ink-soft)}
+.portal-body button{
+  font:inherit;margin-top:10px;cursor:pointer;
+  color:var(--paper);background:var(--navy);border:none;padding:11px 24px;
+}
 .footer-base{
   margin-top:56px;padding-top:24px;border-top:1px solid rgba(255,255,255,.14);
   display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:.82rem;color:rgba(255,255,255,.5);

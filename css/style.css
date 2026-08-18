@@ -82,6 +82,9 @@ section{padding:112px 0}
 .nav-links a:hover::after,.nav-links a[aria-current="page"]::after{right:0}
 .nav-links a[aria-current="page"]{color:var(--ink)}
 
+.nav-cta{margin-left:28px;padding:10px 22px;font-size:.72rem;white-space:nowrap}
+@media (max-width:480px){.nav-cta{padding:8px 14px;font-size:.65rem;margin-left:12px}}
+
 .nav-toggle{display:none}
 @media (max-width:760px){
   .nav-links{

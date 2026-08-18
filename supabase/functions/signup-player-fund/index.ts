@@ -15,14 +15,30 @@ const supabaseAdmin = createClient(
   Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,
 );
 
+const corsHeaders = {
+  'Access-Control-Allow-Origin': SITE_ORIGIN,
+  'Access-Control-Allow-Headers': 'content-type',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+};
+
+function json(body: unknown, status = 200) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+  });
+}
+
 Deno.serve(async (req) => {
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { status: 204, headers: corsHeaders });
+  }
   if (req.method !== 'POST') {
-    return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405 });
+    return json({ error: 'Method not allowed' }, 405);
   }
 
   const { email, password, full_name } = await req.json().catch(() => ({}));
   if (!email || !password) {
-    return new Response(JSON.stringify({ error: 'Email and password are required.' }), { status: 400 });
+    return json({ error: 'Email and password are required.' }, 400);
   }
 
   const { data: created, error: createError } = await supabaseAdmin.auth.admin.createUser({
@@ -32,7 +48,7 @@ Deno.serve(async (req) => {
     user_metadata: full_name ? { full_name } : undefined,
   });
   if (createError) {
-    return new Response(JSON.stringify({ error: createError.message }), { status: 400 });
+    return json({ error: createError.message }, 400);
   }
 
   const { error: siteError } = await supabaseAdmin
@@ -40,7 +56,7 @@ Deno.serve(async (req) => {
     .update({ site: SITE })
     .eq('id', created.user.id);
   if (siteError) {
-    return new Response(JSON.stringify({ error: siteError.message }), { status: 500 });
+    return json({ error: siteError.message }, 500);
   }
 
   const { data: linkData, error: linkError } = await supabaseAdmin.auth.admin.generateLink({
@@ -50,7 +66,7 @@ Deno.serve(async (req) => {
     options: { redirectTo: `${SITE_ORIGIN}/portal/verified.html` },
   });
   if (linkError) {
-    return new Response(JSON.stringify({ error: linkError.message }), { status: 400 });
+    return json({ error: linkError.message }, 400);
   }
 
   const confirmUrl = linkData.properties.action_link;
@@ -70,11 +86,8 @@ Deno.serve(async (req) => {
   });
   if (!resendRes.ok) {
     const body = await resendRes.text();
-    return new Response(JSON.stringify({ error: `Account created, but the verification email failed to send: ${body}` }), { status: 502 });
+    return json({ error: `Account created, but the verification email failed to send: ${body}` }, 502);
   }
 
-  return new Response(JSON.stringify({ ok: true }), {
-    status: 200,
-    headers: { 'Content-Type': 'application/json' },
-  });
+  return json({ ok: true });
 });

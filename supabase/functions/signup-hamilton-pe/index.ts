@@ -8,7 +8,7 @@ import { createClient } from 'jsr:@supabase/supabase-js@2';
 const SITE = 'hamilton-pe';
 const SITE_ORIGIN = 'https://hamiltonprivateequity.co.za';
 const FROM_EMAIL = 'Hamilton Private Equity <noreply@hamiltonprivateequity.co.za>'; // domain must be verified in Resend
-const RESEND_SECRET_NAME = 'RESEND_KEY'; // adjust if the secret is named differently in Supabase
+const RESEND_SECRET_NAME = 'RESEND_SECRET_NAME'; // matches the secret name set in Supabase
 
 const supabaseAdmin = createClient(
   Deno.env.get('SUPABASE_URL')!,

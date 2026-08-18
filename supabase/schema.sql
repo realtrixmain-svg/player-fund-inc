@@ -61,8 +61,15 @@ create policy "documents_write_admin" on public.documents
     exists (select 1 from public.profiles where id = auth.uid() and is_admin = true)
   );
 
--- auto-create a profile row the moment someone signs up, tagged with the site
--- they signed up on (portal-auth.js passes this in signUp's options.data.site)
+-- auto-create a profile row the moment someone signs up. `site` is NEVER read
+-- from raw_user_meta_data: that field is client-supplied at signup (attacker
+-- can set it directly via the public /auth/v1/signup endpoint with nothing
+-- more than the anon key), and this DB is shared across three tenants, so
+-- trusting it let any signup on any site claim to be a client of any other
+-- site's portal and read its documents. Every row defaults to 'player-fund';
+-- the per-site signup edge function (supabase/functions/signup-<site>/) is
+-- the only thing allowed to move a profile onto a different site, using the
+-- service-role key server-side, right after creating the user.
 create or replace function public.handle_new_user()
 returns trigger as $$
 begin
@@ -70,7 +77,7 @@ begin
   values (
     new.id,
     coalesce(new.raw_user_meta_data->>'full_name', split_part(new.email, '@', 1)),
-    coalesce(new.raw_user_meta_data->>'site', 'player-fund')
+    'player-fund'
   );
   return new;
 end;

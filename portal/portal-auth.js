@@ -1,5 +1,5 @@
 import { supabase } from './supabase-client.js';
-import { SITE } from './config.js';
+import { SITE, SUPABASE_URL } from './config.js';
 
 const form = document.getElementById('auth-form');
 const status = document.getElementById('form-status');
@@ -31,9 +31,17 @@ form.addEventListener('submit', async (e) => {
   submitBtn.disabled = true;
 
   if (mode === 'signup') {
-    const { error } = await supabase.auth.signUp({ email, password, options: { data: { site: SITE } } });
-    if (error) {
-      status.textContent = error.message;
+    // Signup goes through a server-side relay (not supabase.auth.signUp directly)
+    // so `site` is assigned by the function, using the service-role key, instead
+    // of trusting whatever the client claims. See supabase/schema.sql for why.
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/signup-${SITE}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
+    const body = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      status.textContent = body.error || 'Could not create account.';
     } else {
       status.textContent = 'Check your email for a verification link, then sign in.';
       mode = 'signin';

@@ -1,5 +1,8 @@
 {
   "buildCommand": null,
   "installCommand": null,
-  "outputDirectory": "."
+  "outputDirectory": ".",
+  "rewrites": [
+    { "source": "/portal/:path*", "destination": "/404-portal-disabled" }
+  ]
 }

@@ -36,13 +36,42 @@ if ('IntersectionObserver' in window && revealEls.length) {
   revealEls.forEach((el) => el.classList.add('is-visible'));
 }
 
-// contact form (no backend wired up - front-end only, confirm state)
+// contact form -> Formspree
 const form = document.getElementById('contact-form');
 if (form) {
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const status = document.getElementById('form-status');
-    status.textContent = 'Thank you. Your message has been noted, a member of the team will reply shortly.';
-    form.reset();
+    status.textContent = 'Sending...';
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' },
+      });
+      if (res.ok) {
+        status.textContent = 'Thank you. Your message has been noted, a member of the team will reply shortly.';
+        form.reset();
+      } else {
+        status.textContent = 'Something went wrong sending your message. Please email us directly at investors@player-fund.com.';
+      }
+    } catch {
+      status.textContent = 'Something went wrong sending your message. Please email us directly at investors@player-fund.com.';
+    }
   });
+}
+
+// terms of use modal
+const termsModal = document.getElementById('terms-modal');
+if (termsModal) {
+  document.querySelectorAll('[data-open-terms]').forEach((el) =>
+    el.addEventListener('click', () => termsModal.showModal())
+  );
+  termsModal.querySelectorAll('[data-close-terms]').forEach((el) =>
+    el.addEventListener('click', () => termsModal.close())
+  );
+  if (!localStorage.getItem('pf-terms-seen')) {
+    termsModal.showModal();
+  }
+  termsModal.addEventListener('close', () => localStorage.setItem('pf-terms-seen', '1'));
 }

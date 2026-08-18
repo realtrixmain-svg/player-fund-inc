@@ -320,4 +320,24 @@ footer a:hover{color:#fff}
   position:absolute;left:12px;top:-48px;background:var(--navy);color:#fff;padding:12px 18px;z-index:100;
   transition:top .2s ease;text-decoration:none;
 }
+
+/* ---- footer disclosure + terms modal ---- */
+.footer-disclosure{
+  margin:18px 0 0;font-size:.8rem;line-height:1.6;color:rgba(255,255,255,.5);max-width:72ch;
+}
+.footer-disclosure button{
+  background:none;border:0;padding:0;margin-left:6px;font:inherit;color:rgba(255,255,255,.7);
+  text-decoration:none;border-bottom:1px solid rgba(255,255,255,.4);cursor:pointer;
+}
+.footer-disclosure button:hover{color:#fff;border-color:#fff}
+
+dialog#terms-modal{
+  border:0;border-radius:2px;padding:0;max-width:560px;width:calc(100% - 40px);
+  box-shadow:0 24px 60px rgba(27,35,51,.28);
+}
+dialog#terms-modal::backdrop{background:rgba(27,35,51,.55)}
+.modal-body{padding:36px 32px}
+.modal-body h2{font-size:1.5rem;margin-bottom:16px}
+.modal-body p{color:var(--ink-soft);margin-bottom:0}
+.modal-close{margin-top:26px}
 .skip-link:focus{top:12px}

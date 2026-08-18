@@ -1,4 +1,9 @@
-# Player Fund client portal — Supabase setup
+# Client portal — Supabase setup (shared across player-fund / hamilton-pe / hamilton-portfolio)
+
+One Supabase project backs all three portals. Every user signs up through whichever site's login
+page they land on; a `site` column on `profiles` and `documents` scopes what a normal client sees
+to their own site. One admin account (`is_admin = true`) bypasses that scoping and sees/manages
+all three sites' documents — set `is_admin` once on the account below and it works everywhere.
 
 I don't have Supabase account access, so the project itself has to be created by hand. Everything
 below is copy/paste once you're in the dashboard.
@@ -13,27 +18,32 @@ below is copy/paste once you're in the dashboard.
 
 ## 2. Schema
 
-SQL editor → paste and run `supabase/schema.sql` (same folder as this file). Creates:
-- `profiles` (name, admin flag) — one row per user, auto-created on signup via trigger
-- `documents` (title, description, storage path) — the list the dashboard reads
-- RLS: clients can read their own profile + the full document list; only `is_admin = true`
-  profiles can write documents or upload/delete files
-- the private `documents` storage bucket + matching storage policies
+SQL editor → paste and run `supabase/schema.sql` (same folder as this file). Idempotent — same
+file to run fresh or to re-run against the existing player-fund project to upgrade it. Creates:
+- `profiles` (name, `site`, admin flag) — one row per user, auto-created on signup via trigger,
+  tagged with whichever site (`player-fund` / `hamilton-pe` / `hamilton-portfolio`) they signed up on
+- `documents` (title, description, storage path, `site`) — the list each portal's dashboard reads
+- RLS: a client sees only documents tagged for their own `site`; an admin profile (`is_admin =
+  true`, any site) sees and writes documents for all three
+- the private `documents` storage bucket + matching storage policies (same site-scoped rule)
 
 ## 3. Get the API keys
 
-Project Settings → API → copy the **Project URL** and **anon public** key into
-`portal/config.js` (placeholders are already there). The anon key is safe to expose in
-client-side code — RLS is what actually gates access, not key secrecy.
+Project Settings → API → copy the **Project URL** and **anon public** key into `portal/config.js`
+in **all three** repos (player-fund, Hamilton-Private-Equity, hamilton portfolio — placeholders are
+already there, one project shared by all three). Each repo's `config.js` also sets its own `SITE`
+constant (`player-fund` / `hamilton-pe` / `hamilton-portfolio`) — that's what tags a signup and
+scopes the document view to that site; don't need to touch it, just don't copy it wrong. The anon
+key is safe to expose in client-side code — RLS is what actually gates access, not key secrecy.
 
-## 4. Upload the test documents
+## 4. Upload documents
 
-The 6 PDFs Trevor supplied are in `supabase/seed-documents/` (gitignored — real client docs,
-not meant to live in the repo). Storage → `documents` bucket → upload them, then for each one
-add a row in `documents` (Table editor → documents → Insert row) with matching `title` and
-`storage_path` (the path shown in Storage, e.g. `PlayerFundInc - Guide to Fund Investing.pdf`).
+Storage → `documents` bucket → upload the file, then add a row in `documents` (Table editor →
+documents → Insert row) with matching `title`, `storage_path` (the path shown in Storage), and the
+`site` it belongs to. The 6 seed PDFs for player-fund are in `supabase/seed-documents/` (gitignored
+— real client docs, not meant to live in the repo).
 
-## 5. Create the persistent admin/test account
+## 5. Create the persistent admin account
 
 Authentication → Users → Add user:
 - Email: `ryantrevor72@gmail.com`
@@ -42,7 +52,9 @@ Authentication → Users → Add user:
   it's for testing — every real client still has to verify)
 
 Then in Table editor → `profiles`, find the row that got auto-created for that user (by the
-trigger) and set `is_admin = true`.
+trigger) and set `is_admin = true`. That one flag is what makes this account work as the admin
+across all three sites — `site` on the admin's own profile row doesn't matter once `is_admin` is
+true, since every RLS policy checks `is_admin` before it checks `site`.
 
 🔴 **`trevor` is a placeholder password for local testing only.** Change it (Authentication →
 Users → that user → reset password) before this goes anywhere near production, and turn off

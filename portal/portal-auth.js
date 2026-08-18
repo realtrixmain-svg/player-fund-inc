@@ -1,4 +1,5 @@
 import { supabase } from './supabase-client.js';
+import { SITE } from './config.js';
 
 const form = document.getElementById('auth-form');
 const status = document.getElementById('form-status');
@@ -30,7 +31,7 @@ form.addEventListener('submit', async (e) => {
   submitBtn.disabled = true;
 
   if (mode === 'signup') {
-    const { error } = await supabase.auth.signUp({ email, password });
+    const { error } = await supabase.auth.signUp({ email, password, options: { data: { site: SITE } } });
     if (error) {
       status.textContent = error.message;
     } else {

@@ -16,7 +16,7 @@ const supabaseAdmin = createClient(
 );
 
 const corsHeaders = {
-  'Access-Control-Allow-Origin': SITE_ORIGIN,
+  'Access-Control-Allow-Origin': '*', // no cookies/credentials on this endpoint, so a fixed origin isn't needed
   'Access-Control-Allow-Headers': 'content-type',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
 };

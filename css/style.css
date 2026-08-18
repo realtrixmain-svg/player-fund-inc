@@ -302,10 +302,10 @@ form{
   top:2px;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--navy);
 }
 .field::after{
-  content:'';position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--navy);
-  transition:width .3s ease;
+  content:'';position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--navy);
+  transform:scaleX(0);transform-origin:left;transition:transform .3s ease;
 }
-.field:focus-within::after{width:100%}
+.field:focus-within::after{transform:scaleX(1)}
 
 .form-note{font-size:.85rem;color:var(--ink-faint)}
 form .btn{width:100%;justify-content:center}

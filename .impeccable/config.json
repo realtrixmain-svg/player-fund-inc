@@ -10,7 +10,7 @@
           "index.html"
         ],
         "createdAt": "2026-08-14T22:08:42.087Z",
-        "reason": "pre-existing client brand phrase, retained verbatim per Trevor's Task 2 copy-edit spec (home H1 kept as 'Best of breed management')"
+        "reason": "client's own brand tagline (title tag predates this session; H1 wording was given verbatim by user in the task spec), not an AI-generated buzzword"
       },
       {
         "rule": "marketing-buzzword",

@@ -67,11 +67,9 @@ section{padding:112px 0}
 }
 @media (max-width:640px){.site-nav .wrap{height:64px}}
 
-.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
-.brand svg{height:30px;width:auto;flex:none}
-.brand .brand-text{display:flex;flex-direction:column;line-height:1}
-.brand .brand-name{font-family:var(--font-display);font-size:1.15rem;letter-spacing:.04em;color:var(--navy-deep)}
-.brand .brand-sub{font-size:.62rem;letter-spacing:.22em;color:var(--gold);margin-top:3px}
+.brand{display:flex;align-items:center;text-decoration:none}
+.brand-logo{height:58px;width:auto;flex:none}
+@media (max-width:640px){.brand-logo{height:46px}}
 
 .nav-links{display:flex;gap:36px;list-style:none;margin:0;padding:0;font-size:.95rem}
 .nav-links a{text-decoration:none;color:var(--ink-soft);position:relative;padding:4px 0}
@@ -316,7 +314,6 @@ form .btn{width:100%;justify-content:center}
 
 /* ---- footer ---- */
 footer{background:var(--navy-deep);color:rgba(255,255,255,.75);padding:72px 0 40px}
-footer .brand .brand-name{color:#fff}
 .footer-grid{display:grid;gap:48px;margin-top:48px}
 @media (min-width:760px){.footer-grid{grid-template-columns:2fr 1fr 1fr}}
 footer h4{color:#fff;font-family:var(--font-body);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}

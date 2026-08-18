@@ -7,7 +7,7 @@ import { createClient } from 'jsr:@supabase/supabase-js@2';
 
 const SITE = 'player-fund';
 const SITE_ORIGIN = 'https://player-fund.com';
-const FROM_EMAIL = 'Player Fund Inc <noreply@player-fund.com>'; // domain must be verified in Resend
+const FROM_EMAIL = 'Player Fund Inc <noreply@hamiltonportfolio.com>'; // shared verified Resend domain across all three sites
 const RESEND_SECRET_NAME = 'RESEND_SECRET_NAME'; // matches the secret name set in Supabase
 
 const supabaseAdmin = createClient(

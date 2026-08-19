@@ -65,7 +65,40 @@ Auto Confirm for any future admin accounts once real verification is wired up.
 - Email delivery: Supabase's built-in email (via their shared SMTP) is rate-limited and fine for
   testing, not for production volume. Swap in Resend/Postmark/SendGrid under Authentication →
   Settings → SMTP Settings when going live — no code changes needed on the portal side.
-- Google Drive-backed documents: current setup stores files directly in Supabase Storage
-  (simplest path, and what was asked for as the fallback). If document volume/collaboration needs
-  outgrow that, swap `portal/dashboard.html`'s fetch of `documents` rows for a Drive API call
-  keyed by folder ID — the RLS-gated `documents` table can stay as the index either way.
+
+## 7. Google Drive document sync (functions/drive-sync)
+
+Implements Option B from `docs/google-drive-sync.md`: pulls files from a Drive folder per site into
+the same `documents` bucket/table a manual upload would use, so RLS keeps working unchanged.
+
+1. **Google Cloud service account.** Console → IAM & Admin → Service Accounts → Create. Enable the
+   Drive API for the project. Create a JSON key for the account.
+2. **Share the Drive folders.** Create one subfolder per site (`player-fund`, `hamilton-pe`,
+   `hamilton-portfolio`) under a shared Drive folder, and share each with the service account's
+   email (Viewer) — service accounts have no Drive storage of their own, they only see what's
+   shared with them.
+3. **Deploy the function:**
+   ```
+   supabase functions deploy drive-sync --no-verify-jwt
+   ```
+4. **Set secrets** (Project Settings → Edge Functions → Secrets, or `supabase secrets set`):
+   - `GOOGLE_SERVICE_ACCOUNT_KEY` — the full JSON key file contents, as one string
+   - `DRIVE_FOLDER_PLAYER_FUND`, `DRIVE_FOLDER_HAMILTON_PE`, `DRIVE_FOLDER_HAMILTON_PORTFOLIO` —
+     each site's subfolder ID (from its Drive URL)
+   - `SYNC_SECRET` — any random string; the function checks this on every request instead of
+     relying on Supabase JWT auth, since it's meant to be called by a cron job, not a browser
+5. **Schedule it** — nightly via `pg_cron` (SQL editor):
+   ```sql
+   select cron.schedule(
+     'drive-sync-nightly',
+     '0 3 * * *',
+     $$ select net.http_post(
+       url := '<SUPABASE_URL>/functions/v1/drive-sync',
+       headers := jsonb_build_object('x-sync-secret', '<SYNC_SECRET>')
+     ) $$
+   );
+   ```
+   or trigger on demand with the same header from an internal admin page/`curl`.
+
+Until this is deployed, keep uploading documents manually per step 4 above — this function is
+additive, it doesn't replace that path.

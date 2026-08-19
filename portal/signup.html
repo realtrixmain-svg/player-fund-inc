@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Create Your Account - Player Fund Inc</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,500&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="portal.css">
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><img class="brand-logo" src="../assets/logo.svg" alt="Player Fund Inc"></a>
+  </div>
+</header>
+
+<main id="main" class="portal-main">
+  <div class="wrap portal-wrap portal-wrap-signup">
+
+    <div class="signup-intro">
+      <h1>Create your account</h1>
+      <p class="lede">Your client account gives you a private, permanent record of everything we've prepared for you, available whenever you need it.</p>
+      <ul class="benefit-list">
+        <li><strong>Your documents, in one place.</strong> Disclosures, agreements and statements, organized and available on demand.</li>
+        <li><strong>Access on your terms.</strong> Nobody else can see your account, not even across our other practices.</li>
+        <li><strong>Nothing to install.</strong> Sign in from any device with your email and password.</li>
+      </ul>
+    </div>
+
+    <div class="portal-card">
+      <h2 id="portal-title">Sign up</h2>
+      <p class="lede">Already have an account? <a class="text-link" href="login.html">Sign in instead</a>.</p>
+
+      <form id="signup-form" novalidate>
+        <div class="field">
+          <input type="text" id="full-name" name="full-name" placeholder=" " autocomplete="name">
+          <label for="full-name">Full name</label>
+        </div>
+        <div class="field">
+          <input type="email" id="email" name="email" placeholder=" " required autocomplete="email">
+          <label for="email">Email</label>
+        </div>
+        <div class="field">
+          <input type="password" id="password" name="password" placeholder=" " required autocomplete="new-password" minlength="6">
+          <label for="password">Password</label>
+        </div>
+        <div class="field">
+          <input type="password" id="password-confirm" name="password-confirm" placeholder=" " required autocomplete="new-password" minlength="6">
+          <label for="password-confirm">Confirm password</label>
+        </div>
+        <div>
+          <button class="btn btn-primary" type="submit" id="submit-btn"><span>Create account</span></button>
+          <p class="form-note">By creating an account, you agree to our <a class="text-link" href="../terms.html">Terms of Service</a> and <a class="text-link" href="../privacy.html">Privacy Policy</a>.</p>
+        </div>
+        <p class="form-note" id="form-status" role="status"></p>
+      </form>
+    </div>
+
+  </div>
+</main>
+
+<script type="module" src="portal-signup.js"></script>
+</body>
+</html>

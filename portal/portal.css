@@ -1,6 +1,20 @@
 .portal-main{padding:64px 0 96px}
 .portal-wrap{max-width:460px}
 .portal-wrap-wide{max-width:720px;display:grid;gap:24px}
+.portal-wrap-signup{
+  max-width:960px;display:grid;gap:56px;
+  grid-template-columns:1fr 1fr;align-items:start;
+}
+@media (max-width:820px){.portal-wrap-signup{grid-template-columns:1fr;gap:36px}}
+.signup-intro{padding-top:8px}
+.signup-intro h1{font-size:clamp(2.2rem,3.6vw,2.9rem)}
+.benefit-list{list-style:none;margin:28px 0 0;padding:0;display:grid;gap:18px}
+.benefit-list li{padding-left:22px;position:relative;color:var(--ink-soft)}
+.benefit-list li::before{
+  content:'';position:absolute;left:0;top:.55em;width:8px;height:8px;
+  border-radius:50%;background:var(--gold);
+}
+.benefit-list strong{display:block;color:var(--ink);font-family:var(--font-display);font-weight:600;margin-bottom:2px}
 .portal-card{
   background:var(--paper);
   border:1px solid var(--border);

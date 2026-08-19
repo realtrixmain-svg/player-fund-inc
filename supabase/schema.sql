@@ -113,3 +113,9 @@ create policy "documents_bucket_write_admin" on storage.objects
     bucket_id = 'documents'
     and exists (select 1 from public.profiles where id = auth.uid() and is_admin = true)
   );
+
+-- Google Drive sync (see functions/drive-sync): tracks which Drive file a row came
+-- from, so re-syncs update in place instead of creating duplicate document rows.
+alter table public.documents add column if not exists drive_file_id text;
+create unique index if not exists documents_drive_file_id_idx
+  on public.documents (drive_file_id) where drive_file_id is not null;

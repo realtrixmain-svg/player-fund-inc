@@ -47,6 +47,22 @@ p{margin:0 0 1em}
 .lede{font-size:1.2rem;line-height:1.65;color:var(--ink-soft)}
 
 .wrap{max-width:var(--max);margin:0 auto;padding:0 32px}
+
+/* ---- legal pages ---- */
+.legal-content{max-width:760px;margin:0 auto;padding:72px 0 112px}
+.legal-content h1{font-size:clamp(2.2rem,3.6vw,2.9rem);margin-bottom:12px}
+.legal-content .legal-dates{color:var(--ink-faint);font-size:.9rem;margin-bottom:40px}
+.legal-content h2{font-size:1.4rem;margin:44px 0 14px}
+.legal-content h3{font-size:1.1rem;margin:28px 0 10px}
+.legal-content p,.legal-content li{color:var(--ink-soft)}
+.legal-content ul,.legal-content ol{padding-left:22px;margin:0 0 1em}
+.legal-content li{margin-bottom:8px}
+.legal-content .summary{
+  background:var(--canvas);border:1px solid var(--border);border-radius:4px;
+  padding:20px 24px;margin-bottom:40px;
+}
+.legal-content .summary p{margin:0;color:var(--ink)}
+.legal-content .placeholder{color:var(--gold);font-weight:600}
 @media (max-width:640px){.wrap{padding:0 20px}}
 
 section{padding:112px 0}
@@ -315,7 +331,7 @@ form .btn{width:100%;justify-content:center}
 /* ---- footer ---- */
 footer{background:var(--navy-deep);color:rgba(255,255,255,.75);padding:72px 0 40px}
 .footer-grid{display:grid;gap:48px;margin-top:48px}
-@media (min-width:760px){.footer-grid{grid-template-columns:2fr 1fr 1fr}}
+@media (min-width:760px){.footer-grid{grid-template-columns:2fr 1fr 1fr 1fr}}
 footer h4{color:#fff;font-family:var(--font-body);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
 footer ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 footer a{text-decoration:none;color:rgba(255,255,255,.72)}

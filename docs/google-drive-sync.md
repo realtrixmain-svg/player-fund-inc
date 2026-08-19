@@ -1,7 +1,10 @@
-# Google Drive document sync — how it would work
+# Google Drive document sync — how it works
 
-Not built yet. This is a design note for when it's time to build it, so the
-options and the tradeoffs are written down once instead of re-derived later.
+**Built.** Option B below is implemented as `supabase/functions/drive-sync`.
+Deployment steps (service account, folder sharing, secrets, cron schedule)
+are in `supabase/SETUP.md` §7 — it needs a Google Cloud service account key
+that only Trevor can provision, so the function ships ready to deploy but
+isn't live until that key and the Drive folder IDs are set as secrets.
 
 ## Where things stand today
 

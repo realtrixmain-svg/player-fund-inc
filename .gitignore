@@ -6,3 +6,7 @@ node_modules/
 # client portal
 supabase/seed-documents/*.pdf
 .player-fund-tracker.md
+
+
+client-portal-build-summary.pdf
+google-drive-sync_1.pdf

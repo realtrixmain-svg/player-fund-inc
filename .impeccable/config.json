@@ -10,7 +10,7 @@
           "index.html"
         ],
         "createdAt": "2026-08-14T22:08:42.087Z",
-        "reason": "client's own brand tagline (title tag predates this session; H1 wording was given verbatim by user in the task spec), not an AI-generated buzzword"
+        "reason": "pre-existing site tagline/H1, present before this session's edits, not AI-generated copy added now"
       },
       {
         "rule": "marketing-buzzword",

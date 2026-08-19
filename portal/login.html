@@ -26,7 +26,7 @@
       <h1 id="portal-title">Sign in</h1>
       <p class="lede">Access your documents and account information.</p>
 
-      <form id="auth-form" novalidate>
+      <form id="auth-form" method="post" action="." novalidate>
         <div class="field">
           <input type="email" id="email" name="email" placeholder=" " required autocomplete="email">
           <label for="email">Email</label>
@@ -36,7 +36,7 @@
           <label for="password">Password</label>
         </div>
         <div>
-          <button class="btn btn-primary" type="submit" id="submit-btn"><span>Sign in</span></button>
+          <button class="btn btn-primary" type="submit" id="submit-btn" disabled><span>Sign in</span></button>
         </div>
         <p class="form-note" id="form-status" role="status"></p>
       </form>
@@ -46,6 +46,7 @@
   </div>
 </main>
 
+<script src="button-fallback.js"></script>
 <script type="module" src="portal-auth.js"></script>
 </body>
 </html>

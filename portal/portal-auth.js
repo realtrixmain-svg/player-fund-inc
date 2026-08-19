@@ -26,3 +26,7 @@ form.addEventListener('submit', async (e) => {
   }
   submitBtn.disabled = false;
 });
+
+// only usable once this listener is actually attached - see button-fallback.js
+// for what happens if this script never gets this far.
+submitBtn.disabled = false;

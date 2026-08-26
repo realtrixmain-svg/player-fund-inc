@@ -4,7 +4,7 @@
   --canvas:#f4f3ef;
   --ink:#16303a;
   --ink-soft:#4c6068;
-  --ink-faint:#7c8d93;
+  --ink-faint:#64767c;
   --navy:#1c3a45;
   --navy-deep:#0f242c;
   --gold:#c9985f;
@@ -65,7 +65,7 @@ p{margin:0 0 1em}
 .legal-content .placeholder{color:var(--gold);font-weight:600}
 @media (max-width:640px){.wrap{padding:0 20px}}
 
-section{padding:112px 0}
+section{padding:112px 0;scroll-margin-top:88px}
 @media (max-width:900px){section{padding:76px 0}}
 .band-paper{background:var(--paper)}
 .band-canvas{background:var(--canvas)}
@@ -81,11 +81,11 @@ section{padding:112px 0}
   display:flex;align-items:center;justify-content:space-between;
   height:78px;
 }
-@media (max-width:640px){.site-nav .wrap{height:64px}}
+@media (max-width:760px){.site-nav .wrap{height:64px}}
 
 .brand{display:flex;align-items:center;text-decoration:none}
 .brand-logo{height:58px;width:auto;flex:none}
-@media (max-width:640px){.brand-logo{height:46px}}
+@media (max-width:760px){.brand-logo{height:48px}}
 
 .nav-links{display:flex;gap:36px;list-style:none;margin:0;padding:0;font-size:.95rem}
 .nav-links a{text-decoration:none;color:var(--ink-soft);position:relative;padding:4px 0}
@@ -97,7 +97,7 @@ section{padding:112px 0}
 .nav-links a[aria-current="page"]{color:var(--ink)}
 
 .nav-cta{margin-left:28px;padding:10px 22px;font-size:.72rem;white-space:nowrap}
-@media (max-width:480px){.nav-cta{padding:8px 14px;font-size:.65rem;margin-left:12px}}
+@media (max-width:480px){.nav-cta{padding:8px 14px;font-size:.7rem;margin-left:12px}}
 
 .nav-social{position:relative;list-style:none}
 .nav-social summary{list-style:none;cursor:pointer;color:var(--ink-soft)}
@@ -130,12 +130,12 @@ section{padding:112px 0}
   .nav-links li{border-top:1px solid var(--border)}
   .nav-links a{display:block;padding:18px 20px}
   .nav-toggle{
-    display:block;background:none;border:0;width:32px;height:24px;position:relative;cursor:pointer;
+    display:block;background:none;border:0;width:44px;height:44px;position:relative;cursor:pointer;
   }
   .nav-toggle span,.nav-toggle span::before,.nav-toggle span::after{
-    content:'';position:absolute;left:0;right:0;height:1.5px;background:var(--ink);transition:.2s ease;
+    content:'';position:absolute;left:10px;right:10px;height:1.5px;background:var(--ink);transition:.2s ease;
   }
-  .nav-toggle span{top:11px}
+  .nav-toggle span{top:21px}
   .nav-toggle span::before{top:-8px}
   .nav-toggle span::after{top:8px}
   .nav-toggle[aria-expanded="true"] span{background:transparent}
@@ -252,6 +252,7 @@ section{padding:112px 0}
 
 /* ---- fund summary (fact-sheet) layout ---- */
 .fund-header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;padding-bottom:22px;border-bottom:1px solid var(--border-strong);margin-bottom:26px}
+@media (max-width:560px){.fund-header{flex-direction:column;align-items:flex-start}}
 .fund-header .fund-tag{display:block;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
 .fund-header h1,.fund-header h2{margin-bottom:4px}
 .fund-header .fund-compartments{display:flex;flex-wrap:wrap;gap:8px}
@@ -332,6 +333,7 @@ section{padding:112px 0}
 .page-hero{
   padding:160px 0 90px;background:var(--navy-deep);color:#fff;position:relative;overflow:hidden;
 }
+@media (max-width:640px){.page-hero{padding:112px 0 56px}}
 .page-hero .wrap{position:relative;z-index:1}
 .page-hero h1{color:#fff;max-width:16ch}
 .page-hero .lede{color:rgba(255,255,255,.8);max-width:52ch}
@@ -393,7 +395,7 @@ footer a{text-decoration:none;color:rgba(255,255,255,.72)}
 footer a:hover{color:#fff}
 
 .footer-social{display:flex;gap:18px;margin-top:24px}
-.footer-social a{display:flex;color:rgba(255,255,255,.6);transition:color .3s ease}
+.footer-social a{display:flex;color:rgba(255,255,255,.6);transition:color .3s ease;padding:10px;margin:-10px}
 .footer-social a:hover{color:var(--gold-soft)}
 .footer-social svg{width:20px;height:20px;fill:currentColor}
 

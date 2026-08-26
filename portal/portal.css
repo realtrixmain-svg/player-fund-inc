@@ -5,6 +5,29 @@
 .portal-card h3{margin:24px 0 10px;font-size:1.05rem}
 .portal-card ul{margin:0 0 16px;padding-left:20px}
 .portal-card ul li{margin-bottom:8px}
+
+/* ---- fund summary (fact-sheet) layout ---- */
+.fund-header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;padding-bottom:22px;border-bottom:1px solid var(--border-strong);margin-bottom:26px}
+.fund-header .fund-tag{display:block;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.fund-header h1{margin-bottom:4px}
+.fund-header .fund-compartments{display:flex;flex-wrap:wrap;gap:8px}
+.fund-pill{border:1px solid var(--border-strong);border-radius:999px;padding:6px 14px;font-size:.78rem;color:var(--ink-soft)}
+
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:20px 0 30px}
+.stat-tile{border:1px solid var(--border);border-radius:4px;padding:16px 18px}
+.stat-tile .stat-label{display:block;font-size:.7rem;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px}
+.stat-tile .stat-value{font-family:var(--font-display);font-size:1.5rem;color:var(--ink);display:block}
+.stat-tile .stat-sub{font-size:.8rem;color:var(--ink-soft);margin-top:2px}
+
+.fund-summary-grid{display:grid;gap:36px;margin-top:8px}
+@media (min-width:860px){.fund-summary-grid{grid-template-columns:2fr 1fr}}
+.fund-summary-grid h3{margin:26px 0 8px;font-size:1.05rem}
+.fund-summary-grid h3:first-child{margin-top:0}
+
+.fact-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--border)}
+.fact-list li{padding:13px 0;border-bottom:1px solid var(--border)}
+.fact-list .fact-label{display:block;font-size:.7rem;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:3px}
+.fact-list .fact-value{font-weight:600;color:var(--ink);font-size:.95rem}
 .portal-wrap-signup{
   max-width:960px;display:grid;gap:56px;
   grid-template-columns:1fr 1fr;align-items:start;

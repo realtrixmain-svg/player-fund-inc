@@ -5,7 +5,7 @@ step, no framework, deploy as-is to any static host (GitHub Pages, Netlify, Verc
 
 ## Structure
 
-- `index.html`, `about.html`, `strategy.html`, `contact.html`
+- `index.html`, `about.html`, `player-international-fund.html`, `contact.html`
 - `css/style.css` - full design system (tokens, components), incl. `.data-table` for allocation/income tables
 - `js/main.js` - nav toggle, scroll reveals (IntersectionObserver), contact form UI state
 - `assets/images/` - sourced stock photography (Unsplash, hotlinked once then saved locally, no attribution required under their license)

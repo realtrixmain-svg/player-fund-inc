@@ -2,15 +2,15 @@
 :root{
   --paper:#ffffff;
   --canvas:#f4f3ef;
-  --ink:#1b2333;
-  --ink-soft:#525a6b;
-  --ink-faint:#7b8296;
-  --navy:#2f3f66;
-  --navy-deep:#1a2338;
-  --gold:#a6915f;
-  --gold-soft:#cdbe93;
-  --border:rgba(27,35,51,.14);
-  --border-strong:rgba(27,35,51,.24);
+  --ink:#16303a;
+  --ink-soft:#4c6068;
+  --ink-faint:#7c8d93;
+  --navy:#1c3a45;
+  --navy-deep:#0f242c;
+  --gold:#c9985f;
+  --gold-soft:#ddba8c;
+  --border:rgba(22,48,58,.14);
+  --border-strong:rgba(22,48,58,.24);
   --max:1180px;
   --font-display:'Newsreader',serif;
   --font-body:'Public Sans',sans-serif;
@@ -109,7 +109,7 @@ section{padding:112px 0}
 .nav-social-panel{
   position:absolute;top:calc(100% + 16px);right:0;display:flex;flex-direction:column;gap:2px;
   min-width:160px;padding:8px;margin:0;list-style:none;
-  background:var(--paper);border:1px solid var(--border);box-shadow:0 16px 32px -20px rgba(27,35,51,.35);
+  background:var(--paper);border:1px solid var(--border);box-shadow:0 16px 32px -20px rgba(22,48,58,.35);
 }
 .nav-social-panel a{display:flex;align-items:center;gap:12px;padding:10px 12px;text-decoration:none;color:var(--ink);font-size:.85rem;font-weight:600}
 .nav-social-panel a:hover{background:var(--canvas)}
@@ -188,7 +188,7 @@ section{padding:112px 0}
 }
 .hero::after{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(15,20,32,.35) 0%,rgba(15,20,32,.35) 40%,rgba(12,16,26,.86) 100%);
+  background:linear-gradient(180deg,rgba(12,28,34,.35) 0%,rgba(12,28,34,.35) 40%,rgba(10,24,29,.86) 100%);
 }
 .hero-content{position:relative;z-index:2;color:#fff;padding-bottom:96px;width:100%}
 @media (max-width:760px){.hero-content{padding-bottom:56px}}
@@ -209,7 +209,7 @@ section{padding:112px 0}
 /* ---- pull quote / text break ---- */
 .text-break{position:relative;padding:150px 0}
 .text-break .bg{position:absolute;inset:0;object-fit:cover;width:100%;height:100%}
-.text-break .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,26,40,.7),rgba(20,26,40,.82))}
+.text-break .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,34,41,.7),rgba(15,34,41,.82))}
 .text-break .wrap{position:relative;z-index:1;color:#fff;text-align:center}
 .text-break blockquote{
   margin:0 auto;max-width:18ch;font-family:var(--font-display);font-weight:500;
@@ -254,7 +254,7 @@ section{padding:112px 0}
 .banner img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .banner .caption{
   position:absolute;left:0;right:0;bottom:0;padding:36px 0;
-  background:linear-gradient(0deg,rgba(12,16,26,.72),transparent);color:#fff;
+  background:linear-gradient(0deg,rgba(10,24,29,.72),transparent);color:#fff;
 }
 .banner .caption p{margin:0;max-width:46ch;color:rgba(255,255,255,.88)}
 
@@ -289,7 +289,7 @@ section{padding:112px 0}
 /* ---- archival framed photo ---- */
 .framed{
   position:relative;padding:14px;background:var(--paper);
-  border:1px solid var(--border);box-shadow:0 24px 48px -32px rgba(20,26,40,.32);
+  border:1px solid var(--border);box-shadow:0 24px 48px -32px rgba(15,34,41,.32);
   max-width:280px;
 }
 .framed img{filter:sepia(.18) contrast(1.04)}
@@ -313,7 +313,7 @@ section{padding:112px 0}
 .page-hero .lede{color:rgba(255,255,255,.8);max-width:52ch}
 .page-hero-img{position:absolute;inset:0;opacity:.28}
 .page-hero-img img{width:100%;height:100%;object-fit:cover}
-.page-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(26,35,56,.4),var(--navy-deep) 92%)}
+.page-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,45,54,.4),var(--navy-deep) 92%)}
 
 /* ---- form ---- */
 .contact-grid{display:grid;gap:72px}
@@ -398,9 +398,9 @@ footer a:hover{color:#fff}
 
 dialog#terms-modal{
   border:0;border-radius:2px;padding:0;max-width:560px;width:calc(100% - 40px);
-  box-shadow:0 24px 60px rgba(27,35,51,.28);
+  box-shadow:0 24px 60px rgba(22,48,58,.28);
 }
-dialog#terms-modal::backdrop{background:rgba(27,35,51,.55)}
+dialog#terms-modal::backdrop{background:rgba(22,48,58,.55)}
 .modal-body{padding:36px 32px}
 .modal-body h2{font-size:1.5rem;margin-bottom:16px}
 .modal-body p{color:var(--ink-soft);margin-bottom:0}

@@ -129,6 +129,11 @@
         <h2 class="reveal">Global asset allocation</h2>
         <p class="lede reveal">Adding a 20% alternatives allocation (55% Equities &amp; 25% FI 'traditional' allocation) to Market Neutral portfolio construction helps maintain an attractive and comparative return profile whilst reducing the volatility profile and the maximum drawdown.</p>
       </div>
+      <div class="chart-card reveal" style="margin-bottom:56px">
+        <h3>Global AuM allocation, by mandate</h3>
+        <p class="chart-caption">Neutral weight and allocation range, aggregated across Advisory-managed portfolios (annualized to Q4 &rsquo;24). Source: Player International Fund RAIF investor deck, Global Asset Allocation.</p>
+        <div class="chart-canvas-wrap"><canvas id="chart-aum-allocation" role="img" aria-label="Bar chart of global AuM allocation: Blue Chip Growth and Income 24%, LDI 18%, Dedicated Portfolio 22%, Secondaries and Primaries 16%, Private Credit 20%, each with an approximate 2 percentage point range"></canvas></div>
+      </div>
       <div class="principles">
         <div class="principle reveal">
           <span class="num">01</span>
@@ -200,6 +205,58 @@
           <h3>Portfolio stability</h3>
           <p>To build a long-term financial foundation, our global markets&rsquo; neutral portfolio strategy provides a stable anchor, even as other parts of the market experience turbulence, creating optimal conditions for consistency of annualized returns &amp; yields.</p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band-canvas">
+    <div class="wrap">
+      <div class="lede-grid" style="margin-bottom:40px">
+        <h2 class="reveal">Optimal portfolio weights</h2>
+        <p class="lede reveal">Target weights by fund compartment and asset type, across all compartments. Source: Player International Fund RAIF investor deck, Optimal Portfolio Weights, Rebalancing &amp; Capital Calls.</p>
+      </div>
+      <div class="chart-card reveal chart-grid split-donut">
+        <div class="chart-canvas-wrap"><canvas id="chart-optimal-weights" role="img" aria-label="Donut chart of optimal portfolio weights: 35% Growth compartment listed blue chip equities, 20% Alternatives Debt private credit fixed income, 15% Income compartment AAA to BB fixed income and yield equities, 10% Alternatives Private Equity hedge fund, 20% Listed private equity or debt real estate"></canvas></div>
+        <ul class="chart-legend" id="chart-optimal-weights-legend"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="band-paper">
+    <div class="wrap">
+      <div class="lede-grid" style="margin-bottom:40px">
+        <h2 class="reveal">Liquidity through market stress &ndash; portfolio ballasting</h2>
+        <p class="lede reveal">Liquid assets available for a $100 million advisory AuM, from pre-crisis through three years of spending, capital calls and rebalancing. Source: Player International Fund RAIF investor deck, Structural Diversification &amp; Liquidity Analysis.</p>
+      </div>
+      <div class="chart-card reveal">
+        <div class="chart-canvas-wrap"><canvas id="chart-liquidity" role="img" aria-label="Stacked bar chart of portfolio composition across five stages from Year 0 pre-crisis to Year 3, showing fixed income and cash, public equity, liquid hedge funds, illiquid hedge funds and private equity, with the liquid share falling from 65% to 21% of total assets"></canvas></div>
+        <ul class="chart-legend" id="chart-liquidity-legend"></ul>
+        <p class="section-note">Green-outlined segments represent liquid assets. Ratio of post-drawdown liquidity to annual cash requirements falls from 6.5x pre-crisis to 3.7x post-drawdown; by Year 3, liquid assets are scant relative to the next year&rsquo;s spending and capital calls. Totals may not sum to 100% due to rounding.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band-canvas">
+    <div class="wrap">
+      <div class="lede-grid" style="margin-bottom:40px">
+        <h2 class="reveal">Asset class returns, risk &amp; correlations</h2>
+        <p class="lede reveal">Expected return and standard deviation by asset class, with pairwise correlations used in the mean&ndash;variance portfolio construction. Source: Player International Fund RAIF investor deck, Global Asset Allocation &amp; Asset Class Required Returns.</p>
+      </div>
+      <div class="chart-card reveal">
+        <div class="chart-canvas-wrap"><canvas id="chart-correlation" role="img" aria-label="Correlation heatmap of four asset classes. Equities: expected return 9.4%, risk 15%. Fixed Income: 4%, 8%. Alternatives hedge funds: 7%, 15%. Private Equity: 15.8%, 30%. Equities and Private Equity correlate at 0.75; Fixed Income correlates with Equities and Alternatives at 0.25 and with Private Equity at 0; Alternatives correlate with Equities and Fixed Income at 0.25 and with Private Equity at 0.25."></canvas></div>
+        <p class="section-note">Darker cells indicate higher correlation. Allocations are optimal for mean&ndash;variance weightings where the LP risk aversion coefficient equals 2, given the return, risk and correlation assumptions shown.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band-paper">
+    <div class="wrap">
+      <div class="lede-grid" style="margin-bottom:40px">
+        <h2 class="reveal">Global equities &ndash; regional growth trends</h2>
+        <p class="lede reveal">Growth compartment assets universe by region, sized by regional GDP, mapped to the underlying benchmark index. Source: Player International Fund RAIF investor deck, Performance Analysis: Assets Universe, Underlying Investment Instruments.</p>
+      </div>
+      <div class="chart-card reveal">
+        <div class="chart-canvas-wrap"><canvas id="chart-regional-gdp" role="img" aria-label="Bubble chart of regional GDP in trillions of USD, sized by area: North America 22.2 tracking the S&P 500 Index, Europe 19.1 tracking FTSE 100 and Eurostoxx 50, South America 3.99 tracking S&P Latin America 40 Index, South East Asia 2.76 tracking S&P Southeast Asia 40 Index, Oceania 1.665 tracking S&P ASX 200 Index, Russia 1.578 tracking MOEX Russia Index, South Africa 0.349 tracking FTSE/JSE Top 40 Index"></canvas></div>
       </div>
     </div>
   </section>
@@ -300,5 +357,7 @@
 </dialog>
 
 <script src="js/main.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/fund-charts.js"></script>
 </body>
 </html>

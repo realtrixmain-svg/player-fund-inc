@@ -256,7 +256,12 @@ section{padding:112px 0;scroll-margin-top:88px}
 .fund-header .fund-tag{display:block;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
 .fund-header h1,.fund-header h2{margin-bottom:4px}
 .fund-header .fund-compartments{display:flex;flex-wrap:wrap;gap:8px}
-.fund-pill{border:1px solid var(--border-strong);border-radius:999px;padding:6px 14px;font-size:.78rem;color:var(--ink-soft)}
+.fund-pill{border:1px solid var(--border-strong);border-radius:999px;padding:0;max-width:280px}
+.fund-pill summary{padding:6px 14px;font-size:.78rem;color:var(--ink-soft);cursor:pointer;list-style:none}
+.fund-pill summary::-webkit-details-marker{display:none}
+.fund-pill[open]{border-radius:16px}
+.fund-pill[open] summary{font-weight:600}
+.fund-pill p{margin:0;padding:0 14px 14px;font-size:.85rem;color:var(--ink-soft)}
 
 .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:20px 0 30px}
 .stat-tile{border:1px solid var(--border);border-radius:4px;padding:16px 18px}

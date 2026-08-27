@@ -1,8 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="Player International Fund">
-  <path d="M70,8 C90,8 108,18 122,34 L108,34 L134,34 L150,14 C168,30 178,52 178,76 C178,98 170,118 155,132 C165,144 168,160 160,175 C150,193 128,203 106,200 C110,180 104,160 90,146 C76,132 58,124 44,112 C28,98 22,78 30,58 C38,38 52,20 70,8 Z" fill="#c9985f"/>
-  <path d="M46,92 C68,90 86,106 88,128 C90,150 74,168 52,168 C50,142 48,116 46,92 Z" fill="#16303a"/>
-  <path d="M46,178 L46,214 L76,196 Z" fill="#16303a"/>
-  <text x="228" y="98" font-family="'Newsreader', Georgia, serif" font-size="72" fill="#16303a">Player</text>
-  <text x="228" y="140" font-family="'Public Sans', Arial, sans-serif" font-size="24" letter-spacing="6" fill="#c9985f">INTERNATIONAL</text>
-  <text x="228" y="205" font-family="'Newsreader', Georgia, serif" font-size="72" fill="#16303a">Fund</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 800" role="img" aria-label="Player Fund Inc">
+  <path d="M0,325 A65,65 0 0 1 130,325 L130,520 L0,520 Z" fill="#8fa3b6"/>
+  <path d="M65,125 A65,65 0 0 1 195,125 L195,520 L65,520 Z" fill="#a6915f"/>
+  <path d="M245,255 A65,65 0 0 1 375,255 L375,520 L245,520 Z" fill="#6f89a0"/>
+  <path d="M310,65 A65,65 0 0 1 440,65 L440,520 L310,520 Z" fill="#4d6584"/>
+  <text x="225" y="660" text-anchor="middle" font-family="'Newsreader', Georgia, serif" font-size="110" letter-spacing="8" fill="#1a2338">PLAYER</text>
+  <line x1="30" y1="726" x2="70" y2="726" stroke="#a6915f" stroke-width="2"/>
+  <text x="225" y="738" text-anchor="middle" font-family="'Public Sans', Arial, sans-serif" font-size="38" letter-spacing="9" fill="#a6915f">FUND INC</text>
+  <line x1="380" y1="726" x2="420" y2="726" stroke="#a6915f" stroke-width="2"/>
 </svg>

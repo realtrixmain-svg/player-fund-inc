@@ -1,4 +1,4 @@
-/* Player Fund Inc - chart instances for player-international-fund.html, data sourced from the RAIF investor deck */
+/* Player Fund Inc - chart instances for strategies.html, data sourced from the RAIF investor deck */
 document.addEventListener('DOMContentLoaded', () => {
   const aumCanvas = document.getElementById('chart-aum-allocation');
   if (aumCanvas) {

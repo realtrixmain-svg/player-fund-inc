@@ -251,15 +251,15 @@ section{padding:112px 0;scroll-margin-top:88px}
 .section-note{color:var(--ink-faint);font-size:.85rem;margin-top:10px}
 
 /* ---- fund summary (fact-sheet) layout ---- */
-.fund-header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;padding-bottom:22px;border-bottom:1px solid var(--border-strong);margin-bottom:26px}
+.fund-header{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:16px;padding-bottom:22px;border-bottom:1px solid var(--border-strong);margin-bottom:26px}
 @media (max-width:560px){.fund-header{flex-direction:column;align-items:flex-start}}
 .fund-header .fund-tag{display:block;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
 .fund-header h1,.fund-header h2{margin-bottom:4px}
-.fund-header .fund-compartments{display:flex;flex-wrap:wrap;gap:8px}
-.fund-pill{border:1px solid var(--border-strong);border-radius:999px;padding:0;max-width:280px}
+.fund-header .fund-compartments{display:flex;flex-wrap:wrap;align-items:flex-start;gap:8px;max-width:520px}
+.fund-pill{border:1px solid var(--border-strong);border-radius:999px}
 .fund-pill summary{padding:6px 14px;font-size:.78rem;color:var(--ink-soft);cursor:pointer;list-style:none}
 .fund-pill summary::-webkit-details-marker{display:none}
-.fund-pill[open]{border-radius:16px}
+.fund-pill[open]{flex-basis:100%;border-radius:16px}
 .fund-pill[open] summary{font-weight:600}
 .fund-pill p{margin:0;padding:0 14px 14px;font-size:.85rem;color:var(--ink-soft)}
 

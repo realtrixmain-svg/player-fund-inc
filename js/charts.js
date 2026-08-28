@@ -159,13 +159,14 @@ class DonutChart {
 
 /** Stacked bar chart across time/categories. data: [{label, segments:[{key, value}]}], seriesKeys: [key,...] in stack order */
 class StackedBarChart {
-  constructor(canvas, { data, seriesKeys, colors = CHART_PALETTE, legendEl = null, unit = '%' }) {
+  constructor(canvas, { data, seriesKeys, colors = CHART_PALETTE, legendEl = null, unit = '%', liquidKeys = [] }) {
     this.canvas = canvas;
     this.data = data;
     this.seriesKeys = seriesKeys;
     this.colors = colors;
     this.legendEl = legendEl;
     this.unit = unit;
+    this.liquidKeys = liquidKeys;
     this.render();
     new ResizeObserver(() => this.render()).observe(canvas.parentElement);
   }
@@ -209,6 +210,11 @@ class StackedBarChart {
         const y = yCursor - h;
         ctx.fillStyle = this.colors[si % this.colors.length];
         ctx.fillRect(cx - barW / 2, y, barW, h);
+        if (this.liquidKeys.includes(key)) {
+          ctx.strokeStyle = '#2e7d46';
+          ctx.lineWidth = 2;
+          ctx.strokeRect(cx - barW / 2 + 1, y + 1, barW - 2, h - 2);
+        }
         if (h > 14) {
           ctx.fillStyle = '#ffffff';
           ctx.font = '10px "Public Sans",sans-serif';

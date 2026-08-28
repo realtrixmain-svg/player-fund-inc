@@ -262,6 +262,7 @@ section{padding:112px 0;scroll-margin-top:88px}
 .data-table tbody tr:last-child td{border-bottom:none}
 .data-table td:not(:first-child),.data-table th:not(:first-child){text-align:right}
 .legal-content .data-table td,.legal-content .data-table th{text-align:left}
+.data-table.text-table td:not(:first-child),.data-table.text-table th:not(:first-child){text-align:left}
 .section-note{color:var(--ink-faint);font-size:.85rem;margin-top:10px}
 
 /* ---- fund summary (fact-sheet) layout ---- */

@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ]);
     new StackedBarChart(liquidityCanvas, {
       seriesKeys,
+      liquidKeys: ['cash', 'public-eq', 'hf-liquid'],
       legendEl: document.getElementById('chart-liquidity-legend'),
       data: [
         { label: 'Year 0 (Pre-Crisis)', segments: seg(10, 45, 10, 10, 25) },

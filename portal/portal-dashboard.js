@@ -60,14 +60,22 @@ if (!session) {
       downloadBtn.addEventListener('click', async (e) => {
         const btn = e.currentTarget;
         btn.disabled = true;
+        // Open the tab synchronously on the click (before the await) so the browser's
+        // popup blocker still sees it as user-initiated; set its location once the
+        // signed URL resolves. Setting data.signedUrl into window.open() directly after
+        // an await loses the user-activation flag and gets silently blocked.
+        const tab = window.open('', '_blank', 'noopener');
         const { data, error: urlError } = await supabase.storage
           .from('documents')
           .createSignedUrl(doc.storage_path, 60);
         btn.disabled = false;
         if (urlError) {
+          if (tab) tab.close();
           alert(`Could not generate download link: ${urlError.message}`);
+        } else if (tab) {
+          tab.location = data.signedUrl;
         } else {
-          window.open(data.signedUrl, '_blank', 'noopener');
+          alert('Your browser blocked the download tab. Please allow pop-ups for this site and try again.');
         }
       });
       docList.appendChild(li);

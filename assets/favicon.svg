@@ -1,6 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 30">
-<rect x="0" y="14" width="7" height="16" fill="#8fa3b6"/>
-<rect x="10" y="7" width="7" height="23" fill="#6f89a0"/>
-<rect x="20" y="16" width="7" height="14" fill="#a6915f"/>
-<rect x="30" y="0" width="7" height="30" fill="#4d6584"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 240" role="img" aria-label="Player International Fund">
+  <path d="M70,8 C90,8 108,18 122,34 L108,34 L134,34 L150,14 C168,30 178,52 178,76 C178,98 170,118 155,132 C165,144 168,160 160,175 C150,193 128,203 106,200 C110,180 104,160 90,146 C76,132 58,124 44,112 C28,98 22,78 30,58 C38,38 52,20 70,8 Z" fill="#c9985f"/>
+  <path d="M46,92 C68,90 86,106 88,128 C90,150 74,168 52,168 C50,142 48,116 46,92 Z" fill="#16303a"/>
+  <path d="M46,178 L46,214 L76,196 Z" fill="#16303a"/>
 </svg>

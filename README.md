@@ -1,18 +1,22 @@
 # Player Fund Inc
 
-Marketing site (Home, About, Contact) plus a client portal. Plain HTML/CSS/JS, no build step, no
-framework, deploy as-is to any static host (GitHub Pages, Netlify, Vercel).
+Marketing site (Home, About, Strategy, Contact) plus a client portal. Plain HTML/CSS/JS, no build
+step, no framework, deploy as-is to any static host (GitHub Pages, Netlify, Vercel).
 
 ## Structure
 
-- `index.html`, `about.html`, `contact.html`
-- `css/style.css` - full design system (tokens, components)
+- `index.html`, `about.html`, `player-international-fund.html`, `contact.html`
+- `css/style.css` - full design system (tokens, components), incl. `.data-table` for allocation/income tables
 - `js/main.js` - nav toggle, scroll reveals (IntersectionObserver), contact form UI state
 - `assets/images/` - sourced stock photography (Unsplash, hotlinked once then saved locally, no attribution required under their license)
 - `assets/video/hero.mp4` - hero background loop (Pexels, compressed with ffmpeg: trimmed, muted, scaled, h264 crf 26)
 - `portal/` - client login (`login.html`) + dashboard (`dashboard.html`), Supabase Auth (email/password,
   email verification required) + Supabase Postgres/Storage for documents. Fill in `portal/config.js`
   after provisioning — see `supabase/SETUP.md`.
+- `portal/portfolio-data.html` - gated page with the institutional-grade mandate breakdowns, asset
+  allocation/correlation tables, income compartment CARRY data, liquidity stress tables and Hamilton
+  Portfolio Holdings Trust (HAMTRUST) collateral/FTP detail. Linked from the dashboard; same session
+  guard pattern as `dashboard.html` (redirects to `login.html` if unauthenticated).
 - `supabase/schema.sql` - tables, RLS policies, storage bucket setup for the portal
 - `supabase/seed-documents/` - the client-supplied PDFs, gitignored, upload manually to Storage
 

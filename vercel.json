@@ -2,6 +2,9 @@
   "buildCommand": null,
   "installCommand": null,
   "outputDirectory": ".",
+  "redirects": [
+    { "source": "/player-international-fund.html", "destination": "/strategies.html", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/(.*)",

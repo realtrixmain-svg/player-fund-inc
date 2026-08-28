@@ -1,6 +1,12 @@
 .portal-main{padding:64px 0 96px}
 .portal-wrap{max-width:460px}
 .portal-wrap-wide{max-width:720px;display:grid;gap:24px}
+.portal-wrap-data{max-width:960px;display:grid;gap:24px}
+.portal-card h3{margin:24px 0 10px;font-size:1.05rem}
+.portal-card ul{margin:0 0 16px;padding-left:20px}
+.portal-card ul li{margin-bottom:8px}
+
+/* fund-header/stat-grid/fund-summary-grid/fact-list moved to ../css/style.css so the public fund page can reuse them */
 .portal-wrap-signup{
   max-width:960px;display:grid;gap:56px;
   grid-template-columns:1fr 1fr;align-items:start;

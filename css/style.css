@@ -22,8 +22,20 @@
   --border:rgba(15,34,49,.14);
   --border-strong:rgba(15,34,49,.26);
   --max:1180px;
-  --font-display:'Newsreader',serif;
-  --font-body:'Public Sans',sans-serif;
+
+  /* Two voices, deliberately far apart. Instrument Serif is the voice: high
+     stroke contrast, narrow set, used only where the page actually speaks.
+     Schibsted Grotesk is the structure: labels, data, controls, body. A
+     heading is serif when it carries an argument and grotesk when it names a
+     part, which is why h3 is not simply a smaller h2. */
+  --font-display:'Instrument Serif',Georgia,'Times New Roman',serif;
+  --font-body:'Schibsted Grotesk',system-ui,-apple-system,'Segoe UI',sans-serif;
+
+  /* 4-base spacing scale. Every gap, pad and margin below comes from this;
+     one-off pixel values are the thing that made the old page feel arbitrary. */
+  --s1:4px;  --s2:8px;   --s3:12px;  --s4:16px;  --s5:24px;
+  --s6:32px; --s7:48px;  --s8:64px;  --s9:96px;  --s10:128px;
+  --radius:3px;
 }
 
 *,*::before,*::after{box-sizing:border-box}
@@ -43,18 +55,35 @@ body{
 img,video{max-width:100%;display:block}
 a{color:inherit}
 
-h1,h2,h3,h4{
+/* Serif = voice. Only h1 and h2, only where the page makes a claim. */
+h1,h2{
   font-family:var(--font-display);
-  font-weight:600;
-  line-height:1.12;
-  margin:0 0 .5em;
-  letter-spacing:-0.01em;
+  font-weight:400;
+  line-height:1.04;
+  letter-spacing:-0.018em;
+  margin:0 0 .34em;
+  text-wrap:balance;
 }
-h1{font-size:clamp(2.6rem,5vw,4.6rem);font-weight:500;letter-spacing:-0.02em}
-h2{font-size:clamp(2rem,3.2vw,2.9rem)}
-h3{font-size:clamp(1.3rem,1.8vw,1.6rem)}
-p{margin:0 0 1em}
-.lede{font-size:1.2rem;line-height:1.65;color:var(--ink-soft)}
+h1{font-size:clamp(3rem,5.4vw,5rem)}
+h2{font-size:clamp(2.15rem,3.5vw,3.15rem)}
+
+/* Grotesk = structure. h3/h4 name a part rather than argue, so they drop to
+   the body face and gain weight instead of size. That is the whole hierarchy
+   trick on this site: the jump is a change of voice, not another font-size. */
+h3,h4{
+  font-family:var(--font-body);
+  font-weight:600;
+  line-height:1.3;
+  letter-spacing:-0.006em;
+  margin:0 0 .5em;
+  text-wrap:balance;
+  color:var(--ink);
+}
+h3{font-size:1.075rem}
+h4{font-size:.95rem}
+
+p{margin:0 0 1em;max-width:72ch}
+.lede{font-size:1.235rem;line-height:1.55;color:var(--ink-soft);letter-spacing:-0.004em;max-width:64ch}
 
 .wrap{max-width:var(--max);margin:0 auto;padding:0 32px}
 
@@ -109,7 +138,7 @@ section{padding:112px 0;scroll-margin-top:88px}
 .nav-cta{margin-left:28px;padding:10px 22px;font-size:.72rem;white-space:nowrap}
 @media (max-width:480px){.nav-cta{padding:8px 14px;font-size:.7rem;margin-left:12px}}
 
-.nav-social{position:relative;list-style:none}
+.nav-social{position:relative;list-style:none;padding-block:var(--s1)}
 .nav-social summary{list-style:none;cursor:pointer;color:var(--ink-soft)}
 .nav-social summary::-webkit-details-marker{display:none}
 .nav-social summary::after{
@@ -121,11 +150,11 @@ section{padding:112px 0;scroll-margin-top:88px}
   min-width:160px;padding:8px;margin:0;list-style:none;
   background:var(--paper);border:1px solid var(--border);box-shadow:0 16px 32px -20px rgba(22,48,58,.35);
 }
-.nav-social-panel a{display:flex;align-items:center;gap:12px;padding:10px 12px;text-decoration:none;color:var(--ink);font-size:.85rem;font-weight:600}
+.nav-social-panel a{display:flex;align-items:center;gap:var(--s3);padding:var(--s3) var(--s4);text-decoration:none;color:var(--ink);font-size:.85rem;font-weight:600}
 .nav-social-panel a:hover{background:var(--canvas)}
 .nav-social-panel svg{width:18px;height:18px;fill:currentColor;flex-shrink:0}
 @media (max-width:760px){
-  .nav-social-panel{position:static;border:none;box-shadow:none;padding:0 0 0 20px;background:none}
+  .nav-social-panel{position:static;border:none;box-shadow:none;padding:var(--s2) 0 var(--s4) var(--s5);background:none}
   .nav-social summary{padding:18px 20px}
 }
 
@@ -224,7 +253,7 @@ section{padding:112px 0;scroll-margin-top:88px}
 .text-break .wrap{position:relative;z-index:1;color:#fff;text-align:center}
 .text-break blockquote{
   margin:0 auto;max-width:18ch;font-family:var(--font-display);font-weight:500;
-  font-size:clamp(1.9rem,3.4vw,3.1rem);line-height:1.24;
+  font-size:clamp(1.9rem,3.4vw,3.1rem);line-height:1.3;
 }
 @media (min-width:760px){.text-break blockquote{max-width:22ch}}
 
@@ -239,11 +268,12 @@ section{padding:112px 0;scroll-margin-top:88px}
 .split h2{margin-bottom:.4em}
 
 /* ---- principle list ---- */
-.principles{display:grid;gap:48px}
+.principles{display:grid;gap:var(--s7)}
 @media (min-width:760px){.principles{grid-template-columns:repeat(2,1fr)}}
-.principle{border-top:1px solid var(--border-strong);padding-top:22px}
-.principle .num{font-family:var(--font-display);color:var(--ember);font-size:.95rem;letter-spacing:.05em}
-.principle h3{margin-top:.4em}
+/* The 01/02/03 counters are gone: the order carried no information, it was
+   just decoration pretending to be a system. The rule alone groups them. */
+.principle{border-top:1px solid var(--border-strong);padding-top:var(--s5)}
+.principle h3{margin-top:0}
 
 /* ---- lede band (asymmetric) ---- */
 .lede-grid{display:grid;gap:56px}
@@ -268,7 +298,7 @@ section{padding:112px 0;scroll-margin-top:88px}
 .data-table{width:100%;border-collapse:collapse;font-size:.92rem;min-width:480px}
 .data-table caption{text-align:left;font-family:var(--font-display);font-size:1.1rem;margin-bottom:12px;color:var(--ink)}
 .data-table th,.data-table td{padding:10px 14px;border-bottom:1px solid var(--border);text-align:left}
-.data-table thead th{background:var(--canvas);font-family:var(--font-body);font-weight:600;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.03em;font-size:.78rem;border-bottom:1px solid var(--border-strong)}
+.data-table thead th{background:var(--canvas);font-family:var(--font-body);font-weight:600;color:var(--ink);text-transform:none;letter-spacing:-0.003em;font-size:.84rem;line-height:1.35;border-bottom:1px solid var(--border-strong)}
 .data-table tbody tr:last-child td{border-bottom:none}
 .data-table td:not(:first-child),.data-table th:not(:first-child){text-align:right}
 .legal-content .data-table td,.legal-content .data-table th{text-align:left}
@@ -278,7 +308,7 @@ section{padding:112px 0;scroll-margin-top:88px}
 /* ---- fund summary (fact-sheet) layout ---- */
 .fund-header{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:16px;padding-bottom:22px;border-bottom:1px solid var(--border-strong);margin-bottom:26px}
 @media (max-width:560px){.fund-header{flex-direction:column;align-items:flex-start}}
-.fund-header .fund-tag{display:block;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ember);margin-bottom:6px}
+.fund-header .fund-tag{display:block;font-size:.92rem;letter-spacing:-0.004em;text-transform:none;color:var(--ink-faint);margin-top:var(--s2)}
 .fund-header h1,.fund-header h2{margin-bottom:4px}
 .fund-header .fund-compartments{display:flex;flex-wrap:wrap;align-items:flex-start;gap:8px;max-width:520px}
 .fund-pill{border:1px solid var(--border-strong);border-radius:2px}
@@ -299,7 +329,7 @@ section{padding:112px 0;scroll-margin-top:88px}
 
 .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:20px 0 30px}
 .stat-tile{border:1px solid var(--border);border-radius:4px;padding:16px 18px}
-.stat-tile .stat-label{display:block;font-size:.7rem;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px}
+.stat-tile .stat-label{display:block;font-size:.78rem;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px}
 .stat-tile .stat-value{font-family:var(--font-display);font-size:1.5rem;color:var(--ink);display:block}
 .stat-tile .stat-sub{font-size:.8rem;color:var(--ink-soft);margin-top:2px}
 
@@ -310,7 +340,7 @@ section{padding:112px 0;scroll-margin-top:88px}
 
 .fact-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--border)}
 .fact-list li{padding:13px 0;border-bottom:1px solid var(--border)}
-.fact-list .fact-label{display:block;font-size:.7rem;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:3px}
+.fact-list .fact-label{display:block;font-size:.78rem;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:3px}
 .fact-list .fact-value{font-weight:600;color:var(--ink);font-size:.95rem}
 
 /* ---- full-bleed band ---- */
@@ -428,7 +458,9 @@ footer{background:var(--navy-deep);color:rgba(255,255,255,.75);padding:72px 0 40
 footer .brand-logo{background:var(--paper);padding:10px 16px;border-radius:6px}
 .footer-grid{display:grid;gap:48px;margin-top:48px}
 @media (min-width:760px){.footer-grid{grid-template-columns:2fr 1fr 1fr 1fr}}
-footer h4{color:#fff;font-family:var(--font-body);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+/* Sentence case, not tracked-out caps: an all-caps micro-label is an eyebrow
+   wearing a different hat, and it reads worse at every size. */
+footer h3{color:#fff;font-family:var(--font-body);font-size:.95rem;font-weight:600;letter-spacing:-0.004em;text-transform:none;margin-bottom:var(--s4)}
 footer ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 footer a{text-decoration:none;color:rgba(255,255,255,.72)}
 footer a:hover{color:#fff}
@@ -468,7 +500,7 @@ dialog#terms-modal{
 }
 dialog#terms-modal::backdrop{background:rgba(22,48,58,.55)}
 .modal-body{padding:36px 32px}
-.modal-body h2{font-size:1.5rem;margin-bottom:16px}
+.modal-body h2{font-size:1.5rem;line-height:1.3;margin-bottom:var(--s4)}
 .modal-body p{color:var(--ink-soft);margin-bottom:0}
 .modal-close{margin-top:26px}
 .skip-link:focus{top:12px}
@@ -489,18 +521,6 @@ html{scrollbar-color:var(--ink-faint) var(--canvas)}
 /* figures in a column of currency should line up; browser default is proportional */
 .data-table td,.stat-tile .stat-value,.fact-list .fact-value{font-variant-numeric:tabular-nums}
 
-/* ---- highlight ----
-   One phrase per section, never two. The ice fill is the quiet form; ember is
-   reserved for the single line on a page that carries the actual argument.
-   box-decoration-break keeps the fill intact when the phrase wraps. */
-.hl{
-  background-image:linear-gradient(to top,var(--glacier) 0 .68em,transparent .68em);
-  box-decoration-break:clone;-webkit-box-decoration-break:clone;
-  padding:0 .14em;
-}
-.hl-ember{background-image:linear-gradient(to top,rgba(172,70,34,.18) 0 .68em,transparent .68em)}
-.hl-dark{background-image:linear-gradient(to top,rgba(217,104,58,.30) 0 .68em,transparent .68em)}
-
 /* ---- colour blocks ---- */
 .band-glacier{background:var(--glacier)}
 .band-summit{background:var(--navy-deep);color:#fff}
@@ -520,164 +540,244 @@ html{scrollbar-color:var(--ink-faint) var(--canvas)}
 .text-break.peak .scrim{background:linear-gradient(180deg,rgba(15,34,49,.30) 0%,rgba(15,34,49,.55) 45%,rgba(15,34,49,.88) 100%)}
 @media (max-width:760px){.text-break.peak{padding:150px 0 96px}}
 .photo-credit{
-  position:absolute;right:16px;bottom:10px;z-index:2;
-  font-size:.66rem;color:rgba(255,255,255,.5);letter-spacing:.02em;
+  position:absolute;right:var(--s4);bottom:var(--s3);z-index:2;
+  font-size:.75rem;line-height:1.45;color:rgba(255,255,255,.72);letter-spacing:.01em;
 }
 .photo-credit a{color:inherit;text-decoration:underline;text-underline-offset:2px}
 .photo-credit a:hover{color:rgba(255,255,255,.85)}
 
 /* ============================================================================
-   Depth pass: background colour blocks, additive highlight, disclosures.
-   The palette does not change here - Alpenglow tokens only. What changes is
-   that surfaces stop being flat fills: each band carries two low-alpha
-   geometric slabs cut on the same 24px diagonal as .motif, so the page reads
-   as composed planes. Every slab sits at <=.07 alpha behind content, which
-   leaves the contrast table at the top of this file intact.
+   Structure pass.
+
+   The previous version put colour *behind* the content as faint diagonal
+   slabs and put emphasis *under* the text as highlight fills. Both were
+   decoration sitting next to the layout rather than doing any of its work,
+   which is why they read as noise. Colour now lives in the content: a bento
+   grid whose tiles carry the surface, so structure and colour are the same
+   decision. Ember is the loudest thing on the page, so it gets exactly one
+   tile per grid and nothing else.
    ========================================================================= */
 
-.band-paper,.band-canvas,.band-glacier{position:relative;overflow:hidden;isolation:isolate}
-.band-paper > *,.band-canvas > *,.band-glacier > *{position:relative;z-index:1}
-
-/* upper-right navy slab, sheared bottom edge */
-.band-paper::before,.band-canvas::before,.band-glacier::before{
-  content:'';position:absolute;z-index:0;pointer-events:none;
-  top:-10%;right:-8%;width:min(48vw,660px);aspect-ratio:1;
-  background:var(--navy);opacity:.06;
-  clip-path:polygon(0 0,100% 0,100% 74%,0 100%);
-}
-/* lower-left ember slab, sheared top edge, mirrored so the two lean apart */
-.band-paper::after,.band-canvas::after,.band-glacier::after{
-  content:'';position:absolute;z-index:0;pointer-events:none;
-  bottom:-12%;left:-6%;width:min(36vw,440px);aspect-ratio:3/4;
-  background:var(--ember);opacity:.07;
-  clip-path:polygon(0 0,100% 20%,100% 100%,0 100%);
-}
-/* glacier is already a tinted surface, so its slabs run quieter */
-.band-glacier::before{opacity:.045}
-.band-glacier::after{opacity:.05}
-@media (max-width:760px){
-  .band-paper::before,.band-canvas::before,.band-glacier::before{width:70vw}
-  .band-paper::after,.band-canvas::after,.band-glacier::after{width:54vw}
+/* ---- bento ----
+   Six columns so tiles can run 1/3, 1/2, 2/3 and full without fractions.
+   Everything is full width below 760px: one column, source order preserved,
+   no reflow surprises on a phone. */
+.bento{display:grid;gap:var(--s3);grid-template-columns:repeat(6,1fr)}
+.bento > *{grid-column:span 6}
+@media (min-width:760px){
+  .bento{gap:var(--s4)}
+  .b2{grid-column:span 2}
+  .b3{grid-column:span 3}
+  .b4{grid-column:span 4}
+  .b6{grid-column:span 6}
 }
 
-/* dark bands get the same geometry as an additive wash rather than a fill,
-   because opacity on near-black reads as nothing */
-.market::before,.band-summit::before{
-  content:'';position:absolute;z-index:0;pointer-events:none;
-  top:-14%;right:-10%;width:min(52vw,700px);aspect-ratio:1;
-  background:radial-gradient(circle at 60% 40%,rgba(217,104,58,.34),transparent 68%);
-  mix-blend-mode:plus-lighter;
+.tile{
+  padding:var(--s6);border-radius:var(--radius);
+  background:var(--paper);border:1px solid var(--border);
+  display:flex;flex-direction:column;gap:var(--s4);
 }
-/* isolation is load-bearing, not decoration: without a stacking context here
-   the plus-lighter wash composites against the whole document backdrop and
-   saturates every page below it to white. Keep it on any element that owns
-   a blended pseudo-element. */
-.market,.band-summit{position:relative;isolation:isolate}
-.market > *,.band-summit > *{position:relative;z-index:1}
-.band-summit{position:relative;overflow:hidden}
+.tile > *{margin-bottom:0;max-width:none}
+.tile h3{margin-bottom:0}
+.tile p{color:var(--ink-soft)}
+.tile ul{margin:0;padding-left:var(--s5);display:grid;gap:var(--s2)}
+.tile li{color:var(--ink-soft)}
+.tile li strong,.tile p strong{color:var(--ink);font-weight:600}
+.tile .tile-lede{font-size:1.08rem;line-height:1.5;color:var(--ink)}
+@media (max-width:640px){.tile{padding:var(--s5)}}
 
-/* ---- additive highlight ----
-   .hl and .hl-ember paint a flat swatch, which is right on paper and wrong
-   over a video or a photograph. .hl-add composites with plus-lighter instead,
-   so the fill ADDS light to whatever is behind it and the underlying image
-   still shows through. Text is never blended - only the underlay is. */
-.hl-add{
-  background-image:linear-gradient(to top,rgba(217,104,58,.52) 0 .68em,rgba(232,152,98,.16) .68em .72em,transparent .72em);
-  background-repeat:no-repeat;background-size:100% 100%;
-  box-decoration-break:clone;-webkit-box-decoration-break:clone;
-  padding:0 .14em;
+/* Surfaces. Borders drop out on filled tiles: the fill already draws the edge,
+   and a border on top of it reads as a box inside a box. */
+.tile-ice{background:var(--glacier);border-color:transparent}
+.tile-ice p,.tile-ice li{color:#3b4c58}
+.tile-navy{background:var(--navy-deep);border-color:transparent;color:#fff}
+.tile-navy h3,.tile-navy h4{color:#fff}
+.tile-navy p,.tile-navy li{color:rgba(255,255,255,.78)}
+.tile-navy li strong,.tile-navy p strong,.tile-navy .tile-lede{color:#fff}
+/* one per grid, never two */
+.tile-ember{background:var(--ember);border-color:transparent;color:#fff}
+.tile-ember h3,.tile-ember h4{color:#fff}
+.tile-ember p,.tile-ember li{color:rgba(255,255,255,.88)}
+.tile-ember li strong,.tile-ember p strong,.tile-ember .tile-lede{color:#fff}
+
+/* A tile that is only a number and its meaning. */
+.tile-figure{gap:var(--s2);justify-content:flex-end;min-height:170px}
+.tile-figure .figure{
+  font-family:var(--font-display);font-size:clamp(2.6rem,4.6vw,3.9rem);
+  line-height:.92;letter-spacing:-0.02em;font-variant-numeric:tabular-nums;
 }
-/* inside a reveal the fill wipes in behind the phrase after the block settles */
-.reveal .hl-add{background-size:0 100%;transition:background-size .85s cubic-bezier(.22,1,.36,1) .28s}
-.reveal.is-visible .hl-add{background-size:100% 100%}
+.tile-figure .figure-label{font-size:.92rem;line-height:1.45;color:var(--ink-soft)}
+.tile-navy .figure-label{color:rgba(255,255,255,.74)}
+.tile-ember .figure-label{color:rgba(255,255,255,.88)}
 
-/* ---- hero: additive ember over the plate, scrim still on top ----
+/* ---- disclosures ----
+   The 3px ember stripe down the summary was the single most generic thing on
+   the page. The open state now shows in the border and the marker instead. */
+.disclosure-set{display:grid;gap:var(--s2)}
+.disclosure{
+  border:1px solid var(--border);border-radius:var(--radius);background:var(--paper);
+  transition:background-color .3s ease,border-color .3s ease;
+}
+.disclosure:hover{border-color:var(--border-strong)}
+.disclosure[open]{border-color:var(--border-strong)}
+.disclosure > summary{
+  list-style:none;cursor:pointer;
+  display:flex;align-items:center;gap:var(--s4);
+  padding:var(--s5) var(--s6);
+  font-family:var(--font-body);font-size:1.02rem;font-weight:600;
+  letter-spacing:-0.006em;color:var(--ink);
+}
+.disclosure > summary::-webkit-details-marker{display:none}
+.disclosure > summary::after{
+  content:'';flex:none;margin-left:auto;width:9px;height:9px;
+  border-right:1.5px solid var(--ink-faint);border-bottom:1.5px solid var(--ink-faint);
+  transform:translateY(-2px) rotate(45deg);
+  transition:transform .35s cubic-bezier(.22,1,.36,1),border-color .25s ease;
+}
+.disclosure[open] > summary::after{transform:translateY(2px) rotate(225deg);border-color:var(--ember)}
+.disclosure-body{padding:0 var(--s6) var(--s6)}
+.disclosure-body > *:first-child{margin-top:0}
+.disclosure-body ul{margin:0;padding-left:var(--s5);display:grid;gap:var(--s3)}
+.disclosure-body li{color:var(--ink-soft);font-size:.97rem;line-height:1.6;max-width:74ch}
+.disclosure-body li strong{color:var(--ink);font-weight:600}
+@media (max-width:640px){
+  .disclosure > summary{padding:var(--s4) var(--s5);font-size:.97rem}
+  .disclosure-body{padding:0 var(--s5) var(--s5)}
+}
+@supports (interpolate-size:allow-keywords){
+  :root{interpolate-size:allow-keywords}
+  .disclosure::details-content{
+    block-size:0;overflow:hidden;opacity:0;
+    transition:block-size .4s cubic-bezier(.22,1,.36,1),
+               content-visibility .4s allow-discrete,
+               opacity .3s ease;
+  }
+  .disclosure[open]::details-content{block-size:auto;opacity:1}
+}
+/* A disclosure inside a tile is not a second card: strip the box and let a
+   single hairline do the separating, or you get a container in a container. */
+.principle .disclosure{margin-top:var(--s4)}
+.tile .disclosure{
+  border:0;border-top:1px solid var(--border-strong);border-radius:0;
+  background:transparent;margin-top:var(--s1);
+}
+.tile .disclosure:hover,.tile .disclosure[open]{border-color:var(--ink-faint)}
+.tile .disclosure > summary{padding:var(--s4) 0;font-size:.97rem}
+.tile .disclosure-body{padding:0 0 var(--s3)}
+.tile .disclosure-body li{font-size:.92rem}
+.tile-ice .disclosure{border-top-color:rgba(15,34,49,.22)}
+
+/* ---- section rhythm ----
+   Separation and grouping run on a 2:1 ratio, and there is always more space
+   above a heading than below it, so a heading reads as belonging to what
+   follows rather than floating between two blocks. */
+section{padding:var(--s10) 0}
+@media (max-width:900px){section{padding:var(--s9) 0}}
+@media (max-width:640px){section{padding:var(--s8) 0}}
+.section-lead{margin-bottom:var(--s8)}
+.section-lead > :last-child{margin-bottom:0}
+@media (max-width:640px){.section-lead{margin-bottom:var(--s7)}}
+.stack-s > * + *{margin-top:var(--s5)}
+.stack-m > * + *{margin-top:var(--s7)}
+
+/* ---- browser surfaces ----
+   Selection, caret, scrollbar, focus ring and underline offset all ship with
+   defaults that belong to no design system. They are part of the page. */
+::selection{background:var(--navy);color:#fff}
+.tile-ember ::selection,.tile-navy ::selection{background:#fff;color:var(--navy-deep)}
+:root{caret-color:var(--ember);accent-color:var(--ember);scrollbar-color:var(--border-strong) transparent}
+:where(a){text-underline-offset:.18em;text-decoration-thickness:1px}
+:focus-visible{outline:2px solid var(--ember);outline-offset:3px;border-radius:1px}
+.hero :focus-visible,.text-break :focus-visible,.market :focus-visible,
+.page-hero :focus-visible,.banner :focus-visible,
+.tile-navy :focus-visible,.tile-ember :focus-visible{outline-color:#fff}
+.data-table td,.data-table th,.stat-tile .stat-value,.fact-list .fact-value,
+.figure{font-variant-numeric:tabular-nums}
+
+/* ---- hero ----
    Stacking is explicit so the scrim always wins the contrast argument:
-   video 0, glow 1, scrim 2, copy 3. */
+   video 0, glow 1, scrim 2, copy 3. isolation is load-bearing, not styling:
+   without a stacking context the plus-lighter wash composites against the
+   whole document and saturates every page below it to white. */
 .hero{isolation:isolate}
 .hero video,.hero .hero-poster{z-index:0}
 .hero::before{
   content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
-  background:radial-gradient(66% 56% at 82% 76%,rgba(217,104,58,.40),transparent 66%);
+  background:radial-gradient(66% 56% at 82% 76%,rgba(217,104,58,.34),transparent 66%);
   mix-blend-mode:plus-lighter;
 }
 .hero::after{
   z-index:2;
   background:
-    linear-gradient(100deg,rgba(9,22,30,.80) 0%,rgba(9,22,30,.52) 42%,rgba(9,22,30,.14) 72%),
-    linear-gradient(180deg,rgba(9,22,30,.46) 0%,rgba(9,22,30,.30) 38%,rgba(9,22,30,.88) 100%);
+    linear-gradient(100deg,rgba(9,22,30,.82) 0%,rgba(9,22,30,.54) 44%,rgba(9,22,30,.16) 74%),
+    linear-gradient(180deg,rgba(9,22,30,.44) 0%,rgba(9,22,30,.28) 38%,rgba(9,22,30,.88) 100%);
 }
 .hero-content{z-index:3}
+.hero .photo-credit{z-index:4}
+.market,.band-summit{position:relative;isolation:isolate}
+.market::before{
+  content:'';position:absolute;z-index:0;pointer-events:none;
+  top:-14%;right:-10%;width:min(52vw,700px);aspect-ratio:1;
+  background:radial-gradient(circle at 60% 40%,rgba(217,104,58,.30),transparent 68%);
+  mix-blend-mode:plus-lighter;
+}
+.market > *,.band-summit > *{position:relative;z-index:1}
 
-/* ---- disclosures ----
-   Same mental model as .fund-pill but sized for long-form governance copy.
-   Open/close animates natively where ::details-content is supported and cuts
-   cleanly where it is not - no JS either way. */
-.disclosure-set{display:grid;gap:12px}
-.disclosure{
-  border:1px solid var(--border-strong);border-radius:4px;background:var(--paper);
-  transition:border-color .35s ease,box-shadow .35s ease;
-}
-.disclosure:hover{border-color:var(--ember);box-shadow:0 8px 28px -14px rgba(15,34,49,.45)}
-.disclosure[open]{border-color:var(--ember)}
-.disclosure > summary{
-  position:relative;list-style:none;cursor:pointer;
-  display:flex;align-items:center;gap:16px;padding:18px 22px 18px 26px;
-  font-family:var(--font-display);font-size:1.05rem;font-weight:600;color:var(--ink);
-}
-.disclosure > summary::-webkit-details-marker{display:none}
-.disclosure > summary::before{
-  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--ember);
-  transform:scaleY(0);transition:transform .4s cubic-bezier(.22,1,.36,1);
-}
-.disclosure[open] > summary::before,.disclosure:hover > summary::before{transform:scaleY(1)}
-.disclosure > summary::after{
-  content:'';flex:none;margin-left:auto;width:9px;height:9px;
-  border-right:1.6px solid var(--ink-faint);border-bottom:1.6px solid var(--ink-faint);
-  transform:translateY(-2px) rotate(45deg);
-  transition:transform .4s cubic-bezier(.22,1,.36,1),border-color .3s ease;
-}
-.disclosure[open] > summary::after{transform:translateY(2px) rotate(225deg);border-color:var(--ember)}
-.disclosure-body{padding:0 22px 20px 26px}
-.disclosure-body > *:first-child{margin-top:0}
-.disclosure-body ul{margin:0;padding-left:20px}
-.disclosure-body li{margin-bottom:10px;color:var(--ink-soft);font-size:.95rem;line-height:1.6}
-.disclosure-body li:last-child{margin-bottom:0}
-.disclosure-body li strong{color:var(--ink)}
-@supports (interpolate-size:allow-keywords){
-  :root{interpolate-size:allow-keywords}
-  .disclosure::details-content{
-    block-size:0;overflow:hidden;opacity:0;
-    transition:block-size .45s cubic-bezier(.22,1,.36,1),
-               content-visibility .45s allow-discrete,
-               opacity .3s ease;
-  }
-  .disclosure[open]::details-content{block-size:auto;opacity:1}
-}
-/* the BDC disclosure sits inside a .principle, so it needs its own top gap */
-.principle .disclosure{margin-top:18px}
-
-/* ---- motion on the standing components ---- */
-.reveal{transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
-.chart-card{transition:border-color .4s ease,box-shadow .4s ease,transform .4s cubic-bezier(.22,1,.36,1)}
-.chart-card:hover{border-color:var(--border-strong);box-shadow:0 18px 44px -28px rgba(15,34,49,.55);transform:translateY(-3px)}
-.principle{position:relative;transition:border-color .4s ease}
-.principle::before{
-  content:'';position:absolute;top:-1px;left:0;width:100%;height:1px;background:var(--ember);
-  transform:scaleX(0);transform-origin:left;transition:transform .8s cubic-bezier(.22,1,.36,1) .15s;
-}
-.principle.is-visible::before{transform:scaleX(1)}
-.split-media img{transition:transform 1.2s cubic-bezier(.22,1,.36,1)}
+/* ---- motion ----
+   One authored moment: content rises once as its section arrives. Everything
+   else is a state change, not an entrance. The old build animated every card
+   in every section identically, which reads as a template playing itself. */
+.reveal{transition:opacity .6s cubic-bezier(.22,1,.36,1),transform .6s cubic-bezier(.22,1,.36,1)}
+.chart-card{transition:border-color .3s ease,box-shadow .3s ease}
+.chart-card:hover{border-color:var(--border-strong);box-shadow:0 12px 32px -22px rgba(15,34,49,.5)}
+.tile{transition:border-color .3s ease}
 .split-media{overflow:hidden}
-.split-media:hover img{transform:scale(1.035)}
-
+.split-media img{transition:transform 1.1s cubic-bezier(.22,1,.36,1)}
+.split-media:hover img{transform:scale(1.03)}
 @media (prefers-reduced-motion:reduce){
-  .reveal,.chart-card,.split-media img,.disclosure,
-  .disclosure > summary::before,.disclosure > summary::after{transition:none}
-  .reveal .hl-add::before,.principle::before{transform:none;transition:none}
-  .split-media:hover img,.chart-card:hover{transform:none}
+  .reveal,.chart-card,.tile,.split-media img,.disclosure,.disclosure > summary::after{transition:none}
+  .split-media:hover img{transform:none}
   .disclosure::details-content{transition:none}
 }
 
-/* hero credit sits above the scrim and the copy layer */
-.hero .photo-credit{z-index:4}
+/* ---- content blocks ----
+   A section is made of blocks; a block is a label, an optional intro and one
+   piece of structure. The old page ran h3 / p / h3 / p at one flat interval,
+   so nothing grouped and everything looked equally important. The interval
+   between blocks is roughly 2.5x the interval inside one, which is the whole
+   fix. */
+.block + .block{margin-top:var(--s9)}
+@media (max-width:640px){.block + .block{margin-top:var(--s8)}}
+/* A block label needs to out-rank the tile headings inside the block, or the
+   reader sees one flat field of bold grotesk. Size plus a rule does it without
+   reaching for caps or an accent colour. */
+.block > h3{
+  font-size:1.22rem;letter-spacing:-0.008em;
+  padding-top:var(--s5);border-top:1px solid var(--border-strong);
+  margin-bottom:var(--s3);
+}
+.block-intro{color:var(--ink-soft);max-width:68ch;margin:0 0 var(--s6)}
+.block > .bento,.block > .def-list{margin-top:var(--s5)}
+.block > h3 + .bento,.block > h3 + .def-list{margin-top:var(--s6)}
+.tile h4{font-size:1.02rem;line-height:1.32}
+
+/* ---- definition list ----
+   Three peer items with a term and a gloss are a list, not three cards. Term
+   column left, gloss right, hairlines doing the separating. */
+.def-list{margin:0}
+.def-list > div{
+  padding:var(--s5) 0;border-top:1px solid var(--border);
+  display:grid;gap:var(--s2);
+}
+.def-list > div:last-child{border-bottom:1px solid var(--border)}
+@media (min-width:760px){
+  .def-list > div{grid-template-columns:minmax(0,15rem) minmax(0,1fr);gap:var(--s7);align-items:start}
+}
+.def-list dt{font-weight:600;color:var(--ink);letter-spacing:-0.004em}
+.def-list dd{margin:0;color:var(--ink-soft);max-width:70ch}
+
+/* Instrument Serif sets narrow, so 12ch clipped the two-word headings that
+   used to fit. Measured against the real headings, not a guess. */
+.lede-grid{gap:var(--s7)}
+.lede-grid h2{max-width:16ch}
+@media (min-width:900px){.lede-grid{gap:var(--s8)}}

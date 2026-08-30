@@ -48,7 +48,7 @@ class BarChart {
     const plotH = cssH - pad.top - pad.bottom;
     const max = this.maxValue || Math.ceil((Math.max(...this.data.map(d => d.value + (d.range || 0))) + 4) / 5) * 5;
 
-    ctx.font = '11px "Public Sans",sans-serif';
+    ctx.font = '11px "Schibsted Grotesk",system-ui,sans-serif';
     ctx.strokeStyle = 'rgba(15,34,49,.14)';
     ctx.fillStyle = '#6b6b6b';
     ctx.lineWidth = 1;
@@ -92,11 +92,11 @@ class BarChart {
 
       ctx.fillStyle = '#ffffff';
       ctx.textAlign = 'center';
-      ctx.font = '600 12px "Public Sans",sans-serif';
+      ctx.font = '600 12px "Schibsted Grotesk",system-ui,sans-serif';
       ctx.fillText(d.value + this.unit, cx, y + 16);
 
       ctx.fillStyle = '#4a4a4a';
-      ctx.font = '11px "Public Sans",sans-serif';
+      ctx.font = '11px "Schibsted Grotesk",system-ui,sans-serif';
       wrapLabel(ctx, d.label, cx, pad.top + plotH + 16, slot - 6, 12);
     });
   }
@@ -137,7 +137,7 @@ class DonutChart {
       const lx = cx + Math.cos(mid) * (rOuter + rInner) / 2;
       const ly = cy + Math.sin(mid) * (rOuter + rInner) / 2;
       ctx.fillStyle = '#ffffff';
-      ctx.font = '600 13px "Public Sans",sans-serif';
+      ctx.font = '600 13px "Schibsted Grotesk",system-ui,sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText(Math.round(d.value) + '%', lx, ly);
@@ -151,7 +151,7 @@ class DonutChart {
     ctx.fill();
     if (this.centerLabel) {
       ctx.fillStyle = '#222222';
-      ctx.font = '600 12px "Newsreader",serif';
+      ctx.font = '600 12px "Instrument Serif",Georgia,serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       wrapLabel(ctx, this.centerLabel, cx, cy, rInner * 1.7, 14, true);
@@ -186,7 +186,7 @@ class StackedBarChart {
     const plotH = cssH - pad.top - pad.bottom;
     const max = 100;
 
-    ctx.font = '11px "Public Sans",sans-serif';
+    ctx.font = '11px "Schibsted Grotesk",system-ui,sans-serif';
     ctx.strokeStyle = 'rgba(15,34,49,.14)';
     ctx.fillStyle = '#6b6b6b';
     for (let i = 0; i <= 5; i++) {
@@ -221,7 +221,7 @@ class StackedBarChart {
         }
         if (h > 14) {
           ctx.fillStyle = '#ffffff';
-          ctx.font = '10px "Public Sans",sans-serif';
+          ctx.font = '11px "Schibsted Grotesk",system-ui,sans-serif';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillText(seg.value + this.unit, cx, y + h / 2);
@@ -230,7 +230,7 @@ class StackedBarChart {
       });
 
       ctx.fillStyle = '#4a4a4a';
-      ctx.font = '10.5px "Public Sans",sans-serif';
+      ctx.font = '11px "Schibsted Grotesk",system-ui,sans-serif';
       wrapLabel(ctx, d.label, cx, pad.top + plotH + 16, slot - 4, 12);
     });
 
@@ -273,7 +273,7 @@ class CorrelationMatrix {
     const ctx = chartDPR(this.canvas, cssW, cssH);
     ctx.clearRect(0, 0, cssW, cssH);
 
-    ctx.font = '600 11px "Public Sans",sans-serif';
+    ctx.font = '600 11px "Schibsted Grotesk",system-ui,sans-serif';
     ctx.fillStyle = '#4a4a4a';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
@@ -285,7 +285,7 @@ class CorrelationMatrix {
     for (let row = 0; row < n; row++) {
       const y = statsRowH + 30 + cell * row;
       ctx.fillStyle = '#222222';
-      ctx.font = '600 12px "Public Sans",sans-serif';
+      ctx.font = '600 12px "Schibsted Grotesk",system-ui,sans-serif';
       ctx.textAlign = 'left';
       ctx.textBaseline = 'middle';
       ctx.fillText(this.classes[row], 4, y + cell / 2);
@@ -297,7 +297,7 @@ class CorrelationMatrix {
         ctx.fillStyle = this.cellColor(v);
         ctx.fillRect(x, y, cell - 2, cell - 2);
         ctx.fillStyle = v > 0.6 ? '#ffffff' : '#222222';
-        ctx.font = '600 12px "Public Sans",sans-serif';
+        ctx.font = '600 12px "Schibsted Grotesk",system-ui,sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(v.toFixed(2), x + cell / 2, y + cell / 2);
@@ -305,13 +305,13 @@ class CorrelationMatrix {
     }
 
     if (this.stats) {
-      ctx.font = '10px "Public Sans",sans-serif';
+      ctx.font = '11px "Schibsted Grotesk",system-ui,sans-serif';
       ctx.fillStyle = '#6b6b6b';
       ctx.textAlign = 'left';
       ctx.fillText('Expected return / standard deviation:', 4, statsRowH - 24);
       this.stats.forEach((s, i) => {
         ctx.fillStyle = '#222222';
-        ctx.font = '600 11px "Public Sans",sans-serif';
+        ctx.font = '600 11px "Schibsted Grotesk",system-ui,sans-serif';
         ctx.textAlign = 'center';
         ctx.fillText(`${s.ret}% / ${s.risk}%`, labelCol + cell * i + cell / 2, statsRowH - 6);
       });
@@ -359,22 +359,22 @@ class BubbleChart {
       ctx.globalAlpha = 1;
 
       ctx.fillStyle = '#ffffff';
-      ctx.font = '600 12px "Public Sans",sans-serif';
+      ctx.font = '600 12px "Schibsted Grotesk",system-ui,sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       const valLabel = d.value >= 1 ? d.value.toFixed(2) + 'T' : Math.round(d.value * 1000) + 'B';
       ctx.fillText(valLabel, cx, cy - (r > 26 ? 6 : 0));
       if (r > 26) {
-        ctx.font = '10px "Public Sans",sans-serif';
+        ctx.font = '11px "Schibsted Grotesk",system-ui,sans-serif';
         ctx.fillText('USD GDP', cx, cy + 10);
       }
 
       ctx.fillStyle = '#222222';
-      ctx.font = '600 11px "Public Sans",sans-serif';
+      ctx.font = '600 11px "Schibsted Grotesk",system-ui,sans-serif';
       wrapLabel(ctx, d.label, cx, cy + r + 14, slotW - 8, 12);
       if (d.sub) {
         ctx.fillStyle = '#6b6b6b';
-        ctx.font = '10px "Public Sans",sans-serif';
+        ctx.font = '11px "Schibsted Grotesk",system-ui,sans-serif';
         wrapLabel(ctx, d.sub, cx, cy + r + 14 + 13, slotW - 8, 11);
       }
     });

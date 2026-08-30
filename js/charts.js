@@ -1,6 +1,10 @@
 /* Player Fund Inc - reusable canvas chart classes (brand palette, no dependencies) */
 
-const CHART_PALETTE = ['#1d363e', '#2e5560', '#3e7383', '#7fa3ae', '#b9cdd2'];
+// Categorical series, so the ramp runs across hue rather than down one column of
+// blue - five steps of the same teal made neighbouring slices unreadable without
+// the legend. Ember carries the lead series; the rest are cold, so the eye lands
+// on the one that matters. Mirrors --navy-deep/--ember/--navy/--ember-bright/--glacier.
+const CHART_PALETTE = ['#0f2231', '#b04a26', '#16344a', '#d9683a', '#a8c0ce'];
 
 function chartDPR(canvas, cssW, cssH) {
   const dpr = window.devicePixelRatio || 1;
@@ -45,7 +49,7 @@ class BarChart {
     const max = this.maxValue || Math.ceil((Math.max(...this.data.map(d => d.value + (d.range || 0))) + 4) / 5) * 5;
 
     ctx.font = '11px "Public Sans",sans-serif';
-    ctx.strokeStyle = 'rgba(29,54,62,.14)';
+    ctx.strokeStyle = 'rgba(15,34,49,.14)';
     ctx.fillStyle = '#6b6b6b';
     ctx.lineWidth = 1;
     const steps = 5;
@@ -183,7 +187,7 @@ class StackedBarChart {
     const max = 100;
 
     ctx.font = '11px "Public Sans",sans-serif';
-    ctx.strokeStyle = 'rgba(29,54,62,.14)';
+    ctx.strokeStyle = 'rgba(15,34,49,.14)';
     ctx.fillStyle = '#6b6b6b';
     for (let i = 0; i <= 5; i++) {
       const y = pad.top + plotH - (plotH * i) / 5;

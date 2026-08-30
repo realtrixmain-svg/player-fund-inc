@@ -1,16 +1,26 @@
-/* Player Fund Inc - design tokens (brand guidelines: Blue Dianne family, Dark Grey, White) */
+/* Player Fund Inc - design tokens.
+   Alpenglow: cold glacial neutrals carrying one warm accent, the way low sun
+   lands on a snowfield. The previous palette was five steps of a single
+   blue-teal, which is why it read flat - warm/cold contrast is what gives the
+   page somewhere to look. Ember is the only accent; nothing else competes.
+   Contrast, measured not eyeballed: every text token clears 4.5:1 on all three
+   light surfaces (paper, canvas, glacier), and --ember-bright clears it on
+   --summit. The two tightest pairs are --ember on --glacier at 4.53:1 and
+   --ink-faint on --glacier at 4.51:1 - re-run the math before lightening
+   either, or before adding a fourth surface. */
 :root{
   --paper:#ffffff;
-  --canvas:#eef2f3;
-  --ink:#222222;
-  --ink-soft:#4a4a4a;
-  --ink-faint:#6b6b6b;
-  --navy:#2e5560;
-  --navy-deep:#1d363e;
-  --gold:#3e7383;
-  --gold-soft:#7fa3ae;
-  --border:rgba(29,54,62,.14);
-  --border-strong:rgba(29,54,62,.24);
+  --canvas:#eff3f6;    /* cool ice, the alternating band */
+  --glacier:#dbe6ec;   /* pale ice fill: highlights, chart tracks, quiet blocks */
+  --ink:#131a21;
+  --ink-soft:#41505c;
+  --ink-faint:#5a6875;
+  --navy:#16344a;      /* glacial navy: primary buttons, solid blocks */
+  --navy-deep:#0f2231; /* summit navy: full-bleed dark blocks */
+  --ember:#ac4622;         /* accent on light surfaces */
+  --ember-bright:#d9683a;  /* accent on dark surfaces only - fails AA on white */
+  --border:rgba(15,34,49,.14);
+  --border-strong:rgba(15,34,49,.26);
   --max:1180px;
   --font-display:'Newsreader',serif;
   --font-body:'Public Sans',sans-serif;
@@ -62,7 +72,7 @@ p{margin:0 0 1em}
   padding:20px 24px;margin-bottom:40px;
 }
 .legal-content .summary p{margin:0;color:var(--ink)}
-.legal-content .placeholder{color:var(--gold);font-weight:600}
+.legal-content .placeholder{color:var(--ember);font-weight:600}
 @media (max-width:640px){.wrap{padding:0 20px}}
 
 section{padding:112px 0;scroll-margin-top:88px}
@@ -90,7 +100,7 @@ section{padding:112px 0;scroll-margin-top:88px}
 .nav-links{display:flex;gap:36px;list-style:none;margin:0;padding:0;font-size:.95rem}
 .nav-links a{text-decoration:none;color:var(--ink-soft);position:relative;padding:4px 0}
 .nav-links a::after{
-  content:'';position:absolute;left:0;right:100%;bottom:0;height:1px;background:var(--gold);
+  content:'';position:absolute;left:0;right:100%;bottom:0;height:1px;background:var(--ember);
   transition:right .28s ease;
 }
 .nav-links a:hover::after,.nav-links a[aria-current="page"]::after{right:0}
@@ -204,12 +214,12 @@ section{padding:112px 0;scroll-margin-top:88px}
   content:'';position:absolute;top:0;bottom:0;
 }
 .motif::before{left:0;right:38%;background:var(--navy);clip-path:polygon(0 0,100% 0,calc(100% - 24px) 100%,0 100%);}
-.motif::after{left:62%;right:0;background:var(--gold);clip-path:polygon(24px 0,100% 0,100% 100%,0 100%);}
+.motif::after{left:62%;right:0;background:var(--ember);clip-path:polygon(24px 0,100% 0,100% 100%,0 100%);}
 
 /* ---- pull quote / text break ---- */
 .text-break{position:relative;padding:150px 0}
 .text-break .bg{position:absolute;inset:0;object-fit:cover;width:100%;height:100%}
-.text-break .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,34,41,.7),rgba(15,34,41,.82))}
+.text-break .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,34,49,.62),rgba(15,34,49,.86))}
 .text-break.no-bg{background:var(--navy-deep)}
 .text-break .wrap{position:relative;z-index:1;color:#fff;text-align:center}
 .text-break blockquote{
@@ -232,7 +242,7 @@ section{padding:112px 0;scroll-margin-top:88px}
 .principles{display:grid;gap:48px}
 @media (min-width:760px){.principles{grid-template-columns:repeat(2,1fr)}}
 .principle{border-top:1px solid var(--border-strong);padding-top:22px}
-.principle .num{font-family:var(--font-display);color:var(--gold);font-size:.95rem;letter-spacing:.05em}
+.principle .num{font-family:var(--font-display);color:var(--ember);font-size:.95rem;letter-spacing:.05em}
 .principle h3{margin-top:.4em}
 
 /* ---- lede band (asymmetric) ---- */
@@ -268,7 +278,7 @@ section{padding:112px 0;scroll-margin-top:88px}
 /* ---- fund summary (fact-sheet) layout ---- */
 .fund-header{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:16px;padding-bottom:22px;border-bottom:1px solid var(--border-strong);margin-bottom:26px}
 @media (max-width:560px){.fund-header{flex-direction:column;align-items:flex-start}}
-.fund-header .fund-tag{display:block;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.fund-header .fund-tag{display:block;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ember);margin-bottom:6px}
 .fund-header h1,.fund-header h2{margin-bottom:4px}
 .fund-header .fund-compartments{display:flex;flex-wrap:wrap;align-items:flex-start;gap:8px;max-width:520px}
 .fund-pill{border:1px solid var(--border-strong);border-radius:2px}
@@ -330,7 +340,7 @@ section{padding:112px 0;scroll-margin-top:88px}
 .market-list li:last-child{border-bottom:1px solid rgba(255,255,255,.16)}
 .market-list h3{
   margin:0;font-family:var(--font-display);font-weight:500;font-size:1.15rem;
-  letter-spacing:-.01em;color:var(--gold-soft);
+  letter-spacing:-.01em;color:var(--ember-bright);
 }
 .market-list p{margin:.7em 0 0;color:rgba(255,255,255,.7);font-size:.95rem}
 
@@ -343,7 +353,7 @@ section{padding:112px 0;scroll-margin-top:88px}
 /* ---- archival framed photo ---- */
 .framed{
   position:relative;padding:14px;background:var(--paper);
-  border:1px solid var(--border);box-shadow:0 24px 48px -32px rgba(15,34,41,.32);
+  border:1px solid var(--border);box-shadow:0 24px 48px -32px rgba(15,34,49,.32);
   max-width:280px;
 }
 .framed img{filter:sepia(.18) contrast(1.04)}
@@ -368,7 +378,7 @@ section{padding:112px 0;scroll-margin-top:88px}
 .page-hero .lede{color:rgba(255,255,255,.8);max-width:52ch}
 .page-hero-img{position:absolute;inset:0;opacity:.28}
 .page-hero-img img{width:100%;height:100%;object-fit:cover}
-.page-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,45,54,.4),var(--navy-deep) 92%)}
+.page-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(22,52,74,.35),var(--navy-deep) 92%)}
 
 /* ---- form ---- */
 .contact-grid{display:grid;gap:72px}
@@ -425,7 +435,7 @@ footer a:hover{color:#fff}
 
 .footer-social{display:flex;gap:18px;margin-top:24px}
 .footer-social a{display:flex;color:rgba(255,255,255,.6);transition:color .3s ease;padding:10px;margin:-10px}
-.footer-social a:hover{color:var(--gold-soft)}
+.footer-social a:hover{color:var(--ember-bright)}
 .footer-social svg{width:20px;height:20px;fill:currentColor}
 
 .footer-base{
@@ -462,3 +472,212 @@ dialog#terms-modal::backdrop{background:rgba(22,48,58,.55)}
 .modal-body p{color:var(--ink-soft);margin-bottom:0}
 .modal-close{margin-top:26px}
 .skip-link:focus{top:12px}
+
+/* ---- browser surfaces ----
+   The parts we did not draw still ship with somebody else's design. Theming
+   them from the palette is what stops the page reading as assembled. */
+::selection{background:var(--ember);color:#fff}
+html{scrollbar-color:var(--ink-faint) var(--canvas)}
+::-webkit-scrollbar{width:12px;height:12px}
+::-webkit-scrollbar-track{background:var(--canvas)}
+::-webkit-scrollbar-thumb{background:var(--ink-faint);border:3px solid var(--canvas);border-radius:999px}
+::-webkit-scrollbar-thumb:hover{background:var(--ink-soft)}
+:root{accent-color:var(--navy);caret-color:var(--ember)}
+:focus-visible{outline:2px solid var(--ember);outline-offset:3px;border-radius:2px}
+.hero :focus-visible,.text-break :focus-visible,.market :focus-visible,
+.page-hero :focus-visible,.banner :focus-visible{outline-color:var(--ember-bright)}
+/* figures in a column of currency should line up; browser default is proportional */
+.data-table td,.stat-tile .stat-value,.fact-list .fact-value{font-variant-numeric:tabular-nums}
+
+/* ---- highlight ----
+   One phrase per section, never two. The ice fill is the quiet form; ember is
+   reserved for the single line on a page that carries the actual argument.
+   box-decoration-break keeps the fill intact when the phrase wraps. */
+.hl{
+  background-image:linear-gradient(to top,var(--glacier) 0 .68em,transparent .68em);
+  box-decoration-break:clone;-webkit-box-decoration-break:clone;
+  padding:0 .14em;
+}
+.hl-ember{background-image:linear-gradient(to top,rgba(172,70,34,.18) 0 .68em,transparent .68em)}
+.hl-dark{background-image:linear-gradient(to top,rgba(217,104,58,.30) 0 .68em,transparent .68em)}
+
+/* ---- colour blocks ---- */
+.band-glacier{background:var(--glacier)}
+.band-summit{background:var(--navy-deep);color:#fff}
+.band-summit h2,.band-summit h3{color:#fff}
+.band-summit .lede,.band-summit p{color:rgba(255,255,255,.78)}
+/* solid ember slab: used once per page at most, for the line that must land */
+.block-accent{
+  background:var(--ember);color:#fff;padding:44px 40px;
+  border-radius:4px;max-width:34ch;
+}
+.block-accent p{margin:0;font-family:var(--font-display);font-size:1.45rem;line-height:1.3}
+@media (max-width:640px){.block-accent{padding:32px 26px}.block-accent p{font-size:1.2rem}}
+
+/* the mountain bands run taller than the architecture ones and sit the quote
+   lower, so the peak line stays visible above the text */
+.text-break.peak{padding:210px 0 130px}
+.text-break.peak .scrim{background:linear-gradient(180deg,rgba(15,34,49,.30) 0%,rgba(15,34,49,.55) 45%,rgba(15,34,49,.88) 100%)}
+@media (max-width:760px){.text-break.peak{padding:150px 0 96px}}
+.photo-credit{
+  position:absolute;right:16px;bottom:10px;z-index:2;
+  font-size:.66rem;color:rgba(255,255,255,.5);letter-spacing:.02em;
+}
+.photo-credit a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+.photo-credit a:hover{color:rgba(255,255,255,.85)}
+
+/* ============================================================================
+   Depth pass: background colour blocks, additive highlight, disclosures.
+   The palette does not change here - Alpenglow tokens only. What changes is
+   that surfaces stop being flat fills: each band carries two low-alpha
+   geometric slabs cut on the same 24px diagonal as .motif, so the page reads
+   as composed planes. Every slab sits at <=.07 alpha behind content, which
+   leaves the contrast table at the top of this file intact.
+   ========================================================================= */
+
+.band-paper,.band-canvas,.band-glacier{position:relative;overflow:hidden;isolation:isolate}
+.band-paper > *,.band-canvas > *,.band-glacier > *{position:relative;z-index:1}
+
+/* upper-right navy slab, sheared bottom edge */
+.band-paper::before,.band-canvas::before,.band-glacier::before{
+  content:'';position:absolute;z-index:0;pointer-events:none;
+  top:-10%;right:-8%;width:min(48vw,660px);aspect-ratio:1;
+  background:var(--navy);opacity:.06;
+  clip-path:polygon(0 0,100% 0,100% 74%,0 100%);
+}
+/* lower-left ember slab, sheared top edge, mirrored so the two lean apart */
+.band-paper::after,.band-canvas::after,.band-glacier::after{
+  content:'';position:absolute;z-index:0;pointer-events:none;
+  bottom:-12%;left:-6%;width:min(36vw,440px);aspect-ratio:3/4;
+  background:var(--ember);opacity:.07;
+  clip-path:polygon(0 0,100% 20%,100% 100%,0 100%);
+}
+/* glacier is already a tinted surface, so its slabs run quieter */
+.band-glacier::before{opacity:.045}
+.band-glacier::after{opacity:.05}
+@media (max-width:760px){
+  .band-paper::before,.band-canvas::before,.band-glacier::before{width:70vw}
+  .band-paper::after,.band-canvas::after,.band-glacier::after{width:54vw}
+}
+
+/* dark bands get the same geometry as an additive wash rather than a fill,
+   because opacity on near-black reads as nothing */
+.market::before,.band-summit::before{
+  content:'';position:absolute;z-index:0;pointer-events:none;
+  top:-14%;right:-10%;width:min(52vw,700px);aspect-ratio:1;
+  background:radial-gradient(circle at 60% 40%,rgba(217,104,58,.34),transparent 68%);
+  mix-blend-mode:plus-lighter;
+}
+/* isolation is load-bearing, not decoration: without a stacking context here
+   the plus-lighter wash composites against the whole document backdrop and
+   saturates every page below it to white. Keep it on any element that owns
+   a blended pseudo-element. */
+.market,.band-summit{position:relative;isolation:isolate}
+.market > *,.band-summit > *{position:relative;z-index:1}
+.band-summit{position:relative;overflow:hidden}
+
+/* ---- additive highlight ----
+   .hl and .hl-ember paint a flat swatch, which is right on paper and wrong
+   over a video or a photograph. .hl-add composites with plus-lighter instead,
+   so the fill ADDS light to whatever is behind it and the underlying image
+   still shows through. Text is never blended - only the underlay is. */
+.hl-add{
+  background-image:linear-gradient(to top,rgba(217,104,58,.52) 0 .68em,rgba(232,152,98,.16) .68em .72em,transparent .72em);
+  background-repeat:no-repeat;background-size:100% 100%;
+  box-decoration-break:clone;-webkit-box-decoration-break:clone;
+  padding:0 .14em;
+}
+/* inside a reveal the fill wipes in behind the phrase after the block settles */
+.reveal .hl-add{background-size:0 100%;transition:background-size .85s cubic-bezier(.22,1,.36,1) .28s}
+.reveal.is-visible .hl-add{background-size:100% 100%}
+
+/* ---- hero: additive ember over the plate, scrim still on top ----
+   Stacking is explicit so the scrim always wins the contrast argument:
+   video 0, glow 1, scrim 2, copy 3. */
+.hero{isolation:isolate}
+.hero video,.hero .hero-poster{z-index:0}
+.hero::before{
+  content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(66% 56% at 82% 76%,rgba(217,104,58,.40),transparent 66%);
+  mix-blend-mode:plus-lighter;
+}
+.hero::after{
+  z-index:2;
+  background:
+    linear-gradient(100deg,rgba(9,22,30,.80) 0%,rgba(9,22,30,.52) 42%,rgba(9,22,30,.14) 72%),
+    linear-gradient(180deg,rgba(9,22,30,.46) 0%,rgba(9,22,30,.30) 38%,rgba(9,22,30,.88) 100%);
+}
+.hero-content{z-index:3}
+
+/* ---- disclosures ----
+   Same mental model as .fund-pill but sized for long-form governance copy.
+   Open/close animates natively where ::details-content is supported and cuts
+   cleanly where it is not - no JS either way. */
+.disclosure-set{display:grid;gap:12px}
+.disclosure{
+  border:1px solid var(--border-strong);border-radius:4px;background:var(--paper);
+  transition:border-color .35s ease,box-shadow .35s ease;
+}
+.disclosure:hover{border-color:var(--ember);box-shadow:0 8px 28px -14px rgba(15,34,49,.45)}
+.disclosure[open]{border-color:var(--ember)}
+.disclosure > summary{
+  position:relative;list-style:none;cursor:pointer;
+  display:flex;align-items:center;gap:16px;padding:18px 22px 18px 26px;
+  font-family:var(--font-display);font-size:1.05rem;font-weight:600;color:var(--ink);
+}
+.disclosure > summary::-webkit-details-marker{display:none}
+.disclosure > summary::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--ember);
+  transform:scaleY(0);transition:transform .4s cubic-bezier(.22,1,.36,1);
+}
+.disclosure[open] > summary::before,.disclosure:hover > summary::before{transform:scaleY(1)}
+.disclosure > summary::after{
+  content:'';flex:none;margin-left:auto;width:9px;height:9px;
+  border-right:1.6px solid var(--ink-faint);border-bottom:1.6px solid var(--ink-faint);
+  transform:translateY(-2px) rotate(45deg);
+  transition:transform .4s cubic-bezier(.22,1,.36,1),border-color .3s ease;
+}
+.disclosure[open] > summary::after{transform:translateY(2px) rotate(225deg);border-color:var(--ember)}
+.disclosure-body{padding:0 22px 20px 26px}
+.disclosure-body > *:first-child{margin-top:0}
+.disclosure-body ul{margin:0;padding-left:20px}
+.disclosure-body li{margin-bottom:10px;color:var(--ink-soft);font-size:.95rem;line-height:1.6}
+.disclosure-body li:last-child{margin-bottom:0}
+.disclosure-body li strong{color:var(--ink)}
+@supports (interpolate-size:allow-keywords){
+  :root{interpolate-size:allow-keywords}
+  .disclosure::details-content{
+    block-size:0;overflow:hidden;opacity:0;
+    transition:block-size .45s cubic-bezier(.22,1,.36,1),
+               content-visibility .45s allow-discrete,
+               opacity .3s ease;
+  }
+  .disclosure[open]::details-content{block-size:auto;opacity:1}
+}
+/* the BDC disclosure sits inside a .principle, so it needs its own top gap */
+.principle .disclosure{margin-top:18px}
+
+/* ---- motion on the standing components ---- */
+.reveal{transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+.chart-card{transition:border-color .4s ease,box-shadow .4s ease,transform .4s cubic-bezier(.22,1,.36,1)}
+.chart-card:hover{border-color:var(--border-strong);box-shadow:0 18px 44px -28px rgba(15,34,49,.55);transform:translateY(-3px)}
+.principle{position:relative;transition:border-color .4s ease}
+.principle::before{
+  content:'';position:absolute;top:-1px;left:0;width:100%;height:1px;background:var(--ember);
+  transform:scaleX(0);transform-origin:left;transition:transform .8s cubic-bezier(.22,1,.36,1) .15s;
+}
+.principle.is-visible::before{transform:scaleX(1)}
+.split-media img{transition:transform 1.2s cubic-bezier(.22,1,.36,1)}
+.split-media{overflow:hidden}
+.split-media:hover img{transform:scale(1.035)}
+
+@media (prefers-reduced-motion:reduce){
+  .reveal,.chart-card,.split-media img,.disclosure,
+  .disclosure > summary::before,.disclosure > summary::after{transition:none}
+  .reveal .hl-add::before,.principle::before{transform:none;transition:none}
+  .split-media:hover img,.chart-card:hover{transform:none}
+  .disclosure::details-content{transition:none}
+}
+
+/* hero credit sits above the scrim and the copy layer */
+.hero .photo-credit{z-index:4}

@@ -1,4 +1,4 @@
-/* Player Fund Inc - chart instances for strategies.html, data sourced from the RAIF investor deck */
+/* Player Fund Inc - chart instances for strategies.html, data sourced from the fund investor deck */
 document.addEventListener('DOMContentLoaded', () => {
   const aumCanvas = document.getElementById('chart-aum-allocation');
   if (aumCanvas) {
@@ -20,10 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
       centerLabel: 'Optimal Portfolio Weights',
       legendEl: document.getElementById('chart-optimal-weights-legend'),
       data: [
-        { label: 'Growth compartment — listed blue chip equities', value: 35 },
-        { label: 'Alternatives (Debt) — private credit fixed income', value: 20 },
-        { label: 'Income compartment — AAA–BB fixed income & yield equities', value: 15 },
-        { label: 'Alternatives (Private Equity) — hedge fund', value: 10 },
+        { label: 'Growth compartment - listed blue chip equities', value: 35 },
+        { label: 'Alternatives (Debt) - private credit fixed income', value: 20 },
+        { label: 'Income compartment - AAA-BB fixed income & yield equities', value: 15 },
+        { label: 'Alternatives (Private Equity) - hedge fund', value: 10 },
         { label: 'Listed private equity/debt (real estate)', value: 20 }
       ]
     });

@@ -1,7 +1,11 @@
 .portal-main{padding:64px 0 96px}
 .portal-wrap{max-width:460px}
-.portal-wrap-wide{max-width:720px;display:grid;gap:24px}
-.portal-wrap-data{max-width:960px;display:grid;gap:24px}
+/* minmax(0,1fr), not the implicit `auto`: a grid item defaults to min-width
+   auto, so a wide child (the access-code table, min-width 480px) grows the
+   column past the container instead of scrolling inside .table-scroll, and
+   the whole page picks up a horizontal scrollbar on a phone. */
+.portal-wrap-wide{max-width:720px;display:grid;grid-template-columns:minmax(0,1fr);gap:24px}
+.portal-wrap-data{max-width:960px;display:grid;grid-template-columns:minmax(0,1fr);gap:24px}
 .portal-card h3{margin:24px 0 10px;font-size:1.05rem}
 .portal-card ul{margin:0 0 16px;padding-left:20px}
 .portal-card ul li{margin-bottom:8px}

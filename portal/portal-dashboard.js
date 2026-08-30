@@ -11,12 +11,16 @@ if (!session) {
 } else {
   const { data: profile } = await supabase
     .from('profiles')
-    .select('full_name')
+    .select('full_name, is_admin')
     .eq('id', session.user.id)
     .single();
 
   const name = profile?.full_name || session.user.email;
   greeting.textContent = `Welcome, ${name}`;
+
+  // Cosmetic only: access_codes is revoked from anon and authenticated, so the
+  // page behind this link is useless without is_admin on the server side too.
+  if (profile?.is_admin) document.getElementById('admin-card').hidden = false;
 
   // RLS already restricts a client to their own site, so this filter changes
   // nothing for them. It matters for an admin, who can see all three sites'

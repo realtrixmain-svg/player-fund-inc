@@ -38,3 +38,53 @@
 }
 .doc-item strong{display:block;color:var(--ink)}
 .doc-item .form-note{margin:4px 0 0}
+
+/* ---- access codes (admin) ----
+   Reuses .field from the public stylesheet. select and date inputs have no
+   placeholder for :not(:placeholder-shown) to hang on, so their label sits in
+   the raised position permanently instead of floating on focus. */
+.field-select select,.field-filled input{
+  width:100%;font-family:var(--font-body);font-size:1.02rem;color:var(--ink);
+  padding:24px 2px 10px;border:0;border-bottom:1.5px solid var(--border-strong);
+  border-radius:0;background:transparent;appearance:none;
+}
+.field-select select:focus,.field-filled input:focus{outline:none;border-color:var(--ink)}
+.field-select > label,.field-filled > label{
+  top:2px;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--navy);
+}
+.field-select::before{
+  content:'';position:absolute;right:8px;bottom:20px;pointer-events:none;
+  width:8px;height:8px;
+  border-right:1.5px solid var(--ink-faint);border-bottom:1.5px solid var(--ink-faint);
+  transform:rotate(45deg);
+}
+
+.code-form .form-row{margin-bottom:28px}
+.code-form .field{margin-bottom:28px}
+.code-form .form-row .field{margin-bottom:0}
+.code-form .form-note{margin-bottom:24px}
+.code-form #issue-status:empty{display:none}
+
+/* A code is transcribed by hand off an email, so monospace here is doing the
+   job monospace is for: unambiguous character-by-character reading. */
+.code-result{
+  margin-top:32px;padding:24px;border-radius:3px;
+  background:var(--glacier);
+}
+.code-result-label{margin:0 0 12px;font-size:.9rem;color:var(--ink-soft)}
+.code-result-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.code-result code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:1.45rem;letter-spacing:.08em;color:var(--ink);
+  user-select:all; /* one click selects the whole code */
+}
+@media (max-width:520px){.code-result code{font-size:1.15rem}}
+
+.code-cell{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:.92rem;letter-spacing:.04em;user-select:all;
+}
+.code-lock{display:block;margin-top:2px}
+.code-spent{color:var(--ink-faint)}
+.btn-small{padding:8px 16px;font-size:.72rem}
+#codes-table td{vertical-align:top}

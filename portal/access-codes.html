@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Access Codes - Player Fund Inc</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="../assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="portal.css">
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><img class="brand-logo" src="../assets/logo.svg" alt="Player Fund Inc"></a>
+    <button type="button" class="btn btn-ghost" id="sign-out"><span>Sign out</span></button>
+  </div>
+</header>
+
+<main id="main" class="portal-main">
+  <div class="wrap portal-wrap portal-wrap-wide" id="page" hidden>
+
+    <section class="portal-card">
+      <h1>Access codes</h1>
+      <p class="lede">Nobody can open a client account without one. Issue a code, send it to the person, and it works once.</p>
+      <a class="text-link" href="dashboard.html">Back to dashboard</a>
+    </section>
+
+    <section class="portal-card">
+      <h2>Issue a code</h2>
+      <form id="issue-form" class="code-form" autocomplete="off">
+        <div class="form-row two">
+          <div class="field">
+            <input type="text" id="label" name="label" placeholder=" " autocomplete="off">
+            <label for="label">Who is this for?</label>
+          </div>
+          <div class="field field-select">
+            <select id="site" name="site">
+              <option value="player-fund">Player Fund</option>
+              <option value="hamilton-pe">Hamilton PE</option>
+              <option value="hamilton-portfolio">Hamilton Portfolio</option>
+            </select>
+            <label for="site">Which portal</label>
+          </div>
+        </div>
+        <div class="form-row two">
+          <div class="field">
+            <input type="email" id="email" name="email" placeholder=" " autocomplete="off">
+            <label for="email">Lock to one email address (optional)</label>
+          </div>
+          <div class="field field-filled">
+            <input type="date" id="expires" name="expires">
+            <label for="expires">Expires (optional)</label>
+          </div>
+        </div>
+        <div class="field">
+          <input type="text" id="code" name="code" placeholder=" " autocomplete="off" spellcheck="false">
+          <label for="code">Your own code (optional, leave blank to generate one)</label>
+        </div>
+        <p class="form-note">The portal decides which documents someone sees from the code they used, not from the page they signed up on.</p>
+        <button type="submit" class="btn btn-primary" id="issue-btn"><span>Issue code</span></button>
+        <p class="form-note" id="issue-status" role="status" aria-live="polite"></p>
+      </form>
+
+      <div class="code-result" id="code-result" hidden>
+        <p class="code-result-label">Send this to <span id="result-who">them</span></p>
+        <div class="code-result-row">
+          <code id="result-code"></code>
+          <button type="button" class="btn btn-ghost" id="copy-btn"><span>Copy</span></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="portal-card">
+      <h2>Issued codes</h2>
+      <div class="table-scroll">
+        <table class="data-table text-table" id="codes-table">
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Portal</th>
+              <th>Issued to</th>
+              <th>Status</th>
+              <th><span class="sr-only">Actions</span></th>
+            </tr>
+          </thead>
+          <tbody id="codes-body">
+            <tr><td colspan="5" class="form-note">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="wrap portal-wrap" id="denied" hidden>
+    <section class="portal-card">
+      <h1>Not available</h1>
+      <p class="lede">This page is for administrators. <a class="text-link" href="dashboard.html">Back to your dashboard</a></p>
+    </section>
+  </div>
+</main>
+
+<script type="module" src="access-codes.js"></script>
+</body>
+</html>

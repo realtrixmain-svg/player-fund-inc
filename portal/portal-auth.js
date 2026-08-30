@@ -16,13 +16,23 @@ form.addEventListener('submit', async (e) => {
   const password = document.getElementById('password').value;
   submitBtn.disabled = true;
 
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
   if (error) {
     status.textContent = error.message.includes('Email not confirmed')
       ? 'Please verify your email first, check your inbox for the confirmation link.'
       : error.message;
   } else {
-    window.location.href = 'dashboard.html';
+    // An administrator's password gets them a client session and nothing more:
+    // every admin capability is gated on a code emailed to them, redeemed on
+    // admin-verify.html. Send them straight there. The redirect is a
+    // convenience - if it is skipped, the admin pages and the RLS policies
+    // behind them still refuse until that code is redeemed.
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('is_admin')
+      .eq('id', data.user.id)
+      .single();
+    window.location.href = profile?.is_admin ? 'admin-verify.html' : 'dashboard.html';
   }
   submitBtn.disabled = false;
 });

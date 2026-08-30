@@ -17,7 +17,13 @@ const supabaseAdmin = createClient(
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'content-type, authorization',
+  // supabase-js functions.invoke() sends apikey and x-client-info alongside
+  // authorization, and a preflight that does not name every one of them makes
+  // the browser drop the real request before it is sent - surfacing as the
+  // opaque "Failed to send a request to the Edge Function". The signup
+  // functions get away with a shorter list only because portal-signup.js calls
+  // them with a bare fetch() instead of invoke().
+  'Access-Control-Allow-Headers': 'content-type, authorization, apikey, x-client-info',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
 };
 
@@ -72,6 +78,33 @@ Deno.serve(async (req) => {
 
   if (!profile?.is_admin) {
     return json({ error: 'Administrator access required.' }, 403);
+  }
+
+  // is_admin alone is not enough: the account also has to have redeemed the
+  // emailed code from supabase/functions/admin-verify, in THIS browser session.
+  // Same gate as public.is_verified_admin() enforces in RLS - repeated here
+  // because this function runs on the service-role key, which bypasses RLS.
+  // Matching session_id is what stops a second sign-in on the same account
+  // riding along on the elevation the real admin redeemed in their own browser.
+  let sessionId: string | null = null;
+  try {
+    sessionId = JSON.parse(
+      atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')),
+    ).session_id ?? null;
+  } catch { /* treated as unverified below */ }
+
+  const { data: stepUp } = await supabaseAdmin
+    .from('admin_sessions')
+    .select('expires_at, session_id')
+    .eq('user_id', userData.user.id)
+    .maybeSingle();
+
+  if (
+    !sessionId || !stepUp ||
+    stepUp.session_id !== sessionId ||
+    new Date(stepUp.expires_at) < new Date()
+  ) {
+    return json({ error: 'Verify your email to continue.', step_up_required: true }, 403);
   }
 
   const { action, code, site, label, email, expires_at } = await req.json().catch(() => ({}));

@@ -1,7 +1,6 @@
-import { supabase } from './supabase-client.js';
+import { requireVerifiedAdmin, callFunction, wireSignOut } from './admin-guard.js';
 
 const page = document.getElementById('page');
-const denied = document.getElementById('denied');
 const form = document.getElementById('issue-form');
 const issueBtn = document.getElementById('issue-btn');
 const status = document.getElementById('issue-status');
@@ -10,7 +9,6 @@ const resultCode = document.getElementById('result-code');
 const resultWho = document.getElementById('result-who');
 const copyBtn = document.getElementById('copy-btn');
 const tbody = document.getElementById('codes-body');
-const signOutBtn = document.getElementById('sign-out');
 
 const SITE_LABEL = {
   'player-fund': 'Player Fund',
@@ -18,36 +16,16 @@ const SITE_LABEL = {
   'hamilton-portfolio': 'Hamilton Portfolio',
 };
 
-const { data: { session } } = await supabase.auth.getSession();
-if (!session) window.location.href = 'login.html';
+const callAdmin = (body) => callFunction('admin-access-codes', body);
 
-// The real gate is the is_admin check inside the edge function; this only
-// decides which of the two panels to show, so a non-admin gets a plain message
-// instead of a table that fails to load.
-const { data: profile } = await supabase
-  .from('profiles')
-  .select('is_admin')
-  .eq('id', session.user.id)
-  .single();
+wireSignOut();
 
-if (!profile?.is_admin) {
-  denied.hidden = false;
-} else {
+// The real gate is the is_admin + step-up check inside the edge function; this
+// only decides whether to render, so a client or an unverified admin gets sent
+// somewhere useful instead of a table that fails to load.
+if (await requireVerifiedAdmin()) {
   page.hidden = false;
   loadCodes();
-}
-
-async function callAdmin(body) {
-  const { data, error } = await supabase.functions.invoke('admin-access-codes', { body });
-  if (error) {
-    // invoke() reports a non-2xx as a generic FunctionsHttpError, so read the
-    // real message out of the response body before falling back to it.
-    let message = error.message;
-    try { message = (await error.context.json()).error ?? message; } catch { /* keep fallback */ }
-    throw new Error(message);
-  }
-  if (data?.error) throw new Error(data.error);
-  return data;
 }
 
 function statusOf(c) {
@@ -183,7 +161,3 @@ copyBtn.addEventListener('click', async () => {
   }
 });
 
-signOutBtn.addEventListener('click', async () => {
-  await supabase.auth.signOut();
-  window.location.href = 'login.html';
-});

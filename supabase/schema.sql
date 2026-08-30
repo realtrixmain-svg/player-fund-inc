@@ -226,3 +226,140 @@ create policy "site_bucket_write_admin" on storage.objects
 -- legacy bucket any more - it is a rollback copy, not a live dependency. Safe to
 -- drop in the Storage UI whenever the duplicate ~24 MB is worth reclaiming.
 -- See SETUP.md step 4b.
+
+-- ---------------------------------------------------------------------------
+-- Administrator step-up verification.
+--
+-- An admin password on its own opens nothing. After signing in, an admin gets a
+-- six-digit code emailed through Resend by functions/admin-verify; redeeming it
+-- writes an admin_sessions row, and public.is_verified_admin() below is what
+-- every admin power in the system actually hangs off - cross-site document
+-- reads, every write into the per-site buckets, and the access-code API.
+--
+-- Both tables are RLS-on with no policies and no grants: only the service-role
+-- key inside functions/admin-verify can write them, so a browser holding an
+-- admin JWT cannot mint itself a session.
+create table if not exists public.admin_login_codes (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  code_hash text not null,          -- sha-256 of "<user_id>:<code>", never the code
+  attempts int not null default 0,
+  expires_at timestamptz not null,
+  created_at timestamptz not null default now()
+);
+
+-- session_id is the claim of the same name on the caller's Supabase access token,
+-- stable across token refreshes. Elevation is bound to it, not just to the user:
+-- keyed on user_id alone, a second sign-in on the same account (someone holding
+-- a stolen password) would be carried into the verified window the moment the
+-- real admin redeemed a code in their own browser, without ever receiving one.
+create table if not exists public.admin_sessions (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  session_id uuid,
+  verified_at timestamptz not null default now(),
+  expires_at timestamptz not null
+);
+alter table public.admin_sessions add column if not exists session_id uuid;
+
+alter table public.admin_login_codes enable row level security;
+alter table public.admin_sessions enable row level security;
+revoke all on public.admin_login_codes from anon, authenticated;
+revoke all on public.admin_sessions from anon, authenticated;
+
+create or replace function public.is_verified_admin()
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1
+    from public.profiles p
+    join public.admin_sessions s on s.user_id = p.id
+    where p.id = auth.uid()
+      and p.is_admin
+      and s.expires_at > now()
+      and s.session_id is not null
+      and s.session_id::text = (auth.jwt() ->> 'session_id')
+  );
+$$;
+-- A security-definer function in the public schema is exposed as an RPC and
+-- PUBLIC holds EXECUTE by default, so drop that and grant explicitly. anon is
+-- on the list on purpose: the documents SELECT policy ORs this function in, and
+-- without the grant an unauthenticated read would raise "permission denied for
+-- function" instead of the empty result that proves RLS is doing its job.
+revoke execute on function public.is_verified_admin() from public;
+grant execute on function public.is_verified_admin() to authenticated, anon, service_role;
+
+-- Re-point every admin branch at the gate. Before this, is_admin on its own was
+-- enough; now the emailed code has to have been redeemed as well.
+drop policy if exists "documents_select_own_site" on public.documents;
+drop policy if exists "documents_write_admin" on public.documents;
+
+create policy "documents_select_own_site" on public.documents
+  for select using (
+    exists (
+      select 1 from public.profiles p
+      where p.id = auth.uid() and p.site = documents.site
+    )
+    or public.is_verified_admin()
+  );
+create policy "documents_write_admin" on public.documents
+  for all using (public.is_verified_admin()) with check (public.is_verified_admin());
+
+drop policy if exists "site_bucket_read_own_site" on storage.objects;
+drop policy if exists "site_bucket_write_admin" on storage.objects;
+
+create policy "site_bucket_read_own_site" on storage.objects
+  for select using (
+    bucket_id like 'documents-%'
+    and (
+      public.is_verified_admin()
+      or exists (
+        select 1 from public.profiles p
+        where p.id = auth.uid() and bucket_id = 'documents-' || p.site
+      )
+    )
+  );
+create policy "site_bucket_write_admin" on storage.objects
+  for all using (bucket_id like 'documents-%' and public.is_verified_admin())
+  with check (bucket_id like 'documents-%' and public.is_verified_admin());
+
+-- Three more storage policies existed only in the live project and never in this
+-- file (they predate it - same intent, different names). RLS policies are
+-- permissive and OR together, so leaving them on plain is_admin would have given
+-- an admin who had not redeemed their emailed code full read/write on every
+-- bucket anyway. Recreated here against the same gate so the two can't drift
+-- apart again.
+drop policy if exists "documents_read_own_site_bucket" on storage.objects;
+create policy "documents_read_own_site_bucket" on storage.objects
+  for select using (
+    bucket_id = any (array['documents-player-fund','documents-hamilton-pe','documents-hamilton-portfolio'])
+    and (
+      public.is_verified_admin()
+      or exists (
+        select 1 from public.profiles p
+        where p.id = auth.uid() and storage.objects.bucket_id = 'documents-' || p.site
+      )
+    )
+  );
+
+drop policy if exists "documents_write_admin_buckets" on storage.objects;
+create policy "documents_write_admin_buckets" on storage.objects
+  for all using (
+    bucket_id = any (array['documents-player-fund','documents-hamilton-pe','documents-hamilton-portfolio'])
+    and public.is_verified_admin()
+  )
+  with check (
+    bucket_id = any (array['documents-player-fund','documents-hamilton-pe','documents-hamilton-portfolio'])
+    and public.is_verified_admin()
+  );
+
+-- The legacy shared 'documents' bucket is a rollback copy nothing reads. Keep it
+-- reachable only by a verified admin rather than by any is_admin account.
+drop policy if exists "documents_bucket_read_own_site" on storage.objects;
+drop policy if exists "documents_bucket_write_admin" on storage.objects;
+drop policy if exists "documents_legacy_bucket_admin_only" on storage.objects;
+create policy "documents_legacy_bucket_admin_only" on storage.objects
+  for all using (bucket_id = 'documents' and public.is_verified_admin())
+  with check (bucket_id = 'documents' and public.is_verified_admin());

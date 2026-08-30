@@ -112,6 +112,41 @@ true, since every RLS policy checks `is_admin` before it checks `site`.
 Users → that user → reset password) before this goes anywhere near production, and turn off
 Auto Confirm for any future admin accounts once real verification is wired up.
 
+### 5a. What an admin password actually opens (nothing, on its own)
+
+Since the step-up function below went in, `is_admin` on a profile is only half the credential. The
+password gets the admin an ordinary client session and nothing more: reading other sites'
+documents, writing into any bucket and the whole access-code API are gated on
+`public.is_verified_admin()`, which is false until a code emailed through Resend has been redeemed.
+
+Sign-in flow: `portal/login.html` → password → `portal/admin-verify.html` (a six-digit code lands
+in the admin's inbox) → `portal/dashboard.html`, where the Administration card unlocks. The
+verification lasts 12 hours, or until Sign out, which ends it server-side.
+
+Deploy it with `verify_jwt=true` (the default) — the caller is a signed-in user:
+
+```
+supabase functions deploy admin-verify
+supabase functions deploy admin-access-codes
+```
+
+It reads the same `RESEND_SECRET_NAME` secret as the signup functions, so there is nothing extra to
+provision. Locking a second admin out of their own mailbox is the failure mode to watch: with no
+inbox there is no way in, which is the point, but it means a second admin account is worth having.
+
+## 5c. Managing documents and codes from the portal
+
+Both jobs moved out of the Supabase dashboard and into the portal itself, so step 4 and step 4c
+above are now the manual fallback rather than the routine:
+
+- `portal/admin-documents.html` — upload a file into any of the three sites' buckets and write its
+  `documents` row in one action, list what is filed under each site, open it through a signed URL,
+  or delete file and row together. Same-named files are refused rather than silently overwritten.
+- `portal/access-codes.html` — issue, list and revoke access codes for any of the three portals.
+
+Both pages are reached from the Administration card on the dashboard, and both refuse to render
+until the emailed code has been redeemed.
+
 ## 5b. Deploy the signup functions
 
 All three portals sign up through an edge function rather than calling `supabase.auth.signUp`
@@ -138,9 +173,11 @@ verified, change `fromEmail` in the three wrapper files and redeploy.
 
 ## 6. Later upgrade path
 
-- Email delivery: Supabase's built-in email (via their shared SMTP) is rate-limited and fine for
-  testing, not for production volume. Swap in Resend/Postmark/SendGrid under Authentication →
-  Settings → SMTP Settings when going live — no code changes needed on the portal side.
+- Email delivery: signup confirmations and admin sign-in codes already go out through the Resend
+  API from the edge functions, so they never touch Supabase's shared SMTP. **Password-reset mail
+  still does** — that one is sent by Supabase Auth itself, and their shared SMTP is rate-limited
+  and fine for testing, not production. Point Authentication → Settings → SMTP Settings at the same
+  Resend account before real client volume; no code changes needed on the portal side.
 
 ## 7. Google Drive document sync (functions/drive-sync)
 

@@ -20,6 +20,12 @@
         ],
         "createdAt": "2026-08-14T22:08:42.148Z",
         "reason": "pre-existing brochure-sourced client copy already in H1/title before this session; not AI-generated, not touched by SEO edits"
+      },
+      {
+        "rule": "overused-font",
+        "value": "instrument serif",
+        "createdAt": "2026-08-30T18:11:54.564Z",
+        "reason": "Established Player Fund brand face, already loaded site-wide in css/style.css and on every existing page; the new admin pages match it rather than introducing a font"
       }
     ]
   }

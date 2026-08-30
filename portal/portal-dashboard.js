@@ -1,9 +1,9 @@
 import { supabase } from './supabase-client.js';
 import { SITE } from './config.js';
+import { callFunction, wireSignOut } from './admin-guard.js';
 
 const greeting = document.getElementById('greeting');
 const docList = document.getElementById('doc-list');
-const signOutBtn = document.getElementById('sign-out');
 
 const { data: { session } } = await supabase.auth.getSession();
 if (!session) {
@@ -18,9 +18,21 @@ if (!session) {
   const name = profile?.full_name || session.user.email;
   greeting.textContent = `Welcome, ${name}`;
 
-  // Cosmetic only: access_codes is revoked from anon and authenticated, so the
-  // page behind this link is useless without is_admin on the server side too.
-  if (profile?.is_admin) document.getElementById('admin-card').hidden = false;
+  // Cosmetic only: access_codes is revoked from anon and authenticated, and
+  // every document write is gated on public.is_verified_admin(), so the pages
+  // behind these links are useless without both flags on the server side.
+  if (profile?.is_admin) {
+    document.getElementById('admin-card').hidden = false;
+    const verified = await callFunction('admin-verify', { action: 'status' })
+      .then((r) => r.verified)
+      .catch(() => false);
+    if (!verified) {
+      const note = document.getElementById('admin-note');
+      note.textContent = 'Verify your email to unlock the administration tools for this session.';
+      document.querySelector('.admin-links').innerHTML =
+        '<a class="text-link" href="admin-verify.html">Send me a sign-in code</a>';
+    }
+  }
 
   // RLS already restricts a client to their own site, so this filter changes
   // nothing for them. It matters for an admin, who can see all three sites'
@@ -93,7 +105,6 @@ if (!session) {
   }
 }
 
-signOutBtn.addEventListener('click', async () => {
-  await supabase.auth.signOut();
-  window.location.href = 'login.html';
-});
+// wireSignOut, not a bare auth.signOut(): for an admin it also closes the
+// server-side verification window, which otherwise outlives the browser session.
+wireSignOut();

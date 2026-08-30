@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Documents - Player Fund Inc</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="../assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="portal.css">
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><img class="brand-logo" src="../assets/logo.svg" alt="Player Fund Inc"></a>
+    <button type="button" class="btn btn-ghost" id="sign-out"><span>Sign out</span></button>
+  </div>
+</header>
+
+<main id="main" class="portal-main">
+  <div class="wrap portal-wrap portal-wrap-wide" id="page" hidden>
+
+    <section class="portal-card">
+      <h1>Documents</h1>
+      <p class="lede">Upload client documents to any of the three portals. A document is only ever visible to clients of the portal it is filed under.</p>
+      <a class="text-link" href="dashboard.html">Back to dashboard</a>
+    </section>
+
+    <section class="portal-card">
+      <h2>Upload a document</h2>
+      <form id="upload-form" class="code-form" autocomplete="off">
+        <div class="form-row two">
+          <div class="field">
+            <input type="text" id="title" name="title" placeholder=" " required>
+            <label for="title">Title</label>
+          </div>
+          <div class="field field-select">
+            <select id="site" name="site">
+              <option value="player-fund">Player Fund</option>
+              <option value="hamilton-pe">Hamilton PE</option>
+              <option value="hamilton-portfolio">Hamilton Portfolio</option>
+            </select>
+            <label for="site">Which portal</label>
+          </div>
+        </div>
+        <div class="field">
+          <input type="text" id="description" name="description" placeholder=" ">
+          <label for="description">Description (optional)</label>
+        </div>
+        <div class="field field-filled">
+          <input type="file" id="file" name="file" required>
+          <label for="file">File</label>
+        </div>
+        <button type="submit" class="btn btn-primary" id="upload-btn"><span>Upload document</span></button>
+        <p class="form-note" id="upload-status" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="portal-card">
+      <h2>Uploaded documents</h2>
+      <div class="field field-select doc-filter">
+        <select id="filter-site">
+          <option value="player-fund">Player Fund</option>
+          <option value="hamilton-pe">Hamilton PE</option>
+          <option value="hamilton-portfolio">Hamilton Portfolio</option>
+        </select>
+        <label for="filter-site">Showing</label>
+      </div>
+      <div class="table-scroll">
+        <table class="data-table text-table" id="docs-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>File</th>
+              <th>Added</th>
+              <th><span class="sr-only">Actions</span></th>
+            </tr>
+          </thead>
+          <tbody id="docs-body">
+            <tr><td colspan="4" class="form-note">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<script type="module" src="admin-documents.js"></script>
+</body>
+</html>

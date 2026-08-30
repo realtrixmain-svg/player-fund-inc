@@ -1,5 +1,5 @@
 // Google Drive → Supabase documents sync. Option B from docs/google-drive-sync.md:
-// one Drive subfolder per site, pulled into the shared 'documents' storage bucket
+// one Drive subfolder per site, pulled into that site's 'documents-<site>' bucket
 // and indexed in the 'documents' table, tagged by drive_file_id so re-runs don't
 // create duplicates. RLS on documents/storage is untouched — this only adds rows
 // the same way a manual upload would.
@@ -73,7 +73,7 @@ async function syncSite(site: Site, token: string) {
     const storagePath = `${site}/${file.id}-${file.name}`;
 
     const { error: uploadError } = await supabaseAdmin.storage
-      .from('documents')
+      .from(`documents-${site}`)
       .upload(storagePath, blob, { upsert: true, contentType: file.mimeType });
     if (uploadError) throw uploadError;
 

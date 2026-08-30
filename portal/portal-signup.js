@@ -14,11 +14,16 @@ form.addEventListener('submit', async (e) => {
   e.preventDefault();
   status.textContent = '';
 
+  const accessCode = document.getElementById('access-code').value.trim();
   const fullName = document.getElementById('full-name').value.trim();
   const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value;
   const passwordConfirm = document.getElementById('password-confirm').value;
 
+  if (!accessCode) {
+    status.textContent = 'An access code is required to create an account.';
+    return;
+  }
   if (password !== passwordConfirm) {
     status.textContent = 'Passwords do not match.';
     return;
@@ -27,13 +32,15 @@ form.addEventListener('submit', async (e) => {
   submitBtn.disabled = true;
 
   // Signup goes through a server-side relay (not supabase.auth.signUp directly)
-  // so `site` is assigned by the function, using the service-role key, instead
-  // of trusting whatever the client claims. See supabase/schema.sql for why.
+  // so the access code is redeemed and `site` is assigned by the function, using
+  // the service-role key, instead of trusting whatever the client claims. The
+  // check above is only for the empty case - the code itself is never validated
+  // client-side. See supabase/schema.sql for why.
   try {
     const res = await fetch(`${SUPABASE_URL}/functions/v1/signup-${SITE}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password, full_name: fullName || undefined }),
+      body: JSON.stringify({ email, password, access_code: accessCode, full_name: fullName || undefined }),
     });
     const body = await res.json().catch(() => ({}));
 

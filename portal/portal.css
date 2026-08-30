@@ -18,7 +18,7 @@
 .benefit-list li{padding-left:22px;position:relative;color:var(--ink-soft)}
 .benefit-list li::before{
   content:'';position:absolute;left:0;top:.55em;width:8px;height:8px;
-  border-radius:50%;background:var(--gold);
+  border-radius:50%;background:var(--ember);
 }
 .benefit-list strong{display:block;color:var(--ink);font-family:var(--font-display);font-weight:600;margin-bottom:2px}
 .portal-card{

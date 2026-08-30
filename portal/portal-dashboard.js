@@ -1,4 +1,5 @@
 import { supabase } from './supabase-client.js';
+import { SITE } from './config.js';
 
 const greeting = document.getElementById('greeting');
 const docList = document.getElementById('doc-list');
@@ -17,9 +18,14 @@ if (!session) {
   const name = profile?.full_name || session.user.email;
   greeting.textContent = `Welcome, ${name}`;
 
+  // RLS already restricts a client to their own site, so this filter changes
+  // nothing for them. It matters for an admin, who can see all three sites'
+  // rows: without it this portal would list a document whose file lives in
+  // another site's bucket, and the download below would 404 on it.
   const { data: docs, error } = await supabase
     .from('documents')
     .select('id, title, description, storage_path')
+    .eq('site', SITE)
     .order('created_at', { ascending: false });
 
   docList.innerHTML = '';
@@ -66,7 +72,7 @@ if (!session) {
         // an await loses the user-activation flag and gets silently blocked.
         const tab = window.open('', '_blank', 'noopener');
         const { data, error: urlError } = await supabase.storage
-          .from('documents')
+          .from(`documents-${SITE}`)
           .createSignedUrl(doc.storage_path, 60);
         btn.disabled = false;
         if (urlError) {

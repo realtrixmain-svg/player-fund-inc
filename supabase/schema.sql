@@ -6,13 +6,18 @@
 create table if not exists public.profiles (
   id uuid primary key references auth.users(id) on delete cascade,
   full_name text,
-  site text not null default 'player-fund' check (site in ('player-fund', 'hamilton-pe', 'hamilton-portfolio')),
+  site text not null default 'unassigned' check (site in ('unassigned', 'player-fund', 'hamilton-pe', 'hamilton-portfolio')),
   is_admin boolean not null default false,
   created_at timestamptz not null default now()
 );
-alter table public.profiles add column if not exists site text not null default 'player-fund';
+alter table public.profiles add column if not exists site text not null default 'unassigned';
+alter table public.profiles alter column site set default 'unassigned';
 alter table public.profiles drop constraint if exists profiles_site_check;
-alter table public.profiles add constraint profiles_site_check check (site in ('player-fund', 'hamilton-pe', 'hamilton-portfolio'));
+-- 'unassigned' is a real, allowed value here and nowhere else: no documents row
+-- and no storage bucket can ever carry it, so a profile sitting on it reads
+-- nothing at all. It is the fail-closed landing spot for any account that was
+-- created without going through a signup edge function.
+alter table public.profiles add constraint profiles_site_check check (site in ('unassigned', 'player-fund', 'hamilton-pe', 'hamilton-portfolio'));
 
 create table if not exists public.documents (
   id uuid primary key default gen_random_uuid(),
@@ -66,10 +71,17 @@ create policy "documents_write_admin" on public.documents
 -- can set it directly via the public /auth/v1/signup endpoint with nothing
 -- more than the anon key), and this DB is shared across three tenants, so
 -- trusting it let any signup on any site claim to be a client of any other
--- site's portal and read its documents. Every row defaults to 'player-fund';
--- the per-site signup edge function (supabase/functions/signup-<site>/) is
--- the only thing allowed to move a profile onto a different site, using the
--- service-role key server-side, right after creating the user.
+-- site's portal and read its documents.
+--
+-- It defaults to 'unassigned', NOT to a real site. Supabase's own
+-- /auth/v1/signup endpoint is reachable by anyone holding the anon key, and
+-- the anon key ships in portal/config.js by design - so account creation
+-- cannot be prevented here, only made worthless. An account made that way
+-- lands on 'unassigned' and can read nothing. Only the per-site signup edge
+-- function (supabase/functions/signup-<site>/), which redeems an access code
+-- first, moves a profile onto a real site, using the service-role key
+-- server-side. Also turn off public signups in the dashboard (SETUP.md step 1)
+-- - this default is the second lock, not the first.
 create or replace function public.handle_new_user()
 returns trigger as $$
 begin
@@ -77,7 +89,7 @@ begin
   values (
     new.id,
     coalesce(new.raw_user_meta_data->>'full_name', split_part(new.email, '@', 1)),
-    'player-fund'
+    'unassigned'
   );
   return new;
 end;
@@ -119,3 +131,98 @@ create policy "documents_bucket_write_admin" on storage.objects
 alter table public.documents add column if not exists drive_file_id text;
 create unique index if not exists documents_drive_file_id_idx
   on public.documents (drive_file_id) where drive_file_id is not null;
+
+-- ---------------------------------------------------------------------------
+-- Access codes: nobody creates an account without one.
+--
+-- One row = one invited person. `code` is whatever the admin wants it to be -
+-- an ID number, a pre-approved phone number, a generated string. `site` is what
+-- the code unlocks, and the signup edge function assigns profiles.site from the
+-- code row, so a hamilton-portfolio code can never open a hamilton-pe account.
+-- That is the whole point: the code, not the sign-up page, decides which
+-- documents the person will be able to see.
+--
+-- Single-use: redeemed_at is stamped when it is spent. Set `email` to lock a
+-- code to one address, or leave it null to let the invitee use any address.
+-- Admin workflow is Table editor -> access_codes -> Insert row; no UI for it.
+create table if not exists public.access_codes (
+  code text primary key,
+  site text not null check (site in ('player-fund', 'hamilton-pe', 'hamilton-portfolio')),
+  email text,          -- optional: if set, only this address may redeem the code
+  label text,          -- free text for the admin: who this was issued to
+  expires_at timestamptz,
+  redeemed_by uuid references auth.users(id) on delete set null,
+  redeemed_at timestamptz,
+  created_at timestamptz not null default now()
+);
+
+-- Codes are matched case-insensitively (an invitee typing "hp-4f2a" should not
+-- fail against "HP-4F2A"), so normalise on the way in rather than at match time
+-- - a hand-typed row in the Table editor gets the same treatment as one from a
+-- script, and the primary key stops two codes differing only by case.
+create or replace function public.normalize_access_code()
+returns trigger as $$
+begin
+  new.code := upper(btrim(new.code));
+  new.email := nullif(lower(btrim(new.email)), '');
+  return new;
+end;
+$$ language plpgsql set search_path = public;
+
+drop trigger if exists access_codes_normalize on public.access_codes;
+create trigger access_codes_normalize
+  before insert or update on public.access_codes
+  for each row execute function public.normalize_access_code();
+
+-- No policies below the RLS switch, on purpose: that denies every anon and
+-- authenticated request outright. Only the service-role key (which bypasses
+-- RLS) can read or spend a code, and that key lives in the signup edge
+-- functions, server-side. Revoking the grants as well means a client that
+-- somehow got a session still cannot enumerate unredeemed codes.
+alter table public.access_codes enable row level security;
+revoke all on public.access_codes from anon, authenticated;
+
+-- ---------------------------------------------------------------------------
+-- Per-site storage buckets.
+--
+-- The shared 'documents' bucket above scoped access with a join back to the
+-- documents table: an object was readable if SOME documents row pointed at it
+-- with a matching site. That works, but it makes the file's blast radius depend
+-- on a row's `site` column being right - mis-tag one row and the file behind it
+-- is exposed to another portal's clients. One bucket per site moves the boundary
+-- onto the object's own location, so a hamilton-pe client cannot read a
+-- player-fund file even if a documents row is wrong.
+--
+-- Bucket name is always 'documents-' || profiles.site, which is what
+-- portal/portal-dashboard.js derives from its own SITE constant.
+insert into storage.buckets (id, name, public)
+values
+  ('documents-player-fund', 'documents-player-fund', false),
+  ('documents-hamilton-pe', 'documents-hamilton-pe', false),
+  ('documents-hamilton-portfolio', 'documents-hamilton-portfolio', false)
+on conflict (id) do nothing;
+
+drop policy if exists "site_bucket_read_own_site" on storage.objects;
+drop policy if exists "site_bucket_write_admin" on storage.objects;
+
+create policy "site_bucket_read_own_site" on storage.objects
+  for select using (
+    bucket_id like 'documents-%'
+    and exists (
+      select 1 from public.profiles p
+      where p.id = auth.uid()
+        and (p.is_admin or bucket_id = 'documents-' || p.site)
+    )
+  );
+create policy "site_bucket_write_admin" on storage.objects
+  for all using (
+    bucket_id like 'documents-%'
+    and exists (select 1 from public.profiles where id = auth.uid() and is_admin = true)
+  );
+
+-- The legacy 'documents' bucket and its policies are left in place on purpose.
+-- The six player-fund PDFs have already been copied into documents-player-fund
+-- at identical paths and verified downloading from there, so nothing reads the
+-- legacy bucket any more - it is a rollback copy, not a live dependency. Safe to
+-- drop in the Storage UI whenever the duplicate ~24 MB is worth reclaiming.
+-- See SETUP.md step 4b.

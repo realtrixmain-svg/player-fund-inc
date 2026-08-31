@@ -17,8 +17,8 @@
   --ink-faint:#5a6875;
   --navy:#16344a;      /* glacial navy: primary buttons, solid blocks */
   --navy-deep:#0f2231; /* summit navy: full-bleed dark blocks */
-  --ember:#ac4622;         /* accent on light surfaces */
-  --ember-bright:#d9683a;  /* accent on dark surfaces only - fails AA on white */
+  --ember:#7a6428;         /* accent on light surfaces */
+  --ember-bright:#b8aa7d;  /* the logo gold, dark surfaces only - fails AA on white */
   --border:rgba(15,34,49,.14);
   --border-strong:rgba(15,34,49,.26);
   --max:1180px;
@@ -123,8 +123,17 @@ section{padding:112px 0;scroll-margin-top:88px}
 @media (max-width:760px){.site-nav .wrap{height:64px}}
 
 .brand{display:flex;align-items:center;text-decoration:none}
-.brand-logo{height:58px;width:auto;flex:none}
-@media (max-width:760px){.brand-logo{height:48px}}
+/* The lockup runs 4.25:1. Height is what is tunable here; width follows, and
+   width is what the nav bar actually has to spend. */
+.brand-logo{height:56px;width:auto;flex:none}
+@media (max-width:900px){.brand-logo{height:48px}}
+@media (max-width:760px){
+  /* At any height that fits the bar, the full lockup is wider than a 320px
+     screen has left once the CTA and the toggle are placed. The mark carries
+     the identity on its own at this size. content: swaps the rendered image
+     and leaves the img element, and its alt text, exactly where they were. */
+  .brand-logo{content:url("../assets/logo-mark.png");height:40px}
+}
 
 .nav-links{display:flex;gap:36px;list-style:none;margin:0;padding:0;font-size:.95rem}
 .nav-links a{text-decoration:none;color:var(--ink-soft);position:relative;padding:4px 0}
@@ -135,10 +144,19 @@ section{padding:112px 0;scroll-margin-top:88px}
 .nav-links a:hover::after,.nav-links a[aria-current="page"]::after{right:0}
 .nav-links a[aria-current="page"]{color:var(--ink)}
 
-.nav-cta{margin-left:28px;padding:10px 22px;font-size:.72rem;white-space:nowrap}
-@media (max-width:480px){.nav-cta{padding:8px 14px;font-size:.7rem;margin-left:12px}}
+/* No font-size here on purpose: .btn declares .86rem at equal specificity and
+   later in this file, so the .72rem and .7rem these two rules used to carry
+   never applied to a single pixel. Removed rather than made to win - the size
+   that actually renders, 13.76px, fits at 320px, and the intended one would
+   have sat on the 11px legibility floor. */
+.nav-cta{margin-left:28px;padding:10px 22px;white-space:nowrap}
+@media (max-width:480px){.nav-cta{padding:8px 14px;margin-left:12px}}
 
-.nav-social{position:relative;list-style:none;padding-block:var(--s1)}
+/* No padding-block: the desktop bar is a 78px flex row with align-items:center,
+   so the 4px this used to carry changed nothing there, and on mobile it made
+   this one menu row 69px against its siblings' 60px with the label 4px out of
+   line. The summary owns the inset on both. */
+.nav-social{position:relative;list-style:none}
 .nav-social summary{list-style:none;cursor:pointer;color:var(--ink-soft)}
 .nav-social summary::-webkit-details-marker{display:none}
 .nav-social summary::after{
@@ -245,11 +263,15 @@ section{padding:112px 0;scroll-margin-top:88px}
 .motif::before{left:0;right:38%;background:var(--navy);clip-path:polygon(0 0,100% 0,calc(100% - 24px) 100%,0 100%);}
 .motif::after{left:62%;right:0;background:var(--ember);clip-path:polygon(24px 0,100% 0,100% 100%,0 100%);}
 
-/* ---- pull quote / text break ---- */
-.text-break{position:relative;padding:150px 0}
+/* ---- pull quote / text break ----
+   The dark base is on the section, not only on the photograph. The quote is
+   white and every bit of the darkness under it used to come from the photo
+   plus the scrim, so a slow or failed image left white text on a white page
+   at 1:1. A `.no-bg` modifier existed for exactly that case and was never put
+   on any element; this makes the guarantee unconditional instead. */
+.text-break{position:relative;padding:150px 0;background:var(--navy-deep)}
 .text-break .bg{position:absolute;inset:0;object-fit:cover;width:100%;height:100%}
 .text-break .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,34,49,.62),rgba(15,34,49,.86))}
-.text-break.no-bg{background:var(--navy-deep)}
 .text-break .wrap{position:relative;z-index:1;color:#fff;text-align:center}
 .text-break blockquote{
   margin:0 auto;max-width:18ch;font-family:var(--font-display);font-weight:500;
@@ -303,6 +325,14 @@ section{padding:112px 0;scroll-margin-top:88px}
 .data-table td:not(:first-child),.data-table th:not(:first-child){text-align:right}
 .legal-content .data-table td,.legal-content .data-table th{text-align:left}
 .data-table.text-table td:not(:first-child),.data-table.text-table th:not(:first-child){text-align:left}
+.data-table tbody th{font-family:var(--font-body);font-weight:600;color:var(--ink);vertical-align:top}
+.data-table.text-table td{vertical-align:top;color:var(--ink-soft);line-height:1.55;max-width:52ch}
+.data-table.text-table tbody th{min-width:14ch}
+.data-table.text-table td > p{margin:0 0 .7em;max-width:none}
+.data-table.text-table td > p:last-child,.data-table.text-table td > details:last-child{margin-bottom:0}
+.data-table.text-table td .disclosure{border:0;border-top:1px solid var(--border);margin-top:var(--s4);padding:0}
+.data-table.text-table td .disclosure > summary{padding:var(--s4) 0;font-size:.95rem}
+.data-table.text-table td .disclosure-body{padding:0 0 var(--s3)}
 .section-note{color:var(--ink-faint);font-size:.85rem;margin-top:10px}
 
 /* ---- fund summary (fact-sheet) layout ---- */
@@ -360,7 +390,7 @@ section{padding:112px 0;scroll-margin-top:88px}
 }
 /* Only bleed past the container once the viewport is actually wider than it. */
 @media (min-width:1181px){
-  .market-media{margin-right:calc((var(--max) - 100vw) / 2 - 32px)}
+
 }
 .market-copy h2{color:#fff;max-width:14ch}
 .market-copy .lede{color:rgba(255,255,255,.76);margin-top:.8em}
@@ -374,11 +404,8 @@ section{padding:112px 0;scroll-margin-top:88px}
 }
 .market-list p{margin:.7em 0 0;color:rgba(255,255,255,.7);font-size:.95rem}
 
-.market-media{margin:0}
-.market-media img{
-  display:block;width:100%;height:100%;min-height:420px;object-fit:cover;
-  filter:saturate(.92) contrast(1.03);
-}
+.market-aside{display:flex;align-items:center}
+.market-aside .block-accent{max-width:38ch}
 
 /* ---- archival framed photo ---- */
 .framed{
@@ -387,6 +414,10 @@ section{padding:112px 0;scroll-margin-top:88px}
   max-width:280px;
 }
 .framed img{filter:sepia(.18) contrast(1.04)}
+/* the mark is line art on transparency, so the archival grade would only
+   dirty it - it gets padding and a clean plate instead */
+.framed-mark{padding:26px 30px}
+.framed-mark img{filter:none;display:block;width:100%;height:auto}
 .framed figcaption{
   margin-top:10px;font-size:.78rem;letter-spacing:.02em;color:var(--ink-faint);text-align:center;
 }
@@ -455,7 +486,9 @@ form .btn{width:100%;justify-content:center}
 
 /* ---- footer ---- */
 footer{background:var(--navy-deep);color:rgba(255,255,255,.75);padding:72px 0 40px}
-footer .brand-logo{background:var(--paper);padding:10px 16px;border-radius:6px}
+/* Was a white plate painted behind a navy logo so it could be seen on a navy
+   footer. There is a light lockup now, so the plate goes. */
+footer .brand-logo{content:url("../assets/logo-light.png");height:60px}
 .footer-grid{display:grid;gap:48px;margin-top:48px}
 @media (min-width:760px){.footer-grid{grid-template-columns:2fr 1fr 1fr 1fr}}
 /* Sentence case, not tracked-out caps: an all-caps micro-label is an eyebrow
@@ -757,8 +790,8 @@ section{padding:var(--s10) 0}
   margin-bottom:var(--s3);
 }
 .block-intro{color:var(--ink-soft);max-width:68ch;margin:0 0 var(--s6)}
-.block > .bento,.block > .def-list{margin-top:var(--s5)}
-.block > h3 + .bento,.block > h3 + .def-list{margin-top:var(--s6)}
+.block > .bento,.block > .def-list,.block > .table-scroll{margin-top:var(--s5)}
+.block > h3 + .bento,.block > h3 + .def-list,.block > h3 + .table-scroll{margin-top:var(--s6)}
 .tile h4{font-size:1.02rem;line-height:1.32}
 
 /* ---- definition list ----
@@ -781,3 +814,221 @@ section{padding:var(--s10) 0}
 .lede-grid{gap:var(--s7)}
 .lede-grid h2{max-width:16ch}
 @media (min-width:900px){.lede-grid{gap:var(--s8)}}
+
+/* ============================================================================
+   Photography pass.
+
+   Every photograph here arrived from a different camera, on a different day,
+   at a different colour temperature. That is the whole reason a reader sees
+   them as pasted onto the page rather than as part of it, and it is what the
+   client was describing as "bland": nothing is wrong with any single picture,
+   they just do not belong to each other. Two rules fix it, applied to every
+   photo without exception.
+
+   1. One grade. Luminance stays the photograph's, hue comes from the palette,
+      so a ballpark, an archival trading floor and a glacier all end up on the
+      same warm/cold axis the rest of the page already runs on. The grade is a
+      `color` blend and not a tint layer on purpose: a tint flattens a picture,
+      `color` keeps all of its structure and only rewrites what colour that
+      structure is.
+   2. No hard edge. A content photo dissolves into the band behind it instead
+      of stopping dead at a rectangle.
+
+   Both live in custom properties so a single photo cannot quietly drift out of
+   the set by being adjusted on its own.
+   ========================================================================= */
+:root{
+  --photo-grade:linear-gradient(198deg,rgba(217,104,58,.42) 0%,rgba(19,58,84,.74) 42%,rgba(13,32,46,.86) 100%);
+  --photo-fade:linear-gradient(180deg,#000 0%,#000 74%,transparent 100%);
+}
+
+.split-media,.banner,.text-break{position:relative;isolation:isolate}
+/* page-hero-img is absolutely positioned by the rule above and must stay that
+   way - giving it position:relative drops the photo back into normal flow and
+   pushes the headline a thousand pixels down the page. */
+.page-hero-img{isolation:isolate}
+.split-media::after,.page-hero-img::after,.banner::after,
+.text-break::before{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:1;
+  background:var(--photo-grade);mix-blend-mode:color;
+}
+.split-media img,.page-hero-img img,.banner img,.text-break .bg{
+  filter:saturate(.42) contrast(1.17) brightness(.93);
+}
+
+/* Explicit stacking inside every band that layers something over a photo:
+   photo 0, grade 1, scrim 2, copy 3, credit 4. Without it the grade paints
+   over the words, and the ember slab in the market band picks up a wash it
+   was never meant to have. */
+.text-break .bg,.banner img{z-index:0}
+.text-break .scrim{z-index:2}
+.text-break .wrap{z-index:3}
+.text-break .photo-credit{z-index:4}
+.banner .caption{position:relative;z-index:2}
+
+/* Content photos dissolve rather than stop. The mask sits on the wrapper so
+   the grade fades out with the picture; anything that has to stay crisp - a
+   caption, a credit - belongs outside the wrapper, not inside it. */
+.split-media{-webkit-mask-image:var(--photo-fade);mask-image:var(--photo-fade)}
+
+/* The page heroes were the loudest version of the complaint. A photograph at
+   28% opacity under a gradient that reaches solid navy by 92% is not a dark
+   photograph, it is a navy rectangle with a smudge in it. The photo now runs
+   at full strength and the wash is directional instead: heavy under the
+   column the headline sits in, light enough on the far side that the picture
+   is actually a picture. Contrast was re-run, not eyeballed - the compound
+   transmittance under the copy is 0.09, which puts white at 7.5:1 and the
+   0.8-alpha lede at 6.2:1. */
+.page-hero-img{opacity:1;z-index:0}
+.page-hero-img img{filter:saturate(.6) contrast(1.12) brightness(.96)}
+.page-hero::after{
+  z-index:1;
+  background:
+    linear-gradient(101deg,rgba(9,22,30,.95) 0%,rgba(9,22,30,.9) 44%,rgba(9,22,30,.68) 70%,rgba(15,34,49,.38) 100%),
+    linear-gradient(180deg,rgba(15,34,49,.62) 0%,rgba(15,34,49,.12) 38%,rgba(15,34,49,.82) 100%);
+}
+.page-hero .wrap{z-index:2}
+.page-hero .photo-credit{z-index:3}
+
+/* ============================================================================
+   Mobile pass.
+
+   Everything below was sized against the desktop grid and then inherited
+   straight down a phone without being re-asked. None of it is a new feature,
+   all of it is a desktop decision that stopped being true once the columns
+   stacked.
+   ========================================================================= */
+@media (max-width:900px){
+  .split{gap:var(--s7)}
+  /* A 4:5 portrait is 490px tall on a 390px phone: one photograph, one whole
+     screen, before a word of the section it illustrates. Landscape once the
+     picture no longer sits beside anything. */
+  .split-media img{aspect-ratio:4/3}
+  .split-media.wide img{aspect-ratio:16/9}
+}
+@media (max-width:960px){
+  /* A 420px floor made sense while this was a column-height image. Stacked, it
+     is just a tall crop of a skyline. */
+
+}
+@media (max-width:760px){
+  /* svh, not vh: the mobile URL bar makes vh jump mid-scroll. The vh rule
+     above stays as the fallback. */
+  .hero{min-height:88svh}
+  /* The panel is fixed to the top of the viewport, so on a short screen the
+     last menu item had no way to be reached. */
+  .nav-links{max-height:calc(100dvh - 64px);overflow-y:auto}
+  .text-break{padding:var(--s9) 0}
+  /* Pinned to the bottom-right corner, a two-line credit ran off the side of
+     a narrow screen instead of wrapping. */
+  .photo-credit{left:var(--s5);right:var(--s5);text-align:right}
+}
+@media (max-width:480px){
+  /* The clamp floored at 3rem and stayed there, so "outperformance" - fourteen
+     characters of a narrow serif - overflowed a 320px screen no matter how
+     small the viewport got. */
+  h1{font-size:clamp(2.35rem,10vw,5rem)}
+}
+@media (max-width:380px){
+  /* "Investor relations" is a long label for a 320px bar. At the smallest
+     sizes it was crowding the logo and the menu toggle either side of it. */
+  .nav-cta{padding:7px 9px;letter-spacing:.02em;margin-left:6px;gap:0}
+}
+
+/* ============================================================================
+   Identity pass.
+
+   Borrowed from the Hamilton Private Equity build, which the client reads as
+   having the clearer identity. What travels is the *mechanics*, never the
+   palette: Hamilton is near-black with a lime accent, and two sibling sites in
+   the same sector sharing a colour family would read as one brand. Player Fund
+   keeps its light Alpenglow surfaces and the navy/ember axis. What it takes
+   from Hamilton is structure drawn by hairlines instead of implied by
+   whitespace, a page surface with actual grain in it, and one accent used
+   where the page speaks rather than only where it labels.
+   ========================================================================= */
+
+/* ---- grain ----
+   A flat #ffffff band is the single most generic surface a screen can show.
+   One fixed noise layer at 3% gives every light surface something to catch,
+   costs one element and no requests, and is the cheapest available distance
+   from a default page. Multiply, not Hamilton's overlay: overlay leaves pure
+   white untouched, and white is exactly the surface that needed help here. */
+body::after{
+  content:'';position:fixed;inset:0;z-index:999;pointer-events:none;
+  opacity:.032;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---- hairline grid ----
+   The principle lists were a gap plus a top rule per item, which reads as four
+   things that happen to be near each other rather than one object. Drawing the
+   gutters as rules turns the same content into a built grid.
+
+   Rules come from borders on the cells, not from a 1px gap over a coloured
+   background. The gap trick is the shorter way to write it and it bleeds: two
+   1fr columns in a 1116px container are 557.5px each, so the background shows
+   through at the fractional edge as a stray line down the right-hand side.
+   Borders land on whole pixels and stay where they are put. */
+.principles{display:grid;gap:0;border-top:1px solid var(--border-strong)}
+.principle{border-top:0;padding:var(--s6) var(--s6) var(--s7)}
+/* One ember rule per grid, on the first cell only. The accent earns more of the
+   page this way than it did living in the focus ring. */
+.principle:first-child{box-shadow:inset 0 2px 0 0 var(--ember)}
+
+/* A heading and its body text were both 17px, so the cell had no internal
+   hierarchy at all - the single biggest reason this section read as flat. */
+.principle h3{font-size:1.18rem;margin-bottom:var(--s2)}
+.principle p{font-size:.95rem;color:var(--ink-soft)}
+
+@media (min-width:760px){
+  .principles > :nth-child(2n){border-left:1px solid var(--border-strong)}
+  .principles > :nth-child(n+3){border-top:1px solid var(--border-strong)}
+  /* Outer columns drop their outer padding so text aligns to the container
+     edge instead of sitting inset from it. Small detail, and most of why a
+     drawn grid reads as built rather than as a row of boxes. */
+  .principles > :nth-child(2n+1){padding-left:0}
+  .principles > :nth-child(2n){padding-right:0}
+}
+@media (max-width:759px){
+  .principles > :nth-child(n+2){border-top:1px solid var(--border-strong)}
+  .principles > *{padding-left:0;padding-right:0}
+}
+
+/* ---- accent italic ----
+   Hamilton lets one clause of a headline turn italic and take the accent.
+   Instrument Serif has a real italic with far more slope than its roman, so
+   the shift lands as a change of voice rather than a colour swap. Used where
+   the sentence actually leans on a word; never as decoration on every heading. */
+h1 em,h2 em,blockquote em{font-style:italic;color:var(--ember)}
+.hero h1 em,.page-hero h1 em,.text-break em,.market-copy h2 em,
+.band-summit h2 em{color:var(--ember-bright)}
+
+/* ---- photo credits ----
+   These were white at 72% with a live underline, which put a bright, busy
+   little block in the corner of every photograph and pulled the eye straight
+   to it. Down to 55% with the underline dropped to a hairline: still plainly a
+   link, no longer competing with the picture. The shadow is not decoration -
+   it guarantees separation where a credit lands on a bright patch of sky,
+   which is what makes the lower alpha safe to use at all. */
+.photo-credit{
+  font-size:.75rem;color:rgba(255,255,255,.62);
+  text-shadow:0 1px 10px rgba(9,22,30,.75);
+}
+.photo-credit a{
+  text-decoration:none;
+  border-bottom:1px solid rgba(255,255,255,.28);
+  padding-bottom:1px;transition:border-color .2s ease,color .2s ease;
+}
+.photo-credit a:hover,.photo-credit a:focus-visible{
+  color:rgba(255,255,255,.92);border-bottom-color:rgba(255,255,255,.7);
+}
+
+/* The same job on a light band, under a framed photo. Deliberately quieter
+   than .section-note, which carries information the reader may actually need. */
+.credit{
+  font-size:.76rem;line-height:1.5;color:var(--ink-faint);
+  margin-top:var(--s3);max-width:60ch;
+}
+.credit a{color:inherit;text-decoration:none;border-bottom:1px solid var(--border-strong)}
+.credit a:hover,.credit a:focus-visible{color:var(--ink);border-bottom-color:var(--ink)}

@@ -4,7 +4,7 @@
 // blue - five steps of the same teal made neighbouring slices unreadable without
 // the legend. Ember carries the lead series; the rest are cold, so the eye lands
 // on the one that matters. Mirrors --navy-deep/--ember/--navy/--ember-bright/--glacier.
-const CHART_PALETTE = ['#0f2231', '#b04a26', '#16344a', '#d9683a', '#a8c0ce'];
+const CHART_PALETTE = ['#0f2231', '#7a6428', '#16344a', '#b8aa7d', '#a8c0ce'];
 
 function chartDPR(canvas, cssW, cssH) {
   const dpr = window.devicePixelRatio || 1;

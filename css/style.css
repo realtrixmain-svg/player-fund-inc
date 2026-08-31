@@ -773,6 +773,27 @@ section{padding:var(--s10) 0}
   .disclosure::details-content{transition:none}
 }
 
+/* ---- drifting photographs ----
+   The mountain frames are the only still images on the site big enough to read
+   as dead when they hold the page for a full screen. A long push-in fixes that
+   without asking anyone to scroll for it. Rules it has to obey: transform only,
+   so the work stays on the compositor; on the image and never its wrapper, so
+   the scrim and the quote sitting above it do not move with the photograph; and
+   slow and paired enough that no single viewing catches it starting or
+   stopping. 34s out and 34s back reads as weather, not as a slideshow. */
+@keyframes photo-drift{
+  from{transform:scale(1.02) translate3d(0,0.6%,0)}
+  to{transform:scale(1.11) translate3d(0,-1.2%,0)}
+}
+/* The base scale is 1.02, not 1: object-fit:cover leaves no bleed at the edges,
+   and a 1:1 keyframe would show the frame edge for an instant on subpixel
+   rounding. Everything above it is headroom the crop already had. */
+.drift{animation:photo-drift 34s cubic-bezier(.42,0,.58,1) infinite alternate}
+/* The peak bands never needed to clip anything before; a scaled child changes
+   that. */
+.text-break{overflow:hidden}
+@media (prefers-reduced-motion:reduce){.drift{animation:none;transform:scale(1.02)}}
+
 /* ---- content blocks ----
    A section is made of blocks; a block is a label, an optional intro and one
    piece of structure. The old page ran h3 / p / h3 / p at one flat interval,

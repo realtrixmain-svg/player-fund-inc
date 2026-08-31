@@ -109,6 +109,20 @@ section{padding:112px 0;scroll-margin-top:88px}
 .band-paper{background:var(--paper)}
 .band-canvas{background:var(--canvas)}
 
+/* Fund snapshot: faded brand mark as a watermark underlay, not decoration
+   competing with the copy - low opacity, behind everything, ignored by
+   screen readers and clicks. */
+.fund-snapshot{position:relative;overflow:hidden}
+.fund-snapshot::before{
+  content:'';position:absolute;z-index:0;pointer-events:none;
+  top:50%;right:-6%;transform:translateY(-50%);
+  width:min(46vw,560px);aspect-ratio:288/256;
+  background:url('../assets/logo.png') no-repeat center/contain;
+  opacity:.05;
+}
+.fund-snapshot > .wrap{position:relative;z-index:1}
+@media (max-width:760px){.fund-snapshot::before{width:70vw;right:-18%}}
+
 /* ---- nav ---- */
 .site-nav{
   position:sticky;top:0;z-index:50;
@@ -184,7 +198,7 @@ section{padding:112px 0;scroll-margin-top:88px}
     transform:translateY(-8px);opacity:0;pointer-events:none;transition:.22s ease;
   }
   .nav-links.open{transform:translateY(0);opacity:1;pointer-events:auto}
-  .nav-links li{border-top:1px solid var(--border)}
+  .nav-links li{border-top:1px solid var(--border);padding-top:6px}
   .nav-links a{display:block;padding:18px 20px}
   .nav-toggle{
     display:block;background:none;border:0;width:44px;height:44px;position:relative;cursor:pointer;
@@ -249,8 +263,8 @@ section{padding:112px 0;scroll-margin-top:88px}
 }
 .hero-content{position:relative;z-index:2;color:#fff;padding-bottom:96px;width:100%}
 @media (max-width:760px){.hero-content{padding-bottom:56px}}
-.hero h1{color:#fff;max-width:15ch}
-.hero .lede{color:rgba(255,255,255,.82);max-width:46ch;margin-bottom:2em}
+.hero h1{color:#fff;max-width:17ch;font-size:clamp(3.2rem,7vw,6.5rem)}
+.hero .lede{color:rgba(255,255,255,.82);max-width:46ch;margin-bottom:2em;font-size:1.4rem}
 .hero-ctas{display:flex;align-items:center;gap:28px;flex-wrap:wrap}
 
 /* ---- signature diagonal motif ---- */

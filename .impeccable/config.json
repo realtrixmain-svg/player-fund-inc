@@ -86,6 +86,24 @@
         "value": "<li> \"nav-social\": children flush against border-top on top (no inset)",
         "createdAt": "2026-08-31T07:35:20.049Z",
         "reason": "Claude: measured live - the inset is on the child summary (18px/20px), not the li, so all five mobile menu rows render at 61px with labels aligned. I removed the li padding entirely this session and the finding persisted, which confirms it is objecting to the li having no padding of its own against its mobile border-top. Static analysis cannot credit the child's padding."
+      },
+      {
+        "rule": "tight-leading",
+        "value": "line-height 1.22x (need >=1.3)",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-08-31T15:51:13.619Z",
+        "reason": "intentional: style.css documents h1/h2 line-height:1.04 as deliberate display-serif voice, not body copy"
+      },
+      {
+        "rule": "marketing-buzzword",
+        "value": "2 buzzword phrases: \"fund inc - best of breed investment",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-08-31T15:51:13.682Z",
+        "reason": "false positive: literal company name/tagline (Player Fund Inc), not generated filler"
       }
     ]
   }

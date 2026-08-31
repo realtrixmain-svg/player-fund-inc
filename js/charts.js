@@ -39,11 +39,13 @@ class BarChart {
   render() {
     const wrap = this.canvas.parentElement;
     const cssW = wrap.clientWidth;
-    const cssH = Math.max(280, Math.min(360, cssW * 0.42));
+    const small = cssW < 480;
+    const cssH = Math.max(small ? 320 : 280, Math.min(small ? 420 : 360, cssW * (small ? 0.7 : 0.42)));
     const ctx = chartDPR(this.canvas, cssW, cssH);
     ctx.clearRect(0, 0, cssW, cssH);
 
-    const pad = { top: 24, right: 16, bottom: 44, left: 40 };
+    // ponytail: narrow screens wrap labels to 3+ lines, so give the label band more room
+    const pad = { top: 24, right: 16, bottom: small ? 78 : 44, left: 40 };
     const plotW = cssW - pad.left - pad.right;
     const plotH = cssH - pad.top - pad.bottom;
     const max = this.maxValue || Math.ceil((Math.max(...this.data.map(d => d.value + (d.range || 0))) + 4) / 5) * 5;
@@ -69,6 +71,8 @@ class BarChart {
     const slot = plotW / n;
     const barW = Math.min(64, slot * 0.5);
 
+    const labelFont = small ? 10 : 11;
+
     this.data.forEach((d, i) => {
       const cx = pad.left + slot * i + slot / 2;
       const barH = (d.value / max) * plotH;
@@ -90,14 +94,16 @@ class BarChart {
         ctx.stroke();
       }
 
-      ctx.fillStyle = '#ffffff';
+      // ponytail: short bars can't fit the value label in white inside them - flip it above in ink instead
+      const fitsInside = barH > 18;
+      ctx.fillStyle = fitsInside ? '#ffffff' : '#222222';
       ctx.textAlign = 'center';
       ctx.font = '600 12px "Schibsted Grotesk",system-ui,sans-serif';
-      ctx.fillText(d.value + this.unit, cx, y + 16);
+      ctx.fillText(d.value + this.unit, cx, fitsInside ? y + 16 : y - 8);
 
       ctx.fillStyle = '#4a4a4a';
-      ctx.font = '11px "Schibsted Grotesk",system-ui,sans-serif';
-      wrapLabel(ctx, d.label, cx, pad.top + plotH + 16, slot - 6, 12);
+      ctx.font = labelFont + 'px "Schibsted Grotesk",system-ui,sans-serif';
+      wrapLabel(ctx, d.label, cx, pad.top + plotH + 16, slot - 6, labelFont + 1);
     });
   }
 }
@@ -241,21 +247,33 @@ class StackedBarChart {
   }
 }
 
-/** Correlation heatmap. classes: [label,...]; matrix: lower-triangular (or full) 2D array of correlation values, matrix[row][col] */
+/** Correlation heatmap. classes: [label,...]; matrix: lower-triangular (or full) 2D array of correlation values, matrix[row][col].
+ *  headerLabels: optional shorter labels for the column header row (falls back to classes). */
 class CorrelationMatrix {
-  constructor(canvas, { classes, matrix, stats = null }) {
+  constructor(canvas, { classes, matrix, stats = null, headerLabels = null }) {
     this.canvas = canvas;
     this.classes = classes;
+    this.headerLabels = headerLabels || classes;
     this.matrix = matrix;
     this.stats = stats;
     this.render();
     new ResizeObserver(() => this.render()).observe(canvas.parentElement);
   }
-  cellColor(v) {
+  // Same three brand anchors every other chart on the site pulls from CHART_PALETTE:
+  // glacier (cold/low) ramping to ember (warm/high), navy-deep flat on the diagonal
+  // self-correlations, which carry no signal and would otherwise just be noise at t=1.
+  cellColor(v, isDiagonal) {
+    if (isDiagonal) return { rgb: '#0f2231', mix: [15, 34, 49] };
     const t = Math.max(0, Math.min(1, (v + 0.25) / 1.25));
-    const c1 = [238, 242, 243], c2 = [29, 54, 62];
+    const c1 = [219, 230, 236], c2 = [122, 100, 40];
     const mix = c1.map((c, i) => Math.round(c + (c2[i] - c) * t));
-    return `rgb(${mix.join(',')})`;
+    return { rgb: `rgb(${mix.join(',')})`, mix };
+  }
+  // Perceived brightness decides label color instead of a fixed threshold, so text
+  // stays readable across both the cold and warm ends of the gradient.
+  textColorFor(mix) {
+    const luma = (0.299 * mix[0] + 0.587 * mix[1] + 0.114 * mix[2]) / 255;
+    return luma > 0.55 ? '#1a1a1a' : '#ffffff';
   }
   get(row, col) {
     if (this.matrix[row][col] !== undefined) return this.matrix[row][col];
@@ -265,39 +283,48 @@ class CorrelationMatrix {
   render() {
     const wrap = this.canvas.parentElement;
     const n = this.classes.length;
-    const cssW = Math.max(320, Math.min(560, wrap.clientWidth));
-    const labelCol = 150;
+    const cssW = Math.max(280, Math.min(560, wrap.clientWidth));
+    const small = cssW < 420;
+    // ponytail: a fixed 150px label column left almost nothing for cells on a narrow phone
+    const labelCol = Math.round(Math.min(150, Math.max(80, cssW * 0.3)));
     const cell = (cssW - labelCol) / n;
-    const statsRowH = this.stats ? 40 : 0;
-    const cssH = statsRowH + 30 + cell * n;
+    const headerFont = small ? 10 : 11;
+    const cellFont = cell < 55 ? 10 : 12;
+    const headerH = 34;
+    const statsRowH = this.stats ? (small ? 46 : 40) : 0;
+    const cssH = statsRowH + headerH + cell * n;
     const ctx = chartDPR(this.canvas, cssW, cssH);
     ctx.clearRect(0, 0, cssW, cssH);
 
-    ctx.font = '600 11px "Schibsted Grotesk",system-ui,sans-serif';
+    // Column headers sit in their own band below the stats row - they used to share
+    // the same y as the stats text and overlapped it (the bug this fixes).
+    const headerY = statsRowH + headerH / 2;
+    ctx.font = `600 ${headerFont}px "Schibsted Grotesk",system-ui,sans-serif`;
     ctx.fillStyle = '#4a4a4a';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    this.classes.forEach((label, i) => {
+    this.headerLabels.forEach((label, i) => {
       const x = labelCol + cell * i + cell / 2;
-      wrapLabel(ctx, label, x, 12, cell - 6, 12, true);
+      wrapLabel(ctx, label, x, headerY, cell - 6, headerFont + 1, true);
     });
 
     for (let row = 0; row < n; row++) {
-      const y = statsRowH + 30 + cell * row;
+      const y = statsRowH + headerH + cell * row;
       ctx.fillStyle = '#222222';
-      ctx.font = '600 12px "Schibsted Grotesk",system-ui,sans-serif';
+      ctx.font = `600 ${cellFont}px "Schibsted Grotesk",system-ui,sans-serif`;
       ctx.textAlign = 'left';
       ctx.textBaseline = 'middle';
-      ctx.fillText(this.classes[row], 4, y + cell / 2);
+      wrapLabel(ctx, this.classes[row], labelCol / 2, y + cell / 2, labelCol - 8, cellFont + 1, true);
 
       for (let col = 0; col < n; col++) {
         const v = this.get(row, col);
         const x = labelCol + cell * col;
         if (v === null) continue;
-        ctx.fillStyle = this.cellColor(v);
+        const { rgb, mix } = this.cellColor(v, row === col);
+        ctx.fillStyle = rgb;
         ctx.fillRect(x, y, cell - 2, cell - 2);
-        ctx.fillStyle = v > 0.6 ? '#ffffff' : '#222222';
-        ctx.font = '600 12px "Schibsted Grotesk",system-ui,sans-serif';
+        ctx.fillStyle = this.textColorFor(mix);
+        ctx.font = `600 ${cellFont}px "Schibsted Grotesk",system-ui,sans-serif`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(v.toFixed(2), x + cell / 2, y + cell / 2);
@@ -305,15 +332,19 @@ class CorrelationMatrix {
     }
 
     if (this.stats) {
-      ctx.font = '11px "Schibsted Grotesk",system-ui,sans-serif';
+      ctx.font = `${headerFont}px "Schibsted Grotesk",system-ui,sans-serif`;
       ctx.fillStyle = '#6b6b6b';
       ctx.textAlign = 'left';
-      ctx.fillText('Expected return / standard deviation:', 4, statsRowH - 24);
+      ctx.textBaseline = 'alphabetic';
+      ctx.fillText('Expected return / std. deviation', 4, small ? 14 : 16);
+      // ponytail: "9.4% / 15%" as one line overran a narrow cell into its neighbour - two stacked lines fit instead
       this.stats.forEach((s, i) => {
         ctx.fillStyle = '#222222';
-        ctx.font = '600 11px "Schibsted Grotesk",system-ui,sans-serif';
+        ctx.font = `600 ${headerFont}px "Schibsted Grotesk",system-ui,sans-serif`;
         ctx.textAlign = 'center';
-        ctx.fillText(`${s.ret}% / ${s.risk}%`, labelCol + cell * i + cell / 2, statsRowH - 6);
+        const cx = labelCol + cell * i + cell / 2;
+        ctx.fillText(`${s.ret}%`, cx, statsRowH - (small ? 20 : 16));
+        ctx.fillText(`${s.risk}%`, cx, statsRowH - (small ? 6 : 4));
       });
     }
   }
@@ -386,6 +417,23 @@ function wrapLabel(ctx, text, x, y, maxWidth, lineHeight, centerVertically = fal
   const lines = [];
   let line = '';
   words.forEach(w => {
+    // ponytail: a single word wider than the column (e.g. "Secondaries" on a narrow
+    // phone bar chart) used to overflow into the next column instead of wrapping
+    if (ctx.measureText(w).width > maxWidth) {
+      if (line) { lines.push(line); line = ''; }
+      let chunk = '';
+      for (const ch of w) {
+        const test = chunk + ch;
+        if (ctx.measureText(test).width > maxWidth && chunk) {
+          lines.push(chunk);
+          chunk = ch;
+        } else {
+          chunk = test;
+        }
+      }
+      line = chunk;
+      return;
+    }
     const test = line ? line + ' ' + w : w;
     if (ctx.measureText(test).width > maxWidth && line) {
       lines.push(line);

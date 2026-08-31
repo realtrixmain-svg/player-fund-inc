@@ -57,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (correlationCanvas) {
     new CorrelationMatrix(correlationCanvas, {
       classes: ['Equities', 'Fixed Income', 'Alternatives (Hedge Funds)', 'Private Equity'],
+      headerLabels: ['Equities', 'Fixed Inc.', 'Alts (HF)', 'Private Eq.'],
       stats: [
         { ret: 9.4, risk: 15 },
         { ret: 4, risk: 8 },

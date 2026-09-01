@@ -566,7 +566,7 @@ html{scrollbar-color:var(--ink-faint) var(--canvas)}
 .hero :focus-visible,.text-break :focus-visible,.market :focus-visible,
 .page-hero :focus-visible,.banner :focus-visible{outline-color:var(--ember-bright)}
 /* figures in a column of currency should line up; browser default is proportional */
-.data-table td,.stat-tile .stat-value,.fact-list .fact-value{font-variant-numeric:tabular-nums}
+.data-table td,.stat-tile .stat-value,.fact-list .fact-value{font-variant-numeric:normal}
 
 /* ---- colour blocks ---- */
 .band-glacier{background:var(--glacier)}
@@ -651,7 +651,7 @@ html{scrollbar-color:var(--ink-faint) var(--canvas)}
 .tile-figure{gap:var(--s2);justify-content:flex-end;min-height:170px}
 .tile-figure .figure{
   font-family:var(--font-display);font-size:clamp(2.6rem,4.6vw,3.9rem);
-  line-height:.92;letter-spacing:-0.02em;font-variant-numeric:tabular-nums;
+  line-height:.92;letter-spacing:-0.02em;font-variant-numeric:normal;
 }
 .tile-figure .figure-label{font-size:.92rem;line-height:1.45;color:var(--ink-soft)}
 .tile-navy .figure-label{color:rgba(255,255,255,.74)}
@@ -739,7 +739,7 @@ section{padding:var(--s10) 0}
 .page-hero :focus-visible,.banner :focus-visible,
 .tile-navy :focus-visible,.tile-ember :focus-visible{outline-color:#fff}
 .data-table td,.data-table th,.stat-tile .stat-value,.fact-list .fact-value,
-.figure{font-variant-numeric:tabular-nums}
+.figure{font-variant-numeric:normal}
 
 /* ---- hero ----
    Stacking is explicit so the scrim always wins the contrast argument:

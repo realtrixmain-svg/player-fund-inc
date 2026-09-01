@@ -109,11 +109,14 @@ section{padding:112px 0;scroll-margin-top:88px}
 .band-paper{background:var(--paper)}
 .band-canvas{background:var(--canvas)}
 
+.fund-title-lockup{display:flex;align-items:center;gap:56px}
+@media (max-width:560px){.fund-title-lockup{gap:20px}}
 .fund-header-logo{
-  height:170px;width:auto;flex-shrink:0;margin-left:16px;
-  mix-blend-mode:multiply;filter:drop-shadow(0 6px 14px rgba(15,34,49,.12));
+  height:280px;width:auto;flex-shrink:0;margin-left:16px;
+  mix-blend-mode:multiply;filter:drop-shadow(0 10px 22px rgba(15,34,49,.14));
 }
-@media (max-width:560px){.fund-header-logo{height:110px}}
+@media (max-width:900px){.fund-header-logo{height:200px}}
+@media (max-width:560px){.fund-header-logo{height:130px;margin-left:0}}
 
 .brokercheck-badge{display:inline-block;opacity:.85;transition:opacity .15s ease}
 .brokercheck-badge:hover{opacity:1}

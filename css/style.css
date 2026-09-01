@@ -109,19 +109,22 @@ section{padding:112px 0;scroll-margin-top:88px}
 .band-paper{background:var(--paper)}
 .band-canvas{background:var(--canvas)}
 
-/* Fund snapshot: faded brand mark as a watermark underlay, not decoration
-   competing with the copy - low opacity, behind everything, ignored by
-   screen readers and clicks. */
-.fund-snapshot{position:relative;overflow:hidden}
-.fund-snapshot::before{
-  content:'';position:absolute;z-index:0;pointer-events:none;
-  top:50%;right:-6%;transform:translateY(-50%);
-  width:min(46vw,560px);aspect-ratio:288/256;
-  background:url('../assets/logo.png') no-repeat center/contain;
-  opacity:.05;
+.fund-header-logo{height:110px;width:auto;flex-shrink:0}
+
+.brokercheck-badge{display:inline-block;opacity:.85;transition:opacity .15s ease}
+.brokercheck-badge:hover{opacity:1}
+.brokercheck-badge img{height:56px;width:auto}
+
+/* Strategies page only: this fund has its own lockup (Player International
+   Fund), swapped in over the firm's Player Fund Inc. mark in nav + footer,
+   per the "Player Website adjustments" brief. */
+body.page-strategies .brand-logo{content:url("../assets/player-international-fund-logo.png");height:64px}
+@media (max-width:900px){body.page-strategies .brand-logo{height:56px}}
+@media (max-width:760px){body.page-strategies .brand-logo{height:48px}}
+body.page-strategies footer .brand-logo{
+  content:url("../assets/player-international-fund-logo.png");height:100px;
+  background:#fff;border-radius:8px;padding:12px 20px;
 }
-.fund-snapshot > .wrap{position:relative;z-index:1}
-@media (max-width:760px){.fund-snapshot::before{width:70vw;right:-18%}}
 
 /* ---- nav ---- */
 .site-nav{

@@ -109,7 +109,11 @@ section{padding:112px 0;scroll-margin-top:88px}
 .band-paper{background:var(--paper)}
 .band-canvas{background:var(--canvas)}
 
-.fund-header-logo{height:110px;width:auto;flex-shrink:0}
+.fund-header-logo{
+  height:170px;width:auto;flex-shrink:0;margin-left:16px;
+  mix-blend-mode:multiply;filter:drop-shadow(0 6px 14px rgba(15,34,49,.12));
+}
+@media (max-width:560px){.fund-header-logo{height:110px}}
 
 .brokercheck-badge{display:inline-block;opacity:.85;transition:opacity .15s ease}
 .brokercheck-badge:hover{opacity:1}

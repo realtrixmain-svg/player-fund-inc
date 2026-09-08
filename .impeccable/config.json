@@ -131,6 +131,15 @@
         ],
         "createdAt": "2026-09-08T18:58:10.263Z",
         "reason": "global h3/h4 line-height:1.3 (style.css:76) sits exactly at the 1.3x threshold and rounds under it by floating point; sitewide heading rule unrelated to today's change, and these headings (card titles like 'Hamilton Corporate Finance') are short single-line labels in practice"
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          "repos/player-fund/about.html"
+        ],
+        "createdAt": "2026-09-08T19:14:31.978Z",
+        "reason": "btn-ghost::before hover-fill pseudo-element has background:var(--ink) but sits transform:translateX(-101%) off-canvas at rest, so it never actually paints behind the var(--ink) text; detector reads the static background-color property and ignores the transform, reading it as text-on-itself. Sitewide component, already used unmodified elsewhere (nav-cta)."
       }
     ]
   }

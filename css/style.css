@@ -364,6 +364,7 @@ body.page-strategies footer .brand-logo{
 @media (max-width:560px){.fund-header{flex-direction:column;align-items:flex-start}}
 .fund-header .fund-tag{display:block;font-size:.92rem;letter-spacing:-0.004em;text-transform:none;color:var(--ink-faint);margin-top:var(--s2)}
 .fund-header h1,.fund-header h2{margin-bottom:4px}
+.fund-name{font-size:clamp(3rem,5.4vw,5rem)}
 .fund-header .fund-compartments{display:flex;flex-wrap:wrap;align-items:flex-start;gap:8px;max-width:520px}
 .fund-pill{border:1px solid var(--border-strong);border-radius:2px}
 .fund-pill summary{
@@ -963,6 +964,7 @@ section{padding:var(--s10) 0}
      characters of a narrow serif - overflowed a 320px screen no matter how
      small the viewport got. */
   h1{font-size:clamp(2.35rem,10vw,5rem)}
+  .fund-name{font-size:clamp(2.35rem,10vw,5rem)}
 }
 @media (max-width:380px){
   /* "Investor relations" is a long label for a 320px bar. At the smallest

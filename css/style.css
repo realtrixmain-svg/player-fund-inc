@@ -1031,6 +1031,11 @@ body::after{
   .principles > :nth-child(n+2){border-top:1px solid var(--border-strong)}
   .principles > *{padding-left:0;padding-right:0}
 }
+/* Partner cards: bottom-anchor the CTA cluster so both cards' buttons land on
+   one baseline regardless of body length, and give the CTA deliberate room to
+   breathe above it instead of hugging the paragraph. */
+.partners .principle{display:flex;flex-direction:column;height:100%}
+.partners .partner-cta{margin-top:auto;padding-top:var(--s5);display:flex;flex-direction:column;align-items:flex-start;gap:var(--s4)}
 
 /* ---- accent italic ----
    Hamilton lets one clause of a headline turn italic and take the accent.

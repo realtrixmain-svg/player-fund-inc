@@ -124,6 +124,98 @@
 
   </section>
 
+  <section class="band-paper">
+    <div class="wrap">
+      <div class="lede-grid" style="margin-bottom:48px">
+        <h2 class="reveal">Core-satellite portfolio architecture</h2>
+        <p class="lede reveal">Institutional-grade global portfolio construction that integrates alternative investments with traditional assets, optimized using a &ldquo;Total Portfolio&rdquo; approach. Replacing 20% of a traditional 60/40 portfolio (shifting it to 55% Equities, 25% Fixed Income, and 20% Alternatives) aims to lower volatility through non-correlated asset classes while maintaining a competitive return profile and reduced volatility.</p>
+      </div>
+
+      <div class="block">
+        <p class="block-intro">A broad public-market core anchors the portfolio, while private markets and alternatives satellites pursue targeted, factor-driven outperformance.</p>
+        <div class="table-scroll reveal">
+          <table class="data-table text-table">
+            <thead>
+              <tr>
+                <th scope="col">Feature</th>
+                <th scope="col">Core Blue Chip Portfolio</th>
+                <th scope="col">Private Markets &amp; Alternatives <em>Satellite Portfolios (Factor LPs)</em></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Primary Objective</th>
+                <td>Market beta replication, liquidity, and cost minimization</td>
+                <td>Risk-adjusted alpha generation and structural outperformance</td>
+              </tr>
+              <tr>
+                <th scope="row">Vehicles Used</th>
+                <td>Blue chip portfolios comprising Institutional Index Funds, Liquid ETFs</td>
+                <td>Separately Managed Accounts (SMAs), Custom LP structures</td>
+              </tr>
+              <tr>
+                <th scope="row">Strategy Style</th>
+                <td>Passive, market-cap weighted</td>
+                <td>Systematic, rule-based, factor-focused</td>
+              </tr>
+              <tr>
+                <th scope="row">Academic Anchors</th>
+                <td>Fama-French 3-Factor (Market Risk)</td>
+                <td>Extended Factors (Value, Momentum, Profitability/Investment)</td>
+              </tr>
+              <tr>
+                <th scope="row">Tracking Error</th>
+                <td>Near zero</td>
+                <td>Intentional and elevated</td>
+              </tr>
+              <tr>
+                <th scope="row">Fee Layer</th>
+                <td>Minimal</td>
+                <td>Moderate (Performance incentives or custom mandate fees)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3>LP strategic implementations</h3>
+        <dl class="def-list reveal">
+          <div>
+            <dt>Customized Tilt Mandates</dt>
+            <dd>LPs can dynamically alter their exposure vectors based on institutional risk appetite, shifting weights toward value or momentum without disrupting the liquid core.</dd>
+          </div>
+          <div>
+            <dt>Tax Overlay Efficiency</dt>
+            <dd>Utilizing SMAs allows for direct ownership of the underlying securities, unlocking institutional-grade tax-loss harvesting and custom ESG/thematic exclusions.</dd>
+          </div>
+          <div>
+            <dt>Risk Mitigation through structural stability and diversification</dt>
+            <dd>The core ensures the portfolio never vastly underperforms the broader market, while the uncorrelated nature of factor premiums (e.g., Value and Momentum are historically negatively correlated) smooths out the satellite sleeve&rsquo;s performance over long cycles. The &ldquo;satellites&rdquo; are smaller, targeted allocations used to pursue outperformance (alpha). In this case, they target specific &ldquo;factors&rdquo; like Value (undervalued stocks) and Momentum (stocks on an upward trend).</dd>
+          </div>
+        </dl>
+      </div>
+
+      <div class="block">
+        <h3>Academic factors leveraged in private markets satellites</h3>
+        <dl class="def-list reveal">
+          <div>
+            <dt>Value (HML - High Minus Low)</dt>
+            <dd>Overweights securities trading at low valuations relative to fundamental metrics (e.g., book-to-market, P/E ratios). It captures the premium associated with behavioral mispricing and structural economic risks.</dd>
+          </div>
+          <div>
+            <dt>Momentum (WML - Winners Minus Losers)</dt>
+            <dd>Exploits the tendency of assets that have performed well in the recent past to continue outperforming in the short term, driven by investor underreaction and herd behavior.</dd>
+          </div>
+          <div>
+            <dt>Profitability / Quality (RMW - Robust Minus Weak)</dt>
+            <dd>Targets companies with high operating profitability and capital efficiency. This factor provides structural defense during market downturns and anchors the growth sleeve to realized earnings rather than speculative valuation.</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
   <section class="band-glacier">
     <div class="wrap">
       <div class="section-lead lede-grid">
@@ -579,6 +671,89 @@
         <li>Adjust target allocation based on changing market conditions and the risk-return trade-off.</li>
         <li>Equity &amp; Fixed Income assets are reduced proportionately and replaced by an allocation to alternatives represented by listed alternatives.</li>
       </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="band-glacier">
+    <div class="wrap">
+      <div class="lede-grid" style="margin-bottom:48px">
+        <h2 class="reveal">Factor-based rebalancing framework</h2>
+        <p class="lede reveal">A disciplined rebalancing framework designed to look beyond simple calendar schedules (e.g., every quarter) or static threshold rules (e.g., +/- 5% deviations): multi-layered, condition-dependent rebalancing triggers to manage factor cyclicality, where investment factors like Value, Momentum, Quality, and Low Volatility go through extended periods of underperformance.</p>
+      </div>
+
+      <div class="block">
+        <h3>Smart-beta implementation</h3>
+        <p class="block-intro">Our rebalancing framework applies triggers to the active factor beta (or Z-score) rather than capital allocation percentages alone. In factor portfolios, a stock&rsquo;s market value can remain stable while its underlying characteristics (like Value, Momentum, or Quality) change dramatically. Traditional capital-allocation rebalancing misses this, leading to unintended risks.</p>
+        <div class="table-scroll reveal">
+          <table class="data-table text-table">
+            <thead>
+              <tr>
+                <th scope="col">Feature</th>
+                <th scope="col">Capital-Based Rebalancing</th>
+                <th scope="col">Factor-Based Rebalancing (Our Framework)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Trigger Mechanism</th>
+                <td>Deviation from asset weight (e.g., +/- 5% allocation).</td>
+                <td>Deviation from target factor exposure (e.g., Target Z-score moves by +/- 0.5).</td>
+              </tr>
+              <tr>
+                <th scope="row">Primary Goal</th>
+                <td>Maintain a constant asset allocation mix.</td>
+                <td>Maintain a pure, consistent risk premium exposure.</td>
+              </tr>
+              <tr>
+                <th scope="row">Risk Management</th>
+                <td>Controls asset-class concentration risk.</td>
+                <td>Controls style drift and unintended sector/factor risks.</td>
+              </tr>
+              <tr>
+                <th scope="row">Trading Efficiency</th>
+                <td>Triggers trades based on price movement alone.</td>
+                <td>Triggers trades only when the portfolio&rsquo;s fundamental profile changes.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3>1. Valuation triggers (value spreads)</h3>
+        <p class="block-intro">These triggers monitor the relative cheapness or dearness of a factor compared to its historical average.</p>
+        <ul>
+          <li><strong>Valuation Spread Thresholds:</strong> Trigger a rebalance when the valuation gap between a factor (e.g., Value vs. Growth) stretches beyond a specific statistical threshold, such as 1.5 to 2 standard deviations from its historical mean.</li>
+          <li><strong>Extreme Percentile Limits:</strong> Rebalance when a factor&rsquo;s relative valuation enters the top or bottom 5th to 10th percentile of its historical range, signalling an overextended cycle ripe for a reversal.</li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h3>2. Momentum &amp; trend triggers</h3>
+        <p class="block-intro">These triggers use price action to capture macroeconomic regimes and avoid catching a &ldquo;falling knife.&rdquo;</p>
+        <ul>
+          <li><strong>Cross-Sectional Factor Momentum:</strong> Adjust allocations when a factor&rsquo;s recent performance (e.g., past 3 to 12 months) falls below or rises above the average performance of a broader multi-factor universe.</li>
+          <li><strong>Moving Average Crossovers:</strong> Trigger a reduction in a factor if its cumulative return drops below its 200-day moving average, or increase exposure when it breaks above it, protecting capital during prolonged factor winters.</li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h3>3. Macroeconomic &amp; regime triggers</h3>
+        <p class="block-intro">Factor performance is highly correlated with the economic cycle. These triggers shift allocations based on external economic shifts.</p>
+        <ul>
+          <li><strong>Growth and Inflation Surprises:</strong> Trigger a rebalance when leading indicators like the ISM Manufacturing PMI or CPI cross specific inflection points (e.g., PMI dropping below 50 indicates contraction, favoring Quality and Low Volatility over Value).</li>
+          <li><strong>Yield Curve Inversions:</strong> Use shifts in the bond market (like the 10Y-2Y Treasury spread narrowing to zero or turning negative) to trigger a defensive factor rotation.</li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h3>4. Risk-based triggers</h3>
+        <p class="block-intro">These focus on maintaining a stable risk profile rather than chasing performance.</p>
+        <ul>
+          <li><strong>Volatility Target Breaches:</strong> Trigger a rebalance if the realized volatility of a specific factor spikes past a pre-defined threshold (e.g., exceeding 20%), which often happens to the Value factor during market crashes.</li>
+          <li><strong>Tracking Error Limits:</strong> For institutional portfolios, trigger a rebalance if the portfolio&rsquo;s active risk (tracking error) relative to its multi-factor benchmark drifts beyond an acceptable boundary (e.g., exceeding 1.5% to 2%).</li>
+        </ul>
       </div>
     </div>
   </section>

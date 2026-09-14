@@ -1035,7 +1035,19 @@ body::after{
    one baseline regardless of body length, and give the CTA deliberate room to
    breathe above it instead of hugging the paragraph. */
 .partners .principle{display:flex;flex-direction:column;height:100%}
-.partners .partner-cta{margin-top:auto;padding-top:var(--s5);display:flex;flex-direction:column;align-items:flex-start;gap:var(--s4)}
+.partners .partner-cta{margin-top:auto;padding-top:var(--s5);display:flex;flex-direction:column;align-items:stretch;gap:var(--s4)}
+/* Even pacing: both partner CTAs read as parallel full-width bars, aligned to
+   one baseline, instead of two ragged content-width buttons. The BrokerCheck
+   badge keeps its natural size. */
+.partners .partner-cta .brokercheck-badge{align-self:flex-start}
+.partners .partner-cta .btn{width:100%;justify-content:center;text-align:center}
+/* Legible hover: the site-wide left-to-right wipe can stick half-covered on
+   these buttons (dark text on the dark sweep), so here the fill fades in
+   uniformly via opacity and the text colour crossfades with it - readable at
+   every point of the transition and at rest. */
+.partners .partner-cta .btn-ghost{transition:color .28s ease}
+.partners .partner-cta .btn-ghost::before{transform:none;opacity:0;transition:opacity .28s ease}
+.partners .partner-cta .btn-ghost:hover::before{transform:none;opacity:1}
 
 /* ---- accent italic ----
    Hamilton lets one clause of a headline turn italic and take the accent.

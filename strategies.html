@@ -752,8 +752,77 @@
         <p class="block-intro">These focus on maintaining a stable risk profile rather than chasing performance.</p>
         <ul>
           <li><strong>Volatility Target Breaches:</strong> Trigger a rebalance if the realized volatility of a specific factor spikes past a pre-defined threshold (e.g., exceeding 20%), which often happens to the Value factor during market crashes.</li>
-          <li><strong>Tracking Error Limits:</strong> For institutional portfolios, trigger a rebalance if the portfolio&rsquo;s active risk (tracking error) relative to its multi-factor benchmark drifts beyond an acceptable boundary (e.g., exceeding 1.5% to 2%).</li>
+          <li><strong>Tracking Error Limits:</strong> Externally managed institutional sub-fund portfolios, typically trigger a rebalance if the sub-fund portfolio&rsquo;s active risk (tracking error) relative to its multi-factor benchmark drifts beyond an acceptable boundary (e.g., exceeding 1.5% to 2%).</li>
         </ul>
+      </div>
+
+      <div class="block">
+        <h3>Core Mechanics of Our Framework</h3>
+
+        <h4>The Trigger Condition: Dynamic adaptation</h4>
+        <p class="block-intro">Rebalance based on statistical extremes rather than fixed asset weights, responding to changing market behaviour instead of arbitrary targets. Aligns portfolios with fundamental economic realities. A factor-based Z-score measures how far a value is from its historical average, shown in standard deviations. Z-scores normalize disparate return metrics across different assets or sub-funds. Managers compare assets with different historical averages on a level playing field.</p>
+        <ul>
+          <li><strong>Between 0.8 and 1.2:</strong> The portfolio stays as it is. Market momentum is normal, so no changes are needed. This saves money on trading fees.</li>
+          <li><strong>Below 0.8:</strong> Momentum has slowed down significantly. The framework triggers a rebalance to adjust or defend the portfolio against fading trends.</li>
+          <li><strong>Above 1.2:</strong> Momentum is running too hot or reaching an extreme. The framework triggers a rebalance to lock in gains or trim overheated positions.</li>
+        </ul>
+
+        <h4>The Factor Z-Score Advantage</h4>
+        <p>Using Z-scores standardizes metrics across different market regimes. A Z-score measures how many standard deviations a PortCo&rsquo;s factor characteristics are from the cross-sectional market mean.</p>
+        <ul>
+          <li><strong>High Z-Score:</strong> The portfolio possesses a strong, pure exposure to the intended factor.</li>
+          <li><strong>Decaying Z-Score:</strong> The underlying stocks have lost their factor characteristics (e.g., a &ldquo;Value&rdquo; stock has appreciated so much it is now a &ldquo;Growth&rdquo; stock), triggering a rebalance even if its portfolio weight hasn&rsquo;t changed.</li>
+          <li><strong>Lower turnover:</strong> It avoids daily or weekly tweaking by letting normal market noise pass without action.</li>
+          <li><strong>Risk control:</strong> It steps in only when market momentum breaks historical norms. Avoids fighting the market trend; cuts losses early. Buys low and sells high; exploits long-term mean reversion.</li>
+        </ul>
+
+        <h4>Managing Active Factor Beta</h4>
+        <p>By monitoring active factor beta, we ensure every portfolio&rsquo;s sensitivity to a specific factor remains stable. If a macro shift compresses or expands the factor&rsquo;s cross-sectional volatility, our framework dynamically reacts to the realised risk exposure rather than nominal dollar amounts.</p>
+
+        <h4>Altman Z-score</h4>
+        <p>Our framework used to continuously gauge corporate credit risk and assess each publicly traded PortCo&rsquo;s financial stability by analysing key financial ratios to predict the potential for bankruptcy risk using profitability, leverage, liquidity, solvency, and activity ratios.</p>
+        <ul>
+          <li><strong>Credit Risk and Bankruptcy Screening:</strong> Altman Z Scores helps screen the credit ratings of specific asset-related securities, for financial distress. Scores below specific thresholds warn of high bankruptcy risk, allowing portfolios to &lsquo;prune&rsquo; troubled assets before defaults occur.</li>
+          <li>Score Ratios measure balance sheet and income statement data to assess five areas of business performance:</li>
+        </ul>
+        <dl class="def-list">
+          <div>
+            <dt>Liquidity</dt>
+            <dd>Working capital divided by total assets measures short-term liquid assets against company size.</dd>
+          </div>
+          <div>
+            <dt>Profitability</dt>
+            <dd>Retained earnings divided by total assets measures accumulated profitability and earning power.</dd>
+          </div>
+          <div>
+            <dt>Operational Efficiency</dt>
+            <dd>Earnings before interest and tax (EBIT) divided by total assets measures productivity from operating earnings.</dd>
+          </div>
+          <div>
+            <dt>Solvency</dt>
+            <dd>Market value of equity divided by total liabilities measures how much asset value can drop before liabilities exceed assets.</dd>
+          </div>
+          <div>
+            <dt>Activity</dt>
+            <dd>Sales divided by total assets measures asset turnover and revenue generation.</dd>
+          </div>
+        </dl>
+
+        <h4>Evaluation &amp; Score Interpretation</h4>
+        <dl class="def-list">
+          <div>
+            <dt>Above 3.0 (Safe Zone)</dt>
+            <dd>financially strong, and the risk of bankruptcy is low.</dd>
+          </div>
+          <div>
+            <dt>1.8 to 3.0 (Grey Zone)</dt>
+            <dd>caution zone; financial stress exists, and bankruptcy is possible.</dd>
+          </div>
+          <div>
+            <dt>Below 1.8 (Distress Zone)</dt>
+            <dd>high financial distress and a strong probability of bankruptcy. Modern evaluations of scores dipping close to 0 also signal severe risk.</dd>
+          </div>
+        </dl>
       </div>
     </div>
   </section>

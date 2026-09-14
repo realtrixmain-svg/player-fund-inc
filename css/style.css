@@ -926,6 +926,21 @@ section{padding:var(--s10) 0}
 .page-hero .wrap{z-index:2}
 .page-hero .photo-credit{z-index:3}
 
+/* SVGP page only: lighten the image tints and lean on the site's navy + ember
+   palette instead of the heavier near-black cast, so the page reads in the same
+   theme as the rest of the site. Scoped via the page-svgp body class. */
+.page-svgp .page-hero-img img{filter:saturate(.72) contrast(1.06) brightness(1.03)}
+.page-svgp .page-hero::after{
+  background:
+    linear-gradient(101deg,rgba(15,34,49,.84) 0%,rgba(15,34,49,.7) 44%,rgba(15,34,49,.4) 70%,rgba(15,34,49,.14) 100%),
+    linear-gradient(180deg,rgba(15,34,49,.4) 0%,rgba(15,34,49,.06) 40%,rgba(15,34,49,.52) 100%);
+}
+.page-svgp .text-break.peak .scrim{
+  background:
+    linear-gradient(180deg,rgba(15,34,49,.22) 0%,rgba(15,34,49,.42) 45%,rgba(15,34,49,.74) 100%),
+    linear-gradient(255deg,rgba(122,100,40,.20) 0%,rgba(122,100,40,0) 55%);
+}
+
 /* ============================================================================
    Mobile pass.
 

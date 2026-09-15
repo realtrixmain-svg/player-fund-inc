@@ -117,3 +117,46 @@
 #docs-table td{vertical-align:top}
 #upload-status:empty{display:none}
 .admin-links{display:flex;flex-wrap:wrap;gap:24px;margin:0}
+
+/* ==========================================================================
+   Dashboard + admin redesign — clearer hierarchy and a real two-column grid,
+   built from the base site's own tokens (hairline borders, ember accent,
+   Instrument Serif display). No new colours, no new fonts.
+   ========================================================================== */
+.portal-wrap-dash{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr);gap:24px}
+
+.dash-hero h1{margin-bottom:10px}
+.dash-hero .lede{margin-bottom:0}
+
+.dash-grid{display:grid;gap:24px;grid-template-columns:minmax(0,1fr);align-items:start}
+@media (min-width:900px){.dash-grid{grid-template-columns:1.6fr 1fr}}
+.dash-main,.dash-aside{display:grid;gap:24px}
+
+/* card header: title + optional count over a hairline divider */
+.card-head{
+  display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+  margin:0 0 20px;padding-bottom:16px;border-bottom:1px solid var(--border);
+}
+.card-head h1,.card-head h2{margin:0}
+.count-pill{
+  flex:none;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:.72rem;letter-spacing:.04em;color:var(--ink-soft);
+  border:1px solid var(--border-strong);padding:3px 10px;border-radius:999px;
+  font-variant-numeric:tabular-nums;
+}
+
+/* portfolio & strategy is Player Fund's signature destination — give it the accent */
+.card-feature{border-left:2px solid var(--ember)}
+
+/* restrained hover: border + a cool-ice fill, matching the base site's surfaces */
+.doc-item{transition:border-color .18s ease,background .18s ease}
+.doc-item:hover{border-color:var(--border-strong);background:var(--canvas)}
+.data-table tbody tr{transition:background .18s ease}
+.data-table tbody tr:hover{background:var(--canvas)}
+
+/* login/forgot footer links */
+.portal-links{display:flex;flex-wrap:wrap;gap:8px 24px;margin:20px 0 0}
+
+/* charts reused from the public strategies page, sitting inside portal cards */
+.portal-card .chart-canvas-wrap{margin:20px 0 8px}
+.portal-card .chart-legend{margin-bottom:8px}

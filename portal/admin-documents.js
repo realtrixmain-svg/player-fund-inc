@@ -91,7 +91,8 @@ function row(doc, site) {
     // Open the tab on the click itself, before the await, or the popup blocker
     // treats the later navigation as unprompted. Same reason as in
     // portal-dashboard.js.
-    const tab = window.open('', '_blank', 'noopener');
+    const tab = window.open('', '_blank');
+    if (tab) tab.opener = null;
     const { data, error } = await supabase.storage
       .from(bucketFor(site))
       .createSignedUrl(doc.storage_path, 60);

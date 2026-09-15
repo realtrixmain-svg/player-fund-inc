@@ -4,6 +4,7 @@ import { callFunction, wireSignOut } from './admin-guard.js';
 
 const greeting = document.getElementById('greeting');
 const docList = document.getElementById('doc-list');
+const docCount = document.getElementById('doc-count');
 
 const { data: { session } } = await supabase.auth.getSession();
 if (!session) {
@@ -45,6 +46,7 @@ if (!session) {
     .order('created_at', { ascending: false });
 
   docList.innerHTML = '';
+  if (docCount) docCount.textContent = String(docs?.length || 0);
   if (error) {
     const li = document.createElement('li');
     li.className = 'form-note';

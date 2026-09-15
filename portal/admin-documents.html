@@ -25,13 +25,15 @@
   <div class="wrap portal-wrap portal-wrap-wide" id="page" hidden>
 
     <section class="portal-card">
-      <h1>Documents</h1>
+      <div class="card-head">
+        <h1>Documents</h1>
+        <a class="text-link" href="dashboard.html">Back to dashboard</a>
+      </div>
       <p class="lede">Upload client documents to any of the three portals. A document is only ever visible to clients of the portal it is filed under.</p>
-      <a class="text-link" href="dashboard.html">Back to dashboard</a>
     </section>
 
     <section class="portal-card">
-      <h2>Upload a document</h2>
+      <div class="card-head"><h2>Upload a document</h2></div>
       <form id="upload-form" class="code-form" autocomplete="off">
         <div class="form-row two">
           <div class="field">
@@ -61,7 +63,7 @@
     </section>
 
     <section class="portal-card">
-      <h2>Uploaded documents</h2>
+      <div class="card-head"><h2>Uploaded documents</h2></div>
       <div class="field field-select doc-filter">
         <select id="filter-site">
           <option value="player-fund">Player Fund</option>

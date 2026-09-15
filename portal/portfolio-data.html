@@ -40,6 +40,7 @@
       </div>
 
       <h3 style="margin-top:0">Neutral allocation</h3>
+      <div class="chart-canvas-wrap"><canvas id="chart-aum-allocation" role="img" aria-label="Bar chart of global AuM allocation: Blue Chip Growth and Income 24%, LDI 18%, Dedicated Portfolio 22%, Secondaries and Primaries 16%, Private Credit 20%, each with an approximate 2 percentage point range"></canvas></div>
       <div class="stat-grid">
         <div class="stat-tile"><span class="stat-label">Blue Chip EQ (Growth &amp; Income)</span><span class="stat-value">24%</span><span class="stat-sub">Range 10&ndash;30</span></div>
         <div class="stat-tile"><span class="stat-label">LDI (Investment Grade)</span><span class="stat-value">18%</span><span class="stat-sub">Range 10&ndash;20</span></div>
@@ -49,6 +50,8 @@
       </div>
 
       <h3>Optimal portfolio weights</h3>
+      <div class="chart-canvas-wrap"><canvas id="chart-optimal-weights" role="img" aria-label="Donut chart of optimal portfolio weights: 35% Growth compartment listed blue chip equities, 20% Alternatives Debt private credit fixed income, 15% Income compartment AAA to BB fixed income and yield equities, 10% Alternatives Private Equity hedge fund, 20% Listed private equity or debt real estate"></canvas></div>
+      <ul class="chart-legend" id="chart-optimal-weights-legend"></ul>
       <div class="stat-grid">
         <div class="stat-tile"><span class="stat-label">Growth (Blue Chip Equities)</span><span class="stat-value">35%</span></div>
         <div class="stat-tile"><span class="stat-label">Alternatives (Debt)</span><span class="stat-value">20%</span></div>
@@ -86,8 +89,9 @@
     </section>
 
     <section class="portal-card">
-      <h2>Asset class required returns, expected risk &amp; correlations</h2>
+      <div class="card-head"><h2>Asset class required returns, expected risk &amp; correlations</h2></div>
       <p>We estimate the expected return and risk arising from three uses of liquidity: market timing, portfolio rebalancing, and funding capital calls. These allocations are optimal for mean&ndash;variance weightings where the LP risk aversion coefficient equals 2, given the assumptions for expected returns, standard deviations, and correlations below. Standard deviations are adjusted to account for the effect of performance fees and smoothing.</p>
+      <div class="chart-canvas-wrap"><canvas id="chart-correlation" role="img" aria-label="Correlation matrix of Equities, Fixed Income, Alternatives hedge funds and Private Equity, with expected return, standard deviation and pairwise correlations; warmer cells indicate higher correlation and the diagonal is fixed at 1.00"></canvas></div>
       <div class="table-scroll">
         <table class="data-table">
           <thead><tr><th>Asset class</th><th>Expected return (%)</th><th>Std. deviation (%)</th><th>Equities</th><th>Fixed income</th><th>Alternatives (hedge funds)</th><th>Private equity</th></tr></thead>
@@ -102,7 +106,7 @@
     </section>
 
     <section class="portal-card">
-      <h2>Optimal portfolio weights, rebalancing &amp; capital calls</h2>
+      <div class="card-head"><h2>Optimal portfolio weights, rebalancing &amp; capital calls</h2></div>
       <p><strong>Market timing:</strong> skillful market timing produces an excess return equal to 0.40%, with excess risk of 0.80%. We derive these values by simulating a market-timing strategy's performance.</p>
       <p><strong>Rebalancing:</strong> we simulate five-year paths given assumptions about each portfolio's allocation as well as the expected return, risk and correlations for each asset class, comparing an annual rebalance (at a cost of 0.2%) against no rebalance, and compute the illiquidity penalty as the difference between the resulting certainty equivalents.</p>
       <p><strong>Capital calls:</strong> we assume a 10% probability LPs will need to meet capital calls in a given month, and that calls are likely to be no greater than 15% of initial portfolio value, to sustain liquid AuM inflows and portfolio optimality across asset classes.</p>
@@ -121,7 +125,7 @@
     </section>
 
     <section class="portal-card">
-      <h2>Income compartment</h2>
+      <div class="card-head"><h2>Income compartment</h2></div>
       <p><strong>Key features:</strong> the income focused 'Dedicated Portfolio' compartment offers return consistency &amp; the ability to meet LP cash-flow &amp; capital return requirements (liability based fixed income mandates), with portfolio construction following two main approaches of cash flow matching &amp; duration matching to match fixed-income assets with multiple LP future liabilities.</p>
       <p><strong>Methodology:</strong> our balanced portfolio approach is mindful of implicit biases, risks and trade-offs that could arise with portfolio measures, instruments (publicly traded securities such as commercial paper, notes and bonds traded through exchanges as well as OTC, and non-publicly traded alternative FI instruments such as loans and private placements), and special purpose vehicles used in fixed-income portfolio management. Compartment asset&ndash;liability management (ALM) strategies incorporate both rate-sensitive assets and liabilities into the portfolio decision-making process; for liquidity stress testing (interest rate, liquidity &amp; credit risk) the compartment LDI ALM framework incorporates an 'immunization' feature to hedge interest rate risk to cover cash flow &amp; duration matching techniques across economic/market cycles.</p>
 
@@ -178,10 +182,12 @@
     </section>
 
     <section class="portal-card">
-      <h2>Structural diversification &amp; liquidity analysis</h2>
+      <div class="card-head"><h2>Structural diversification &amp; liquidity analysis</h2></div>
       <p>LP cash calls &amp; capital drawdowns (public market &amp; alternatives) shift allocations of capital in the rebalancing and calibration process across portfolios, for optimality throughout market &amp; economic cycles. LP uncalled capital is allotted in accord with shifting asset allocations and liquidity planning across portfolios, without a need to limit LP cash calls during market downturns.</p>
 
       <h3>Post-drawdown liquidity, by year</h3>
+      <div class="chart-canvas-wrap"><canvas id="chart-liquidity" role="img" aria-label="Stacked bar chart of portfolio composition across five stages from Year 0 pre-crisis to Year 3, showing fixed income and cash, public equity, liquid hedge funds, illiquid hedge funds and private equity, with the liquid share falling from 65% to 21% of total assets"></canvas></div>
+      <ul class="chart-legend" id="chart-liquidity-legend"></ul>
       <div class="table-scroll">
         <table class="data-table">
           <thead><tr><th>Scenario</th><th>Fixed income &amp; cash</th><th>Public equity</th><th>Hedge funds (liquid)</th><th>Hedge funds (illiquid)</th><th>Private equity</th><th>Liquid assets / annual cash requirements</th></tr></thead>
@@ -208,7 +214,8 @@
     </section>
 
     <section class="portal-card">
-      <h2>Performance analysis: assets universe (growth compartment, global equities regional trends)</h2>
+      <div class="card-head"><h2>Performance analysis: assets universe (growth compartment, global equities regional trends)</h2></div>
+      <div class="chart-canvas-wrap"><canvas id="chart-regional-gdp" role="img" aria-label="Bubble chart of the growth compartment assets universe by region, each bubble sized by regional GDP in US dollars and mapped to its benchmark index"></canvas></div>
       <div class="table-scroll">
         <table class="data-table">
           <thead><tr><th>Region</th><th>GDP (USD)</th><th>Index</th></tr></thead>
@@ -226,7 +233,7 @@
     </section>
 
     <section class="portal-card">
-      <h2>Player International Inc. &ndash; private credit &amp; the loan trust</h2>
+      <div class="card-head"><h2>Player International Inc. &ndash; private credit &amp; the loan trust</h2></div>
       <p>Private Credit funds are organised as non-traded BDCs, into which LP investors seeking the highest possible levels of investment income can move regulated capital asset base into (and out of) at par value, through BDC debt series supporting non-cyclical Direct, Wholesale &amp; Dedicated Assets structured lending &amp; simultaneous credit line drawdowns for the proportion of assets funded by debt.</p>
       <p>Acting by Hamilton Portfolio Holdings Trust ("HAMTRUST") Treasury operations, external wholesale funding and BDC capital (equity tranches) helps reinforce our Private Markets activities and mitigate adverse scenarios using hedging approaches to achieve efficient &amp; sustainable portfolio outcomes. HAMTRUST funds all liability (debt &amp; obligations) originated by Hamilton Corporate Finance by borrowing internally (from Private Credit business lines) as well as externally (from wholesale funding markets) and assumes the associated liquidity, currency and interest rate risks.</p>
 
@@ -249,7 +256,7 @@
     </section>
 
     <section class="portal-card">
-      <h2>Collateral</h2>
+      <div class="card-head"><h2>Collateral</h2></div>
       <p>Private Credit transactions are typically collateral backed, thereby typically mitigating credit risk. Transaction 'character', capital (or collateral), and capacity make up the three C's of credit assessment. Credit history, sufficient finances for repayment, and collateral are all factors in establishing private credit facilities with borrowers.</p>
       <p><strong>Overall framework: collateralized transactions.</strong> A collateralized transaction is one in which private credit funds have a credit exposure or potential credit exposure, and that exposure is hedged in whole or in part by collateral posted to HAMTRUST by a counterparty or by a third party on behalf of the counterparty. Where HAMTRUST takes eligible financial collateral, it is allowed to reduce the credit exposure to a counterparty when calculating capital requirements, to take account of the risk-mitigating effect of the collateral.</p>
       <ul>
@@ -263,7 +270,7 @@
     </section>
 
     <section class="portal-card">
-      <h2>Funds transfer pricing (FTP)</h2>
+      <div class="card-head"><h2>Funds transfer pricing (FTP)</h2></div>
       <p>Funds Transfer Pricing is a process Player Fund Inc. uses to assign liquidity costs, benefits, and risks to internal business units, managed by HAMTRUST in accord with the central Treasury function &amp; Hamilton Corporate Finance. This internal pricing mechanism charges units consuming liquidity (e.g. lending) and credits units providing liquidity (i.e. Pref Capital deposits). The FTP process is designed to cover both the asset and liability sides of the balance sheet, in order to centralize risk and align all product pricing with market rates.</p>
 
       <h3>Functions &amp; group mechanisms</h3>
@@ -287,6 +294,8 @@
   </div>
 </main>
 
+<script src="../js/charts.js"></script>
+<script src="../js/fund-charts.js"></script>
 <script type="module" src="portfolio-data.js"></script>
 </body>
 </html>

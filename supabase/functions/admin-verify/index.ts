@@ -16,7 +16,16 @@
 import { createClient } from 'jsr:@supabase/supabase-js@2';
 
 const RESEND_SECRET_NAME = 'RESEND_SECRET_NAME'; // matches the secret name set in Supabase
-const FROM_EMAIL = 'Player Fund Inc <noreply@hamiltonportfolio.com>';
+
+// Sender name is per-site so an admin's step-up code carries the portal they
+// signed in to, on the shared verified domain. Address stays the same mailbox.
+const SENDER_BY_SITE: Record<string, string> = {
+  'hamilton-pe': 'HPE No Reply <noreply@hamiltonportfolio.com>',
+  'player-fund': 'Player Fund No Reply <noreply@hamiltonportfolio.com>',
+  'hamilton-portfolio': 'Hamilton Portfolio No Reply <noreply@hamiltonportfolio.com>',
+};
+const DEFAULT_FROM = 'Hamilton Portfolio No Reply <noreply@hamiltonportfolio.com>';
+const senderFor = (site?: string | null) => SENDER_BY_SITE[site ?? ''] ?? DEFAULT_FROM;
 
 const CODE_TTL_MINUTES = 10;
 const SESSION_TTL_HOURS = 12;
@@ -115,7 +124,7 @@ Deno.serve(async (req) => {
 
   const { data: profile } = await supabaseAdmin
     .from('profiles')
-    .select('is_admin')
+    .select('is_admin, site')
     .eq('id', user.id)
     .single();
 
@@ -176,7 +185,7 @@ Deno.serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: FROM_EMAIL,
+        from: senderFor(profile.site),
         to: user.email,
         subject: `${plain} is your administrator sign-in code`,
         html:

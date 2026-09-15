@@ -1,4 +1,4 @@
-import { supabase } from './supabase-client.js';
+import { SUPABASE_URL, SITE } from './config.js';
 
 const form = document.getElementById('auth-form');
 const status = document.getElementById('form-status');
@@ -17,12 +17,21 @@ form.addEventListener('submit', async (e) => {
   submitBtn.disabled = true;
   submitBtn.querySelector('span').textContent = 'Sending...';
 
-  // Recovery link lands back on reset.html next to this page.
-  const redirectTo = new URL('reset.html', window.location.href).href;
-  // Result is deliberately ignored for the user-facing message; a real error is
-  // logged for us but never surfaced, to avoid leaking whether the email exists.
-  const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo });
-  if (error) console.warn('resetPasswordForEmail:', error.message);
+  // Per-site reset relay (mirrors signup): the edge function generates the
+  // recovery link and sends it through Resend, so the mail carries this portal's
+  // own sender name on the shared verified domain. A bare fetch, like signup -
+  // the function is deployed with verify_jwt=false.
+  try {
+    await fetch(`${SUPABASE_URL}/functions/v1/reset-${SITE}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    });
+  } catch (err) {
+    // Network/CORS failures are swallowed into the generic message too - a reset
+    // request must never reveal whether the address exists.
+    console.warn('reset request failed:', err);
+  }
 
   form.reset();
   status.textContent = GENERIC;

@@ -6,5 +6,5 @@ import { serveSignup } from '../_shared/signup.ts';
 serveSignup({
   site: 'hamilton-pe',
   siteOrigin: 'https://hamiltonprivateequity.co.za',
-  fromEmail: 'Hamilton Private Equity <noreply@hamiltonportfolio.com>',
+  fromEmail: 'HPE No Reply <noreply@hamiltonportfolio.com>',
 });

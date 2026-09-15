@@ -6,5 +6,5 @@ import { serveSignup } from '../_shared/signup.ts';
 serveSignup({
   site: 'player-fund',
   siteOrigin: 'https://www.player-fund.com',
-  fromEmail: 'Player Fund Inc <noreply@hamiltonportfolio.com>',
+  fromEmail: 'Player Fund No Reply <noreply@hamiltonportfolio.com>',
 });

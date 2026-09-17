@@ -353,6 +353,8 @@ body.page-strategies footer .brand-logo{
 .data-table.text-table td{vertical-align:top;color:var(--ink-soft);line-height:1.55;max-width:52ch}
 .data-table.text-table tbody th{min-width:14ch}
 .data-table.text-table td > p{margin:0 0 .7em;max-width:none}
+.data-table.text-table td ;padding-left:var(--s5);display:grid;gap:var(--s2)}
+.data-table.text-table td > ul{margin:0;padding-left:var(--s5);display:grid;gap:var(--s2)}
 .data-table.text-table td > p:last-child,.data-table.text-table td > details:last-child{margin-bottom:0}
 .data-table.text-table td .disclosure{border:0;border-top:1px solid var(--border);margin-top:var(--s4);padding:0}
 .data-table.text-table td .disclosure > summary{padding:var(--s4) 0;font-size:.95rem}

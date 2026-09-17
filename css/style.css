@@ -830,6 +830,10 @@ section{padding:var(--s10) 0}
 .block-intro{color:var(--ink-soft);max-width:68ch;margin:0 0 var(--s6)}
 .block > .bento,.block > .def-list,.block > .table-scroll{margin-top:var(--s5)}
 .block > h3 + .bento,.block > h3 + .def-list,.block > h3 + .table-scroll{margin-top:var(--s6)}
+.block  + h4{margin-top:var(--s8);font-size:1.075rem;margin-bottom:0}
+.block  + .def-list{margin-top:var(--s4)}
+.block > .def-list + h4{margin-top:var(--s8);font-size:1.075rem;margin-bottom:0}
+.block > h4 + .def-list{margin-top:var(--s4)}
 .tile h4{font-size:1.02rem;line-height:1.32}
 
 /* ---- definition list ----

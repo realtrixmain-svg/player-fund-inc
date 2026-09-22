@@ -56,7 +56,8 @@ export function serveReset({ site, siteOrigin, fromEmail }: ResetConfig) {
     // One response for every outcome below (no account, wrong portal, cooldown,
     // even a Resend failure), so this endpoint can't be used to test which
     // addresses are registered. The real work is best-effort behind it.
-    const done = () => json({ ok: true });
+    // reason is logged (never returned) so a silent skip is diagnosable in function logs
+    const done = (reason = 'sent') => { console.log('reset', site, reason); return json({ ok: true }); };
 
     // generateLink doubles as the existence check: it errors for an unknown
     // address, which we swallow into the generic response.
@@ -65,18 +66,19 @@ export function serveReset({ site, siteOrigin, fromEmail }: ResetConfig) {
       email: normalizedEmail,
       options: { redirectTo: `${siteOrigin}/portal/reset.html` },
     });
-    if (linkError || !linkData?.user) return done();
+    if (linkError || !linkData?.user) return done('no account');
 
     const uid = linkData.user.id;
 
     // Only send if this account belongs to THIS portal, so a reset requested on
     // one portal can't email another portal's user a link wearing the wrong brand.
+    // Admins are exempt: they work across all three portals.
     const { data: profile } = await supabaseAdmin
       .from('profiles')
-      .select('site')
+      .select('site, is_admin')
       .eq('id', uid)
       .maybeSingle();
-    if (!profile || profile.site !== site) return done();
+    if (!profile || (profile.site !== site && !profile.is_admin)) return done(`wrong portal: ${profile?.site ?? 'no profile'}`);
 
     // Light per-user cooldown to blunt inbox flooding, kept on app_metadata (only
     // the service-role key can write it) so no extra table is needed.
@@ -84,7 +86,7 @@ export function serveReset({ site, siteOrigin, fromEmail }: ResetConfig) {
     const last = typeof meta.last_reset_request === 'string'
       ? new Date(meta.last_reset_request).getTime()
       : 0;
-    if (Date.now() - last < RESEND_COOLDOWN_SECONDS * 1000) return done();
+    if (Date.now() - last < RESEND_COOLDOWN_SECONDS * 1000) return done('cooldown');
     await supabaseAdmin.auth.admin.updateUserById(uid, {
       app_metadata: { ...meta, last_reset_request: new Date().toISOString() },
     });

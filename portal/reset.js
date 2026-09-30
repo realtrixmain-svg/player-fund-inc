@@ -6,12 +6,17 @@ const submitBtn = document.getElementById('submit-btn');
 const pw = document.getElementById('password');
 const pw2 = document.getElementById('password2');
 
-// The recovery link carries a one-time session in the URL; supabase-js restores
-// it (detectSessionInUrl is on by default) and fires an auth event. The form is
-// only usable once that session exists.
+// The recovery link carries a one-time session in the URL hash; supabase-js
+// restores it (detectSessionInUrl is on by default) and then strips the hash. Read
+// it now, before that happens: the form is only usable on a session that came from
+// a recovery link, never on an ordinary signed-in session (which could otherwise
+// change the password here without knowing the old one).
+const fromRecoveryLink = new URLSearchParams(window.location.hash.slice(1)).get('type') === 'recovery';
+const INVALID = 'This reset link is invalid or has expired. Request a new one from the sign-in page.';
+if (!fromRecoveryLink) status.textContent = INVALID;
 let ready = false;
 function markReady() {
-  if (ready) return;
+  if (ready || !fromRecoveryLink) return;
   ready = true;
   submitBtn.disabled = false;
 }
@@ -29,8 +34,8 @@ if (data.session) {
   setTimeout(async () => {
     if (ready) return;
     const { data: again } = await supabase.auth.getSession();
-    if (again.session) markReady();
-    else status.textContent = 'This reset link is invalid or has expired. Request a new one from the sign-in page.';
+    if (again.session && fromRecoveryLink) markReady();
+    else status.textContent = INVALID;
   }, 1500);
 }
 
@@ -57,6 +62,10 @@ form.addEventListener('submit', async (e) => {
   // stolen link can't be reused and any other logged-in device is dropped, then
   // make them sign in fresh. This deliberately does NOT touch the admin step-up
   // (admin-verify) - that emailed-code gate stays required on its own.
+  // End any admin step-up window first, while this session can still authorize
+  // it: signOut alone leaves the server-side admin_sessions row open. Non-admins
+  // get a 403 here, which is fine.
+  try { await supabase.functions.invoke('admin-verify', { body: { action: 'end' } }); } catch { /* sign out regardless */ }
   await supabase.auth.signOut();
   status.textContent = 'Password updated. Redirecting to sign in.';
   setTimeout(() => { window.location.href = 'login.html'; }, 1200);

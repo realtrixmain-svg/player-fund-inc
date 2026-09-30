@@ -363,3 +363,21 @@ drop policy if exists "documents_legacy_bucket_admin_only" on storage.objects;
 create policy "documents_legacy_bucket_admin_only" on storage.objects
   for all using (bucket_id = 'documents' and public.is_verified_admin())
   with check (bucket_id = 'documents' and public.is_verified_admin());
+
+-- Password-reset relay lookup (supabase/functions/_shared/reset.ts). Lets the
+-- relay decide "no account / wrong portal / cooldown" BEFORE it calls
+-- auth.admin.generateLink, because generateLink replaces the user's live recovery
+-- token as a side effect: generating one for a skipped request would kill the
+-- link already sitting in their inbox. Service-role only; anon and signed-in
+-- users must never be able to map an email to a user id.
+create or replace function public.reset_target(p_email text)
+returns table (id uuid, site text, is_admin boolean, last_reset_request text)
+language sql security definer set search_path = public, auth as $$
+  select u.id, p.site, p.is_admin, u.raw_app_meta_data->>'last_reset_request'
+  from auth.users u
+  left join public.profiles p on p.id = u.id
+  where lower(u.email) = lower(p_email)
+  limit 1;
+$$;
+revoke execute on function public.reset_target(text) from public, anon, authenticated;
+grant execute on function public.reset_target(text) to service_role;

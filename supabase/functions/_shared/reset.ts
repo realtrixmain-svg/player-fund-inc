@@ -53,43 +53,52 @@ export function serveReset({ site, siteOrigin, fromEmail }: ResetConfig) {
     }
     const normalizedEmail = String(email).trim().toLowerCase();
 
-    // One response for every outcome below (no account, wrong portal, cooldown,
-    // even a Resend failure), so this endpoint can't be used to test which
-    // addresses are registered. The real work is best-effort behind it.
+    // Answer before doing any work. Whether the address exists changes how much
+    // work follows (lookup only vs. link + email), so replying afterwards would
+    // let response time reveal which addresses are registered. Every outcome,
+    // including failures, is therefore invisible to the caller.
     // reason is logged (never returned) so a silent skip is diagnosable in function logs
-    const done = (reason = 'sent') => { console.log('reset', site, reason); return json({ ok: true }); };
+    const work = handle(normalizedEmail).catch((e) => console.error('reset', site, 'error', e));
+    // deno-lint-ignore no-explicit-any
+    const rt = (globalThis as any).EdgeRuntime;
+    if (rt?.waitUntil) rt.waitUntil(work);
+    else await work;
+    return json({ ok: true });
+  });
 
-    // generateLink doubles as the existence check: it errors for an unknown
-    // address, which we swallow into the generic response.
+  async function handle(normalizedEmail: string) {
+    const skip = (reason: string) => console.log('reset', site, reason);
+
+    // Decide whether to send BEFORE generateLink: generating a recovery link
+    // rotates the user's live token, so doing it for a skipped request (cooldown,
+    // wrong portal) would invalidate the link they were just emailed. The lookup
+    // RPC is service-role only (see schema.sql).
+    const { data: rows } = await supabaseAdmin.rpc('reset_target', { p_email: normalizedEmail });
+    const target = rows?.[0];
+    if (!target) return skip('no account');
+
+    // Only send if this account belongs to THIS portal, so a reset requested on
+    // one portal can't email another portal's user a link wearing the wrong brand.
+    // Admins are exempt: they work across all three portals.
+    if (!target.is_admin && target.site !== site) return skip(`wrong portal: ${target.site ?? 'no profile'}`);
+
+    // Light per-user cooldown to blunt inbox flooding, kept on app_metadata (only
+    // the service-role key can write it) so no extra table is needed.
+    const last = target.last_reset_request ? new Date(target.last_reset_request).getTime() : 0;
+    if (Date.now() - last < RESEND_COOLDOWN_SECONDS * 1000) return skip('cooldown');
+
+    const { data: userData } = await supabaseAdmin.auth.admin.getUserById(target.id);
+    const meta = (userData?.user?.app_metadata ?? {}) as Record<string, unknown>;
+    await supabaseAdmin.auth.admin.updateUserById(target.id, {
+      app_metadata: { ...meta, last_reset_request: new Date().toISOString() },
+    });
+
     const { data: linkData, error: linkError } = await supabaseAdmin.auth.admin.generateLink({
       type: 'recovery',
       email: normalizedEmail,
       options: { redirectTo: `${siteOrigin}/portal/reset.html` },
     });
-    if (linkError || !linkData?.user) return done('no account');
-
-    const uid = linkData.user.id;
-
-    // Only send if this account belongs to THIS portal, so a reset requested on
-    // one portal can't email another portal's user a link wearing the wrong brand.
-    // Admins are exempt: they work across all three portals.
-    const { data: profile } = await supabaseAdmin
-      .from('profiles')
-      .select('site, is_admin')
-      .eq('id', uid)
-      .maybeSingle();
-    if (!profile || (profile.site !== site && !profile.is_admin)) return done(`wrong portal: ${profile?.site ?? 'no profile'}`);
-
-    // Light per-user cooldown to blunt inbox flooding, kept on app_metadata (only
-    // the service-role key can write it) so no extra table is needed.
-    const meta = (linkData.user.app_metadata ?? {}) as Record<string, unknown>;
-    const last = typeof meta.last_reset_request === 'string'
-      ? new Date(meta.last_reset_request).getTime()
-      : 0;
-    if (Date.now() - last < RESEND_COOLDOWN_SECONDS * 1000) return done('cooldown');
-    await supabaseAdmin.auth.admin.updateUserById(uid, {
-      app_metadata: { ...meta, last_reset_request: new Date().toISOString() },
-    });
+    if (linkError || !linkData?.properties?.action_link) return skip('link failed');
 
     const resetUrl = linkData.properties.action_link;
     const resendRes = await fetch('https://api.resend.com/emails', {
@@ -108,12 +117,7 @@ export function serveReset({ site, siteOrigin, fromEmail }: ResetConfig) {
           `<p>If you did not ask for this, you can safely ignore this email - your password stays the same.</p>`,
       }),
     });
-    if (!resendRes.ok) {
-      // Best-effort: log for us, still return the generic response so a send
-      // failure can't be told apart from a non-existent address.
-      console.error('reset email failed to send:', await resendRes.text());
-    }
-
-    return done();
-  });
+    if (!resendRes.ok) console.error('reset email failed to send:', await resendRes.text());
+    else skip('sent');
+  }
 }

@@ -15,9 +15,8 @@
 <meta name="twitter:description" content="What cookies and similar technologies the Player Fund Inc website and client portal use.">>
 <link rel="canonical" href="https://www.player-fund.com/cookies.html">
 <link rel="icon" type="image/png" href="assets/favicon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" href="assets/fonts/schibsted-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/fonts.css">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -50,13 +49,15 @@
 <div class="wrap">
 <article class="legal-content">
   <h1>Cookie Policy</h1>
-  <p class="legal-dates">Effective date: August 19, 2026 &middot; Last updated: August 19, 2026</p>
+  <p class="legal-dates">Effective date: August 19, 2026 &middot; Last updated: October 1, 2026</p>
 
   <div class="summary">
     <p><strong>In short:</strong> the public Player Fund Inc website (this page, the homepage,
-    About, and Contact) sets no cookies at all &mdash; we run no analytics, no advertising pixels,
-    and no third-party trackers. The private client portal uses one type of cookie/local storage,
-    strictly necessary to keep you signed in, which cannot be turned off without logging you out.</p>
+    About, and Contact) sets no cookies at all - we run no analytics, no advertising pixels,
+    and no third-party trackers. It stores one small flag in your browser's local storage so the
+    Terms of Use notice is not shown again. The private client portal also uses local storage,
+    strictly necessary to keep you signed in, which cannot be turned off without logging you out.
+    Fonts and scripts are served from our own domain, not from Google or a public CDN.</p>
   </div>
 
   <h2>What cookies are</h2>
@@ -67,13 +68,18 @@
   <h2>What we actually use</h2>
   <h3>Public website (home, about, contact)</h3>
   <p>No cookies, tracking pixels, or analytics scripts are set anywhere on the public marketing
-  site. Nothing here requires a consent banner because nothing non-essential is being set.</p>
+  site. The only item stored is a flag in your browser's local storage, named
+  <code>pf-terms-seen</code>, which remembers that you have dismissed the Terms of Use notice so it
+  is not shown on every visit. It holds the value 1, never leaves your browser, and is not used to
+  identify or track you. Nothing here requires a consent banner because nothing non-essential is
+  being set. If you send a message through the Contact form, it is delivered by our form provider
+  (Formspree); no cookie is set on this site by doing so.</p>
 
   <h3>Client portal (strictly necessary only)</h3>
   <p>If you sign in to the client portal, our authentication provider (Supabase) stores a session
   token in your browser's local storage so you stay signed in as you move between portal pages.
-  This is strictly necessary to the portal functioning &mdash; without it, you would need to log in
-  again on every page &mdash; and is exempt from consent under applicable law, though we're
+  This is strictly necessary to the portal functioning - without it, you would need to log in
+  again on every page - and is exempt from consent under applicable law, though we're
   disclosing it here for transparency. It is not used for advertising or cross-site tracking, and
   it is cleared when you sign out.</p>
 
@@ -89,7 +95,13 @@
       </thead>
       <tbody>
         <tr>
-          <td>Supabase auth session (local storage)</td>
+          <td><code>pf-terms-seen</code> (local storage)</td>
+          <td>Player Fund Inc (first party)</td>
+          <td>Remembers that the Terms of Use notice was dismissed</td>
+          <td>Strictly necessary / user preference</td>
+        </tr>
+        <tr>
+          <td>Supabase auth session, <code>sb-...-auth-token</code> (local storage, portal only)</td>
           <td>Supabase</td>
           <td>Keeps you signed in to the client portal</td>
           <td>Strictly necessary</td>

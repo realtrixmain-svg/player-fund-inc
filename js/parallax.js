@@ -11,8 +11,7 @@
    instant the reader stops. That is the difference between a picture that is
    moving and a picture being moved. */
 
-import { gsap } from 'https://esm.sh/gsap@3';
-import { ScrollTrigger } from 'https://esm.sh/gsap@3/ScrollTrigger';
+import { gsap, ScrollTrigger } from './vendor/gsap.js';
 
 gsap.registerPlugin(ScrollTrigger);
 

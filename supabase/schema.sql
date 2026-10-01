@@ -10,6 +10,10 @@ create table if not exists public.profiles (
   is_admin boolean not null default false,
   created_at timestamptz not null default now()
 );
+-- Clickwrap record (GDPR Art 7(1) / POPIA s11): when the user ticked the Terms/Privacy box and which version.
+-- Written only by the signup edge function (service role); end users have no UPDATE grant on these columns.
+alter table public.profiles add column if not exists terms_accepted_at timestamptz;
+alter table public.profiles add column if not exists terms_version text;
 alter table public.profiles add column if not exists site text not null default 'unassigned';
 alter table public.profiles alter column site set default 'unassigned';
 alter table public.profiles drop constraint if exists profiles_site_check;

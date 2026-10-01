@@ -15,9 +15,8 @@
 <meta name="twitter:description" content="How Player Fund Inc collects, uses, and protects personal information.">>
 <link rel="canonical" href="https://www.player-fund.com/privacy.html">
 <link rel="icon" type="image/png" href="assets/favicon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" href="assets/fonts/schibsted-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/fonts.css">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -50,14 +49,15 @@
 <div class="wrap">
 <article class="legal-content">
   <h1>Privacy Policy</h1>
-  <p class="legal-dates">Effective date: August 19, 2026 &middot; Last updated: August 19, 2026</p>
+  <p class="legal-dates">Effective date: August 19, 2026 &middot; Last updated: October 1, 2026</p>
 
   <div class="summary">
     <p><strong>In short:</strong> we collect the information you give us directly (contact form
     submissions, and account details if you sign up for the client portal), plus basic technical
     information needed to serve the site. We don't sell your personal information, and we don't run
     advertising or analytics trackers on this site. You can ask us what we hold, correct it, or
-    delete it at any time by emailing us below.</p>
+    delete it at any time by emailing us below. This policy is written to meet the EU/UK GDPR and
+    South Africa's Protection of Personal Information Act (POPIA).</p>
   </div>
 
   <h2>Who we are</h2>
@@ -73,7 +73,20 @@
     sign up for the client portal.</li>
     <li><strong>Account data.</strong> If you create a client portal account: your email, a
     password (stored in hashed form by our authentication provider, never in plain text), and
-    optionally your name.</li>
+    optionally your name. Client accounts are by invitation, so we also keep the access code you
+    redeemed and the date it was redeemed.</li>
+    <li><strong>Record of your acceptance.</strong> When you tick the box to accept our Terms of
+    Service and this Privacy Policy at sign-up, we record the date and time and which version of
+    the text you accepted.</li>
+    <li><strong>Portal documents.</strong> The documents we make available to you (fund
+    disclosures, agreements, statements) are stored against your account and your portal.</li>
+    <li><strong>Sign-in and security data.</strong> Your sign-in session, and for our administrators
+    only, a one-time sign-in code emailed to them (stored only as a hash, valid for 10 minutes) and
+    a record that the code was redeemed (kept for up to 12 hours).</li>
+    <li><strong>Information stored on your device.</strong> A small flag in your browser's local
+    storage remembering that you have seen our website Terms of Use notice, and, if you sign in to
+    the portal, your sign-in session. Neither is used for tracking. See our
+    <a href="cookies.html">Cookie Policy</a>.</li>
     <li><strong>Content you submit.</strong> Anything you write in the contact form's message
     field.</li>
     <li><strong>Basic technical data.</strong> Standard web server logs (IP address, browser type,
@@ -90,22 +103,23 @@
 
   <h2>Why we use it, and on what basis</h2>
   <ul>
-    <li><strong>To respond to your enquiry</strong> submitted via the contact form &mdash;
+    <li><strong>To respond to your enquiry</strong> submitted via the contact form -
     necessary to take steps at your request prior to a potential engagement.</li>
     <li><strong>To provide the client portal</strong> (account creation, sign-in, and access to
-    your documents) &mdash; necessary to perform our contract with you as a client.</li>
+    your documents) - necessary to perform our contract with you as a client.</li>
     <li><strong>To keep the site and portal secure and working correctly</strong> (server logs,
-    fraud/abuse prevention) &mdash; our legitimate interest in operating the service safely.</li>
+    fraud/abuse prevention) - our legitimate interest in operating the service safely.</li>
   </ul>
 
   <h2>Who we share it with</h2>
   <p>We share personal information only with the service providers that help us run this site and
   the client portal, under agreements that limit their use of your data to providing that service:</p>
   <ul>
-    <li>Our hosting provider, to serve the website.</li>
+    <li>Our hosting provider (Vercel), to serve the website.</li>
     <li>Our database and authentication provider (Supabase), to store client portal accounts and
     documents.</li>
-    <li>Our transactional email provider (Resend), to send account verification emails.</li>
+    <li>Our transactional email provider (Resend), to send account verification emails, password
+    reset emails and administrator sign-in codes.</li>
     <li>Our form-handling provider (Formspree), to deliver contact form submissions to us.</li>
   </ul>
   <p>We do not sell or share your personal information with third parties for their own marketing
@@ -114,7 +128,10 @@
   <h2>International transfers</h2>
   <p>Our service providers may process data outside your country of residence, including in the
   United States. Where this involves a transfer of personal information out of the EU/UK, we rely
-  on those providers' Standard Contractual Clauses or an equivalent recognized transfer mechanism.</p>
+  on those providers' Standard Contractual Clauses or an equivalent recognized transfer mechanism.
+  Where personal information of South African data subjects is transferred outside South Africa,
+  we do so only to providers bound by law, binding agreement or an equivalent safeguard that
+  upholds principles for reasonable processing substantially similar to POPIA (section 72).</p>
 
   <h2>How long we keep it</h2>
   <p>Contact form submissions are retained for as long as needed to respond to and follow up on
@@ -137,19 +154,24 @@
   <p>If you are in the EU or UK, you additionally have the right to restrict processing, object to
   processing, withdraw consent at any time where processing is based on consent, and to lodge a
   complaint with your local data protection supervisory authority.</p>
+  <p>If you are in South Africa, POPIA also gives you the right to ask us to confirm whether we hold
+  your personal information, to request correction or deletion of it, to object to its processing
+  on reasonable grounds, and to complain to the Information Regulator
+  (<a href="https://inforegulator.org.za" target="_blank" rel="noopener">inforegulator.org.za</a>).
+  Requests to our Information Officer go to the same address as below.</p>
   <p>To exercise any of these rights, email
   <a href="mailto:investors@player-fund.com">investors@player-fund.com</a>. We will respond within
   30 days (or 45 days where CCPA/CPRA applies).</p>
 
   <h2>Children</h2>
-  <p>This site is not directed at children under 13, and we do not knowingly collect personal
-  information from anyone under 13. If we learn we have inadvertently collected a child's
+  <p>This site is not directed at children, the client portal is for adults aged 18 or over, and we
+  do not knowingly collect personal information from anyone under 18. If we learn we have inadvertently collected a child's
   information, we will delete it.</p>
 
   <h2>Security</h2>
   <p>We use reasonable technical and organizational measures to protect the personal information we
   hold, including encryption in transit and access controls that limit who can see client
-  documents to that client alone. No method of transmission or storage is perfectly secure, and we
+  documents to that client and our authorised administrators. No method of transmission or storage is perfectly secure, and we
   cannot guarantee absolute security.</p>
 
   <h2>Changes to this policy</h2>

@@ -56,9 +56,12 @@ export function serveSignup({ site, siteOrigin, fromEmail }: SignupConfig) {
       return json({ error: 'Method not allowed' }, 405);
     }
 
-    const { email, password, full_name, access_code } = await req.json().catch(() => ({}));
+    const { email, password, full_name, access_code, terms_accepted, terms_version } = await req.json().catch(() => ({}));
     if (!email || !password) {
       return json({ error: 'Email and password are required.' }, 400);
+    }
+    if (terms_accepted !== true) {
+      return json({ error: 'You must accept the Terms of Service and Privacy Policy to create an account.' }, 400);
     }
     if (!access_code) {
       return json({ error: 'An access code is required to create an account.' }, 400);
@@ -119,7 +122,7 @@ export function serveSignup({ site, siteOrigin, fromEmail }: SignupConfig) {
     // invitee can simply try again.
     const { error: siteError } = await supabaseAdmin
       .from('profiles')
-      .update({ site })
+      .update({ site, terms_accepted_at: new Date().toISOString(), terms_version: String(terms_version ?? '').slice(0, 32) })
       .eq('id', created.user.id);
     if (siteError) {
       await supabaseAdmin.auth.admin.deleteUser(created.user.id);

@@ -6,9 +6,8 @@
 <title>Create Your Account - Player Fund Inc</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" type="image/png" href="../assets/favicon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" href="../assets/fonts/schibsted-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../css/fonts.css">
 <link rel="stylesheet" href="../css/style.css">
 <link rel="stylesheet" href="portal.css">
 </head>
@@ -59,9 +58,11 @@
           <input type="password" id="password-confirm" name="password-confirm" placeholder=" " required autocomplete="new-password" minlength="6">
           <label for="password-confirm">Confirm password</label>
         </div>
+        <div class="form-row">
+          <label class="consent"><input type="checkbox" id="accept-terms" name="accept-terms" required> <span>I have read and agree to the <a class="text-link" href="../terms.html" target="_blank" rel="noopener">Terms of Service</a> and <a class="text-link" href="../privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span></label>
+        </div>
         <div>
           <button class="btn btn-primary" type="submit" id="submit-btn" disabled><span>Create account</span></button>
-          <p class="form-note">By creating an account, you agree to our <a class="text-link" href="../terms.html">Terms of Service</a> and <a class="text-link" href="../privacy.html">Privacy Policy</a>.</p>
           <p class="form-note">It can take up to 5 minutes for the verification email to arrive.</p>
         </div>
         <p class="form-note" id="form-status" role="status"></p>

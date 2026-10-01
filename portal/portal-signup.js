@@ -1,6 +1,9 @@
 import { supabase } from './supabase-client.js';
 import { SITE, SUPABASE_URL } from './config.js';
 
+// Date of the Terms/Privacy text the user ticked. Keep in step with "Last updated" on terms.html and privacy.html.
+const TERMS_VERSION = '2026-10-01';
+
 const form = document.getElementById('signup-form');
 const status = document.getElementById('form-status');
 const submitBtn = document.getElementById('submit-btn');
@@ -24,6 +27,10 @@ form.addEventListener('submit', async (e) => {
     status.textContent = 'An access code is required to create an account.';
     return;
   }
+  if (!document.getElementById('accept-terms').checked) {
+    status.textContent = 'Please tick the box to accept the Terms of Service and Privacy Policy.';
+    return;
+  }
   if (password !== passwordConfirm) {
     status.textContent = 'Passwords do not match.';
     return;
@@ -40,7 +47,7 @@ form.addEventListener('submit', async (e) => {
     const res = await fetch(`${SUPABASE_URL}/functions/v1/signup-${SITE}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password, access_code: accessCode, full_name: fullName || undefined }),
+      body: JSON.stringify({ email, password, access_code: accessCode, full_name: fullName || undefined, terms_accepted: true, terms_version: TERMS_VERSION }),
     });
     const body = await res.json().catch(() => ({}));
 

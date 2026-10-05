@@ -38,8 +38,7 @@ Policy, or Accessibility Statement at all.
 
 **Fixed in code**: added `privacy.html`, `terms.html`, `cookies.html`, `accessibility.html` (via the
 `legal-compliance` skill), linked from every page's footer and from both the contact form and portal
-signup page. Placeholders (`[LEGAL ENTITY NAME]`, `[REGISTERED ADDRESS]`, `[GOVERNING LAW
-JURISDICTION]`, `[LIABILITY CAP AMOUNT/FORMULA]`) are left visibly marked for Trevor to fill in —
+signup page. Entity, address and governing law were filled 2026-10-05; `[LIABILITY CAP AMOUNT/FORMULA]` is left visibly marked for Trevor to fill in —
 not attorney-reviewed, flagged in terms.html given the regulated vertical.
 
 **Not fixed** (needs real business facts, not a code change): named advisor bios, regulatory

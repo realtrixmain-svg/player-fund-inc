@@ -7,7 +7,7 @@ URL: https://www.player-fund.com/   Checked: not checked this session
 
 ## Open for Trevor (blocks push)
 Read this FIRST at the start of every session in this repo and remind Trevor. No push while any item is open.
-- [x] Entity (Player Fund Inc., Delaware), registered address (8 The Green, Dover, DE 19908) and governing law (Delaware) filled 2026-10-05
+- [x] Entity (Player Fund Inc., Delaware), registered address (8 The Green, Dover, DE 19908) filled 2026-10-05; governing law is England and Wales (UK law, per Trevor; corrected from Delaware, which was a misread)
 - [x] Liability cap placeholder removed 2026-10-05 (Trevor: client unresponsive); terms now say liability is limited to the extent permitted by law, no figure. Attorney to add a cap if wanted.
 - [ ] Apply the DB migration (profiles.terms_accepted_at, terms_version; in supabase/schema.sql) BEFORE deploying `signup-player-fund`, `signup-hamilton-pe`, `signup-hamilton-portfolio` (they now write those columns and reject signups without `terms_accepted`). Pushing the site first breaks nothing only if the functions are not yet redeployed; the new signup page sends the fields either way.
 - [ ] Diff live `pg_policies` against supabase/schema.sql (not checked, no Supabase MCP this run)

@@ -1,0 +1,12 @@
+# Internal files: never deploy (trackers, audits, notes, client docs, tooling)
+*.md
+*.pdf
+audits/
+seo-audit/
+graphify-out/
+docs/
+supabase/
+.claude/
+.claude-flow/
+.impeccable/
+scratchpad*.json

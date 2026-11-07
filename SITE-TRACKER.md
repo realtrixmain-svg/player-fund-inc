@@ -27,3 +27,4 @@ Last: not run this session.
 
 ## SEO
 Last: see SEO-LOG.md (not rerun this session).
+- 2026-11-07: Footer credit link to next-lvl.tech added on every public page (uncommitted).
